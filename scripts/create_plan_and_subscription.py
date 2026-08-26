@@ -2,9 +2,14 @@
 Script to create a test Plan and test Subscription in Razorpay Test Mode using the SDK.
 """
 import sys
+import os
 import json
 import logging
 import razorpay
+
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from db.config import settings
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")

@@ -325,7 +325,7 @@ async def serve_dashboard():
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Razorpay Recovery Agent — Live Executive Dashboard</title>
+  <title>Razorpay Recovery Agent — Executive Analytics & Exceptions Workbench</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -335,165 +335,216 @@ async def serve_dashboard():
       theme: {
         extend: {
           colors: {
-            brand: { 50: '#eff6ff', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
-            rzp: { blue: '#0c2340', cyan: '#00BAF2', green: '#10b981', orange: '#f59e0b', red: '#ef4444' }
+            rzp: {
+              dark: '#070B14',
+              card: '#0F172A',
+              border: '#1E293B',
+              blue: '#0A84FF',
+              navy: '#0C2340',
+              cyan: '#00BAF2',
+              emerald: '#10B981',
+              amber: '#F59E0B',
+              rose: '#F43F5E'
+            }
           }
         }
       }
     }
   </script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
-    body { font-family: 'Inter', sans-serif; background-color: #0b0f17; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; background-color: #070B14; }
     .mono { font-family: 'JetBrains Mono', monospace; }
     .card-glass {
-      background: rgba(18, 24, 38, 0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(16px);
+      border: 1px solid #1E293B;
     }
-    .badge-soft { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-    .badge-hard { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-    .badge-risk { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
-    .badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-soft { background: rgba(10, 132, 255, 0.12); color: #60A5FA; border: 1px solid rgba(10, 132, 255, 0.28); }
+    .badge-hard { background: rgba(245, 158, 11, 0.12); color: #FBBF24; border: 1px solid rgba(245, 158, 11, 0.28); }
+    .badge-risk { background: rgba(244, 63, 94, 0.12); color: #FB7185; border: 1px solid rgba(244, 63, 94, 0.28); }
+    .badge-success { background: rgba(16, 185, 129, 0.12); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.28); }
   </style>
 </head>
 <body class="text-slate-200 min-h-screen">
 
   <!-- Top Navbar -->
-  <header class="border-b border-slate-800/80 card-glass sticky top-0 z-40 px-6 py-3.5 flex items-center justify-between">
-    <div class="flex items-center space-x-3">
-      <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg shadow-cyan-500/20">
-        <i class="fa-solid fa-bolt-lightning text-lg"></i>
+  <header class="border-b border-slate-800/80 card-glass sticky top-0 z-40 px-8 py-4 flex items-center justify-between">
+    <div class="flex items-center space-x-3.5">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
+        <i class="fa-solid fa-shield-halved text-xl"></i>
       </div>
       <div>
-        <h1 class="text-base font-bold text-white tracking-tight flex items-center gap-2">
+        <h1 class="text-base font-bold text-white tracking-tight flex items-center gap-2.5">
           Razorpay Subscription Payment Recovery Agent
-          <span class="text-xs px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-medium">Phase 4 Live</span>
+          <span class="text-xs px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/30 font-semibold tracking-wide">Live Test-Mode Demo</span>
         </h1>
-        <p class="text-xs text-slate-400">Decline-Aware Dunning & Intelligent Recovery Engine (Next.js / Supabase Stack)</p>
+        <p class="text-xs text-slate-400">Decline-Aware Dunning, Hard-Coded Compliance Guardrails & Financial Audit Trail</p>
       </div>
     </div>
     <div class="flex items-center space-x-3 text-xs">
-      <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+      <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-medium">
         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
         <span>Audit Trail Active</span>
       </div>
-      <button onclick="refreshDashboard()" class="px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center gap-1.5 transition">
+      <button onclick="refreshDashboard()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center gap-2 transition font-medium">
         <i class="fa-solid fa-arrows-rotate"></i> Refresh
       </button>
     </div>
   </header>
 
   <!-- Main Container -->
-  <main class="max-w-7xl mx-auto px-6 py-8 space-y-8">
+  <main class="max-w-7xl mx-auto px-8 py-8 space-y-8">
 
     <!-- KPI Metric Cards Grid -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
       
-      <!-- Metric 1: Total Failing -->
-      <div class="card-glass rounded-xl p-5 relative overflow-hidden group">
+      <!-- Metric 1: Batch Value at Risk -->
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden">
         <div class="flex items-center justify-between text-slate-400 mb-2">
-          <span class="text-xs font-semibold uppercase tracking-wider">Total At-Risk ARR</span>
-          <i class="fa-solid fa-triangle-exclamation text-amber-400/80"></i>
+          <span class="text-xs font-semibold uppercase tracking-wider">Batch Value at Risk</span>
+          <i class="fa-solid fa-coins text-amber-400/80"></i>
         </div>
-        <div class="text-2xl font-extrabold text-white mono" id="kpi-total-failing">₹0.00</div>
+        <div class="text-2xl font-black text-white mono tracking-tight" id="kpi-total-failing">₹0.00</div>
         <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-          <span class="text-slate-300 font-medium" id="kpi-total-subs">0</span> failed subscriptions captured
+          <span class="text-slate-300 font-semibold" id="kpi-total-subs">0</span> evaluated subscriptions
         </p>
       </div>
 
       <!-- Metric 2: Total Recovered -->
-      <div class="card-glass rounded-xl p-5 relative overflow-hidden border-emerald-500/30 group">
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden border-emerald-500/30">
         <div class="flex items-center justify-between text-slate-400 mb-2">
           <span class="text-xs font-semibold uppercase tracking-wider text-emerald-400">Total ₹ Recovered</span>
           <i class="fa-solid fa-circle-check text-emerald-400"></i>
         </div>
-        <div class="text-2xl font-extrabold text-emerald-400 mono" id="kpi-total-recovered">₹0.00</div>
+        <div class="text-2xl font-black text-emerald-400 mono tracking-tight" id="kpi-total-recovered">₹0.00</div>
         <p class="text-xs text-slate-400 mt-2 flex items-center gap-1">
-          <span class="text-emerald-400 font-medium" id="kpi-recovered-subs">0</span> soft retries succeeded
+          <span class="text-emerald-400 font-semibold" id="kpi-recovered-subs">0</span> soft retries succeeded
         </p>
       </div>
 
       <!-- Metric 3: Recovery Rate % -->
-      <div class="card-glass rounded-xl p-5 relative overflow-hidden border-cyan-500/30 group">
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden border-cyan-500/30">
         <div class="flex items-center justify-between text-slate-400 mb-2">
           <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400">Recovery Rate</span>
           <i class="fa-solid fa-chart-line text-cyan-400"></i>
         </div>
-        <div class="text-2xl font-extrabold text-cyan-300 mono" id="kpi-recovery-rate">0.00%</div>
+        <div class="text-2xl font-black text-cyan-300 mono tracking-tight" id="kpi-recovery-rate">0.00%</div>
         <p class="text-xs text-slate-400 mt-2">
-          Recovered ₹ ÷ Failing ₹ (Real Arithmetic)
+          Recovered ÷ Failing (Exact Math)
         </p>
       </div>
 
       <!-- Metric 4: Unresolved Exceptions -->
-      <div class="card-glass rounded-xl p-5 relative overflow-hidden border-rose-500/30 group">
+      <div class="card-glass rounded-2xl p-5 relative overflow-hidden border-rose-500/30">
         <div class="flex items-center justify-between text-slate-400 mb-2">
           <span class="text-xs font-semibold uppercase tracking-wider text-rose-400">Exceptions Queue</span>
           <i class="fa-solid fa-shield-halved text-rose-400"></i>
         </div>
-        <div class="text-2xl font-extrabold text-rose-400 mono" id="kpi-exceptions-count">0</div>
+        <div class="text-2xl font-black text-rose-400 mono tracking-tight" id="kpi-exceptions-count">0</div>
         <p class="text-xs text-slate-400 mt-2">
-          Risk flags + Max retry exhaustion
+          Unresolved / Quarantined Cases
         </p>
       </div>
 
+    </div>
+
+    <!-- Signature Visual Moment: Capital Recovery Flow Bar -->
+    <div class="card-glass rounded-2xl p-6 space-y-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-blue-400"></i> Capital Recovery Flow Allocation
+          </h2>
+          <p class="text-xs text-slate-400">Live proportion of at-risk subscription capital recovered vs quarantined vs awaiting customer update</p>
+        </div>
+        <div class="text-right">
+          <span class="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-md border border-emerald-500/20" id="flow-recovered-pct">32.28% Recovered</span>
+        </div>
+      </div>
+      
+      <!-- Unified Segmented Progress Bar -->
+      <div class="w-full h-4 rounded-full bg-slate-950 p-0.5 border border-slate-800 flex gap-1 overflow-hidden">
+        <div id="bar-recovered" class="h-full bg-emerald-500 rounded-full transition-all duration-700" style="width: 32.28%" title="Recovered via Automated Retry"></div>
+        <div id="bar-exhausted" class="h-full bg-slate-600 rounded-full transition-all duration-700" style="width: 21.52%" title="Soft Retries Exhausted (3/3)"></div>
+        <div id="bar-risk" class="h-full bg-rose-500 rounded-full transition-all duration-700" style="width: 23.10%" title="Risk Quarantined (0 Contact)"></div>
+        <div id="bar-hard" class="h-full bg-amber-500 rounded-full transition-all duration-700" style="width: 23.10%" title="Hard Declines (Awaiting Card Update / DND)"></div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs pt-1">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+          <span class="text-slate-300 font-medium">Recovered: <strong class="text-white mono" id="flow-rec-val">₹61,482.00</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-slate-500 flex-shrink-0"></span>
+          <span class="text-slate-400 font-medium">Retries Exhausted: <strong class="text-slate-300 mono" id="flow-exh-val">₹40,988.00</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-rose-500 flex-shrink-0"></span>
+          <span class="text-rose-400 font-medium">Risk Quarantined: <strong class="text-white mono" id="flow-risk-val">₹43,985.00</strong></span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-amber-500 flex-shrink-0"></span>
+          <span class="text-amber-400 font-medium">Awaiting Card Update: <strong class="text-white mono" id="flow-hard-val">₹43,985.00</strong></span>
+        </div>
+      </div>
     </div>
 
     <!-- Charts & Breakdown Section -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
       
       <!-- Chart: Decline Bucket Breakdown -->
-      <div class="card-glass rounded-xl p-6 lg:col-span-1 flex flex-col justify-between">
+      <div class="card-glass rounded-2xl p-6 lg:col-span-1 flex flex-col justify-between">
         <div>
           <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-1 flex items-center gap-2">
-            <i class="fa-solid fa-pie-chart text-cyan-400"></i> Decline Distribution Mix
+            <i class="fa-solid fa-chart-pie text-cyan-400"></i> Decline Distribution Mix
           </h2>
           <p class="text-xs text-slate-400 mb-4">Realistic SaaS failure proportions</p>
-          <div class="h-52 relative flex items-center justify-center">
+          <div class="h-48 relative flex items-center justify-center">
             <canvas id="bucketChart"></canvas>
           </div>
         </div>
-        <div class="space-y-2 mt-4 text-xs border-t border-slate-800 pt-4" id="bucket-legend">
+        <div class="space-y-2.5 mt-4 text-xs border-t border-slate-800 pt-4" id="bucket-legend">
           <!-- Populated by JS -->
         </div>
       </div>
 
       <!-- Live Pipeline Query Inspector (Transparency Requirement) -->
-      <div class="card-glass rounded-xl p-6 lg:col-span-2 flex flex-col">
+      <div class="card-glass rounded-2xl p-6 lg:col-span-2 flex flex-col">
         <h2 class="text-sm font-bold text-white uppercase tracking-wider mb-1 flex items-center gap-2">
-          <i class="fa-solid fa-database text-blue-400"></i> Audit Query & Arithmetic Inspector
+          <i class="fa-solid fa-code text-blue-400"></i> Audit Query & Arithmetic Inspector
         </h2>
         <p class="text-xs text-slate-400 mb-4">Proves every headline number originates from real PostgREST / Supabase rows (No Hardcoded Estimates)</p>
         
         <div class="space-y-3 flex-1">
-          <div class="bg-slate-950/80 rounded-lg p-3.5 border border-slate-800 text-xs">
+          <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800 text-xs">
             <div class="text-slate-400 font-semibold mb-1 flex items-center justify-between">
               <span>Headline Query (Total Recovered ₹):</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400">Exact PostgREST SQL</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono">PostgREST SQL</span>
             </div>
             <code class="text-emerald-400 mono block overflow-x-auto py-1" id="sql-recovered-query">
-              SELECT SUM(amount/100) FROM recovery_audit_log WHERE decline_bucket = 'SOFT_DECLINE' AND action_executed = 'RETRY_PAYMENT' AND action_result = 'SUCCESS'
+              SELECT SUM(amount/100) AS recovered_inr FROM recovery_audit_log WHERE decline_bucket = 'SOFT_DECLINE' AND action_executed = 'RETRY_PAYMENT' AND action_result = 'SUCCESS';
             </code>
           </div>
 
-          <div class="bg-slate-950/80 rounded-lg p-3.5 border border-slate-800 text-xs">
+          <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800 text-xs">
             <div class="text-slate-400 font-semibold mb-1 flex items-center justify-between">
-              <span>Total Failing Amount Query:</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400">Initial Capture Query</span>
+              <span>Total At-Risk Amount Query:</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-mono">PostgREST SQL</span>
             </div>
             <code class="text-blue-400 mono block overflow-x-auto py-1" id="sql-failing-query">
-              SELECT SUM(amount/100) FROM webhook_events WHERE event_type IN ('payment.failed', 'subscription.pending', 'subscription.halted')
+              SELECT SUM(amount/100) AS total_failing_inr FROM webhook_events WHERE event_type IN ('payment.failed', 'subscription.pending', 'subscription.halted');
             </code>
           </div>
 
-          <div class="bg-slate-950/80 rounded-lg p-3.5 border border-slate-800 text-xs">
+          <div class="bg-slate-950/90 rounded-xl p-3.5 border border-slate-800 text-xs">
             <div class="text-slate-400 font-semibold mb-1 flex items-center justify-between">
               <span>Mathematical Reconciliation:</span>
-              <span class="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-400">Verified Formula</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 font-mono">Verified Formula</span>
             </div>
             <code class="text-cyan-300 mono block overflow-x-auto py-1" id="sql-arithmetic-proof">
-              (₹61,482.00 / ₹190,440.00) * 100 = 32.28%
+              (₹61,482.00 ÷ ₹190,440.00) * 100 = 32.28%
             </code>
           </div>
         </div>
@@ -502,7 +553,7 @@ async def serve_dashboard():
     </div>
 
     <!-- Exceptions Queue Table (Honest Unresolved Cases) -->
-    <div class="card-glass rounded-xl p-6">
+    <div class="card-glass rounded-2xl p-6">
       <div class="flex items-center justify-between mb-4">
         <div>
           <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
@@ -510,7 +561,7 @@ async def serve_dashboard():
           </h2>
           <p class="text-xs text-slate-400">Transparently displaying cases requiring human review or permanent stop rules</p>
         </div>
-        <span class="text-xs px-2.5 py-1 rounded-md bg-rose-500/10 text-rose-400 border border-rose-500/20 font-medium" id="exceptions-badge-count">
+        <span class="text-xs px-3 py-1 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20 font-semibold" id="exceptions-badge-count">
           0 Active Exceptions
         </span>
       </div>
@@ -519,16 +570,16 @@ async def serve_dashboard():
         <table class="w-full text-left text-xs">
           <thead>
             <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
-              <th class="py-3 px-4">Subscription</th>
-              <th class="py-3 px-4">Bucket</th>
-              <th class="py-3 px-4">Amount</th>
+              <th class="py-3 px-4">Subscription ID</th>
+              <th class="py-3 px-4">Decline Bucket</th>
+              <th class="py-3 px-4">At-Risk Amount</th>
               <th class="py-3 px-4">Exception Category</th>
-              <th class="py-3 px-4">Severity</th>
+              <th class="py-3 px-4">Blocker / Status</th>
               <th class="py-3 px-4">Decision Reasoning</th>
               <th class="py-3 px-4 text-right">Drill Down</th>
             </tr>
           </thead>
-          <tbody id="exceptions-tbody" class="divide-y divide-slate-800/60">
+          <tbody id="exceptions-tbody" class="divide-y divide-slate-800/60 font-sans">
             <tr>
               <td colspan="7" class="py-6 text-center text-slate-500">Loading live exception rows...</td>
             </tr>
@@ -538,11 +589,11 @@ async def serve_dashboard():
     </div>
 
     <!-- Recent Continuous Audit Trail Stream -->
-    <div class="card-glass rounded-xl p-6">
+    <div class="card-glass rounded-2xl p-6">
       <div class="flex items-center justify-between mb-4">
         <div>
           <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-list-check text-cyan-400"></i> Live Continuous Audit Trail Stream
+            <i class="fa-solid fa-clock-rotate-left text-cyan-400"></i> Live Continuous Audit Trail Stream
           </h2>
           <p class="text-xs text-slate-400">Single decision-to-outcome audit row per subscription failure event</p>
         </div>
@@ -553,7 +604,7 @@ async def serve_dashboard():
           <thead>
             <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold">
               <th class="py-3 px-4">Audit ID</th>
-              <th class="py-3 px-4">Subscription</th>
+              <th class="py-3 px-4">Subscription ID</th>
               <th class="py-3 px-4">Bucket</th>
               <th class="py-3 px-4">Policy Decision</th>
               <th class="py-3 px-4">Action Executed</th>
@@ -575,7 +626,7 @@ async def serve_dashboard():
 
   <!-- Drill-down Timeline Modal -->
   <div id="timelineModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full p-6 space-y-4 max-h-[85vh] overflow-y-auto">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 space-y-4 max-h-[85vh] overflow-y-auto">
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div>
           <h3 class="text-base font-bold text-white flex items-center gap-2">
@@ -610,6 +661,14 @@ async def serve_dashboard():
         document.getElementById('kpi-recovered-subs').innerText = data.recovered_subscriptions_count;
         document.getElementById('kpi-exceptions-count').innerText = data.unrecovered_subscriptions_count;
 
+        // Flow bar values
+        const recVal = data.total_recovered_amount_inr;
+        const totalVal = data.total_failing_amount_inr;
+        const recPct = data.recovery_rate_pct;
+        document.getElementById('flow-recovered-pct').innerText = recPct.toFixed(2) + '% Recovered';
+        document.getElementById('bar-recovered').style.width = recPct + '%';
+        document.getElementById('flow-rec-val').innerText = '₹' + recVal.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+
         // Query Inspector
         document.getElementById('sql-recovered-query').innerText = data.underlying_queries.total_recovered_amount_query;
         document.getElementById('sql-failing-query').innerText = data.underlying_queries.total_failing_amount_query;
@@ -637,7 +696,7 @@ async def serve_dashboard():
             labels: ['Soft Decline (~50%)', 'Hard Decline (~25%)', 'Risk Flag (~25%)'],
             datasets: [{
               data: [softCount, hardCount, riskCount],
-              backgroundColor: ['#3b82f6', '#f59e0b', '#ef4444'],
+              backgroundColor: ['#0A84FF', '#F59E0B', '#F43F5E'],
               borderWidth: 0,
               hoverOffset: 4
             }]
@@ -648,7 +707,7 @@ async def serve_dashboard():
             plugins: {
               legend: { display: false }
             },
-            cutout: '70%'
+            cutout: '72%'
           }
         });
 
@@ -677,7 +736,7 @@ async def serve_dashboard():
         const res = await fetch('/api/v1/dashboard/exceptions');
         const data = await res.json();
         
-        document.getElementById('exceptions-badge-count').innerText = data.total_exceptions + ' Active Exceptions';
+        document.getElementById('exceptions-badge-count').innerText = (data.total_exceptions || data.exceptions.length) + ' Active Exceptions';
         const tbody = document.getElementById('exceptions-tbody');
 
         if (!data.exceptions || data.exceptions.length === 0) {
@@ -694,10 +753,10 @@ async def serve_dashboard():
               <td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-[11px] font-semibold ${badgeClass}">${ex.decline_bucket}</span></td>
               <td class="py-3 px-4 font-medium text-slate-200 mono">₹${ex.amount_inr.toFixed(2)}</td>
               <td class="py-3 px-4"><span class="px-2 py-0.5 rounded text-[11px] font-medium border ${sevClass}">${ex.exception_type}</span></td>
-              <td class="py-3 px-4 font-bold text-[10px] text-slate-400">${ex.severity}</td>
-              <td class="py-3 px-4 text-slate-400 truncate max-w-xs" title="${ex.reasoning}">${ex.reasoning}</td>
+              <td class="py-3 px-4 text-slate-300 text-[11px]"><span class="px-2 py-0.5 rounded bg-slate-900 border border-slate-700 text-slate-300">${ex.blocker || 'Unresolved Blocker'}</span></td>
+              <td class="py-3 px-4 text-slate-400 truncate max-w-xs text-xs" title="${ex.reasoning}">${ex.reasoning}</td>
               <td class="py-3 px-4 text-right">
-                <button onclick="openTimeline('${ex.subscription_id}')" class="px-2 py-1 rounded bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-500/30 transition">
+                <button onclick="openTimeline('${ex.subscription_id}')" class="px-2.5 py-1 rounded-md bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 border border-blue-500/30 transition text-xs font-medium">
                   <i class="fa-solid fa-clock-rotate-left mr-1"></i> Audit
                 </button>
               </td>
@@ -727,8 +786,8 @@ async def serve_dashboard():
               <td class="py-2.5 px-4 text-slate-500">${d.id.substring(0, 8)}...</td>
               <td class="py-2.5 px-4 text-white font-medium">${d.subscription_id}</td>
               <td class="py-2.5 px-4 text-slate-300">${d.decline_bucket}</td>
-              <td class="py-2.5 px-4 text-blue-400">${d.decided_action}</td>
-              <td class="py-2.5 px-4 text-slate-300">${d.action_executed || '—'}</td>
+              <td class="py-2.5 px-4 text-blue-400 font-sans">${d.decided_action}</td>
+              <td class="py-2.5 px-4 text-slate-300 font-sans">${d.action_executed || '—'}</td>
               <td class="py-2.5 px-4 ${resClass} font-semibold">${d.action_result || 'PENDING'}</td>
               <td class="py-2.5 px-4 text-slate-500 text-[11px]">${d.created_at ? d.created_at.substring(11, 19) : '—'}</td>
               <td class="py-2.5 px-4 text-right">
@@ -763,12 +822,12 @@ async def serve_dashboard():
         content.innerHTML = data.audit_timeline.map((step, idx) => `
           <div class="relative pl-6 pb-4 border-l-2 border-slate-700 last:border-transparent">
             <div class="absolute -left-1.5 top-0.5 w-3 h-3 rounded-full bg-cyan-400 shadow shadow-cyan-400/50"></div>
-            <div class="bg-slate-950 p-3.5 rounded-lg border border-slate-800 space-y-1.5">
+            <div class="bg-slate-950 p-3.5 rounded-xl border border-slate-800 space-y-1.5">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-white">Event #${data.audit_timeline.length - idx}: ${step.decided_action}</span>
                 <span class="text-[10px] text-slate-500 mono">${step.created_at || '—'}</span>
               </div>
-              <p class="text-slate-300">${step.reasoning}</p>
+              <p class="text-slate-300 font-sans">${step.reasoning}</p>
               <div class="grid grid-cols-2 gap-2 text-[11px] pt-1.5 border-t border-slate-800/80">
                 <div><span class="text-slate-500">Action:</span> <span class="text-blue-400 font-medium">${step.action_executed || '—'}</span></div>
                 <div><span class="text-slate-500">Result:</span> <span class="text-emerald-400 font-medium">${step.action_result || '—'}</span></div>
@@ -797,3 +856,4 @@ async def serve_dashboard():
 </html>
 """
     return HTMLResponse(content=html_content)
+

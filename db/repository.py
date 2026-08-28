@@ -706,33 +706,44 @@ def get_dashboard_exceptions() -> List[Dict[str, Any]]:
         action_exec = log.get("action_executed")
         action_res = log.get("action_result", "")
 
+        # Strict: If payment genuinely succeeded on retry, it is NOT an exception
+        if action_res == "SUCCESS" and bucket == "SOFT_DECLINE":
+            continue
+
         is_exception = False
         exception_type = "UNRESOLVED"
+        blocker = "Pending Evaluation"
         severity = "MEDIUM"
 
         if bucket == "RISK_FLAG" or lifecycle == "ESCALATED_HUMAN_REVIEW":
             is_exception = True
             exception_type = "SECURITY_RISK_ESCALATION"
+            blocker = "Risk Quarantine (0 Contact, 0 Retry)"
             severity = "CRITICAL"
-        elif lifecycle == "STOPPED_MAX_ATTEMPTS":
+        elif lifecycle == "STOPPED_MAX_ATTEMPTS" or (bucket == "SOFT_DECLINE" and action_res in ["FAILED", "STOPPED"]):
             is_exception = True
             exception_type = "MAX_RETRIES_EXHAUSTED"
+            blocker = "Bank Debit Exhausted (3/3 Attempts)"
             severity = "HIGH"
         elif action_exec == "HOLD_DND":
             is_exception = True
             exception_type = "DND_HOURS_HOLD"
+            blocker = "Held for DND Window (Rescheduled 09:00 IST)"
             severity = "LOW"
         elif action_exec == "BLOCKED_OPT_OUT":
             is_exception = True
             exception_type = "CUSTOMER_OPTED_OUT"
+            blocker = "Customer Unsubscribed from Nudges"
             severity = "MEDIUM"
         elif action_exec == "BLOCKED_LIFETIME_CAP":
             is_exception = True
             exception_type = "LIFETIME_TOUCH_CAP_REACHED"
+            blocker = "Lifetime Touch Limit (3/3 Cap Reached)"
             severity = "MEDIUM"
         elif bucket == "HARD_DECLINE" and action_res != "SENT":
             is_exception = True
             exception_type = "AWAITING_CARD_UPDATE"
+            blocker = "Awaiting Customer Card/Mandate Update"
             severity = "MEDIUM"
 
         if is_exception:
@@ -742,8 +753,10 @@ def get_dashboard_exceptions() -> List[Dict[str, Any]]:
                 "decline_bucket": bucket,
                 "amount_inr": sub_amounts_inr.get(sub_id, 499.0),
                 "exception_type": exception_type,
+                "blocker": blocker,
                 "severity": severity,
                 "lifecycle_state": lifecycle,
+                "status": "Unresolved",
                 "reasoning": log.get("reasoning"),
                 "action_executed": action_exec,
                 "action_result": action_res,
@@ -752,6 +765,7 @@ def get_dashboard_exceptions() -> List[Dict[str, Any]]:
             })
 
     return exceptions
+
 
 
 def get_subscription_timeline(subscription_id: str) -> Dict[str, Any]:

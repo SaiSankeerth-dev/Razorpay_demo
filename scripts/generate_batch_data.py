@@ -74,13 +74,14 @@ def generate_and_run_batch(clean_first: bool = True) -> dict:
         reasons = ["insufficient_funds", "bank_account_dormant", "payment_failed"]
         reason = reasons[(i - 1) % len(reasons)]
 
+        now_ts = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
         payload = {
             "entity": "event",
             "account_id": "acc_demo_merchant_01",
             "event": "payment.failed",
             "contains": ["payment"],
             "id": evt_id,
-            "created_at": 1756360000 + i * 100,
+            "created_at": now_ts - (60 - i) * 60,
             "payload": {
                 "payment": {
                     "entity": {
@@ -139,13 +140,14 @@ def generate_and_run_batch(clean_first: bool = True) -> dict:
         risk_reasons = ["payment_risk_check_failed", "card_blacklisted", "security_violation", "stolen_card"]
         reason = risk_reasons[(i - 1) % len(risk_reasons)]
 
+        now_ts = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
         payload = {
             "entity": "event",
             "account_id": "acc_demo_merchant_01",
             "event": "payment.failed",
             "contains": ["payment"],
             "id": evt_id,
-            "created_at": 1756370000 + i * 100,
+            "created_at": now_ts - (30 - i) * 60,
             "payload": {
                 "payment": {
                     "entity": {
@@ -195,12 +197,13 @@ def generate_and_run_batch(clean_first: bool = True) -> dict:
             increment_subscription_contact_count(sub_id)
             increment_subscription_contact_count(sub_id)
 
+        now_ts = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
         payload = {
             "entity": "event",
             "account_id": "acc_demo_merchant_01",
             "event": "payment.failed" if reason != "subscription_halted" else "subscription.halted",
             "id": evt_id,
-            "created_at": 1756380000 + i * 100,
+            "created_at": now_ts - (15 - i) * 60,
             "payload": {
                 "payment": {
                     "entity": {

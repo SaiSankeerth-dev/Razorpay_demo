@@ -8,9 +8,14 @@
 > **Failed subscription payments create involuntary churn.**  
 > This system uses AI to diagnose payment failures and recommend the safest recovery intervention, while deterministic financial guardrails remain the final authority before any action executes.
 
+<p align="center">
+  <img src="assets/dashboard_preview.jpg" alt="Razorpay AI Revenue Recovery Executive Dashboard" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" />
+</p>
+
 ---
 
 ## 📊 Benchmark Evidence (Held-Out Test Set)
+
 
 Evaluated across **150 held-out subscription failure scenarios** comparing the AI Recovery Agent against legacy **Naive Fixed-Schedule Retry**:
 

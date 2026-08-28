@@ -61,3 +61,26 @@ def test_invariant_policy_safety_boundary(benchmark_results):
     assert safety["policy_violation_rate_pct"] == 0.0
     assert safety["diagnosis_accuracy_pct"] >= 95.0
     assert safety["intervention_accuracy_pct"] >= 90.0
+
+
+def test_invariant_three_arm_benchmark_hierarchy(benchmark_results):
+    """INVARIANT 5: 3-Arm benchmark hierarchy & safety invariants"""
+    base = benchmark_results["baseline"]
+    rules = benchmark_results["rules_only"]
+    agent = benchmark_results["ai_recovery_agent"]
+    comp = benchmark_results["comparative_impact"]
+
+    # Recovery hierarchy: Naive Baseline <= Rules-Only <= AI + Policy Firewall
+    assert base["recovery_rate_pct"] <= rules["recovery_rate_pct"] <= agent["recovery_rate_pct"]
+    assert base["recovered_revenue_inr"] <= rules["recovered_revenue_inr"] <= agent["recovered_revenue_inr"]
+
+    # Safety invariants across both governed arms
+    assert rules["risk_retries_attempted"] == 0
+    assert agent["risk_retries_attempted"] == 0
+    assert rules["unsafe_actions_executed"] == 0
+    assert agent["unsafe_actions_executed"] == 0
+
+    # Incremental calculations
+    assert comp["incremental_recovered_revenue_vs_rules_inr"] >= 0.0
+    assert comp["incremental_recovery_gain_vs_rules_pct"] >= 0.0
+

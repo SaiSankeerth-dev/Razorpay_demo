@@ -14,20 +14,24 @@
 
 ---
 
-## 📊 Benchmark Evidence (Held-Out Test Set)
+### 📊 3-Arm Benchmark Evidence (Held-Out Test Set)
 
-Evaluated across **150 held-out subscription failure scenarios** comparing the AI Recovery Agent against legacy **Naive Fixed-Schedule Retry**:
+Evaluated across **150 held-out subscription failure scenarios** comparing legacy **Naive Fixed Retry**, deterministic **Rules-Only (Classifier + Policy)**, and the **AI Recovery Agent + Policy Firewall**:
 
-| Key Performance Indicator | Naive Fixed Retry (Baseline) | AI Recovery Agent + Policy Firewall | Business Impact / Delta |
-| :--- | :--- | :--- | :--- |
-| **Recovery Rate (%)** | **28.19%** | **37.59%** | **+9.40% Absolute Gain (+9.4pp)** |
-| **Revenue Recovered** | ₹137,955.00 | **₹183,940.00** | **+₹45,985.00 Incremental Revenue** |
-| **Retries Attempted** | 403 attempts | **178 attempts** | **225 Wasted Retries Avoided** |
-| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **100% Risk Quarantine (0 Unsafe)** |
-| **Targeted Nudges** | 0 | **37 Nudges** | Self-serve credential recovery |
-| **AI Diagnosis Accuracy** | N/A | **100.00%** | Root-cause semantic diagnosis |
-| **AI Intervention Accuracy**| N/A | **98.67%** | Optimal action recommendation |
-| **Policy Violation Rate** | 100% Risk Failures | **0.00%** | **Zero Unauthorized Money Movement** |
+| Key Performance Indicator | Arm 1: Naive Fixed Retry | Arm 2: Rules-Only Baseline | Arm 3: AI Agent + Policy Firewall | AI vs Fixed Baseline |
+| :--- | :--- | :--- | :--- | :--- |
+| **Recovery Rate (%)** | **28.19%** | **33.60%** | **37.59%** | **+9.40% Absolute Gain (+9.4pp)** |
+| **Revenue Recovered** | ₹137,955.00 | ₹164,445.00 | **₹183,940.00** | **+₹45,985.00 Incremental ARR** |
+| **Retries Attempted** | 403 attempts | 178 attempts | **178 attempts** | **225 Wasted Retries Avoided** |
+| **Risk / Fraud Retries** | 114 (Violations) | 0 (Zero Violations) | **0 (Zero Violations)** | **100% Risk Quarantine (0 Unsafe)** |
+| **Targeted Nudges** | 0 | 37 (Generic Links) | **37 (AI Tailored Links)** | Self-serve credential recovery |
+| **AI Diagnosis Accuracy** | N/A | N/A | **100.00%** | Root-cause semantic diagnosis |
+| **AI Intervention Accuracy**| N/A | N/A | **98.67%** | Optimal action recommendation |
+| **Policy Violation Rate** | 100% Risk Failures | 0.00% | **0.00%** | **Zero Unauthorized Money Movement** |
+
+> **Honest Engineering Assessment on AI's Contribution:**  
+> The deterministic 3-tier classification rules (Arm 2) do the heavy lifting of eliminating 225 wasted debit attempts on invalid cards and quarantining 114 risk violations, reaching 33.60% recovery.  
+> The **AI Diagnostician (Arm 3)** adds a measured **+3.98% incremental recovery gain (+₹19,495.00)** over Rules-Only by analyzing unstructured gateway errors, calibrating retry backoff intervals per failure severity, and tailoring customer nudge copy (e.g. urgency vs courtesy re-authorization).
 
 *All metrics are generated dynamically by `evaluation/benchmark.py` and reproducible via `python scripts/run_evaluation.py`.*
 
@@ -61,7 +65,7 @@ The **Razorpay AI Revenue Recovery Engine** replaces blind retries with an intel
                     (HMAC-SHA256 Raw Request Bytes)
                                  │
                                  ▼
-                        PAYMENT/USER CONTEXT
+                         PAYMENT/USER CONTEXT
                                  │
                                  ▼
                           AI DIAGNOSTICIAN
@@ -100,7 +104,7 @@ Payment failure context is nuanced: unstructured banking error descriptions, tem
 
 However, **AI must never directly execute financial actions**. The Policy Firewall enforces hard invariants before any money moves:
 
-| Guardrail Layer | Enforcement Mechanism | Safety Invariant Guaranteed |
+| Guardrail Layer | Enforcement Mechanism | Safety Invariant Enforced |
 | :--- | :--- | :--- |
 | **Risk Quarantine** | Rule `RULE_FIREWALL_RISK_QUARANTINE` | If failure code relates to fraud or risk, AI retry/nudge recommendations are overridden to `ESCALATE_TO_HUMAN` (**0 retries, 0 contacts**). |
 | **Retry Budget** | Rule `RULE_FIREWALL_MAX_RETRY_BUDGET_EXHAUSTED` | Subscriptions are capped at strictly **3 retries**. Attempt #4 transitions to terminal `STOPPED_MAX_ATTEMPTS`. |

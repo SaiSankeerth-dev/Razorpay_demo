@@ -71,7 +71,7 @@ Our executive dashboard at `http://localhost:8000/dashboard` exposes the exact P
 ---
 
 ### [4:40 – 5:00] Business Impact & Why Razorpay (20s)
-"The Razorpay AI Revenue Recovery Engine proves that fintech AI is most powerful when paired with deterministic financial guardrails. It recovers 9.4% more revenue, protects merchant risk score, and respects customer compliance. Everything is 100% reproducible with `pytest -v` (59 passing tests). Thank you!"
+"The Razorpay AI Revenue Recovery Engine proves that fintech AI is most powerful when paired with deterministic financial guardrails. It recovers 9.4% more revenue over naive retries, protects merchant risk score, and respects customer compliance. Everything is 100% reproducible with `pytest -v` (60 passing tests). Thank you!"
 
 ---
 

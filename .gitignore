@@ -34,6 +34,10 @@ Thumbs.db
 *.sqlite
 *.sqlite3
 *.db
+local_store.json
+db/local_store.json
+node_modules/
+.next/
 
 # Logs
 *.log

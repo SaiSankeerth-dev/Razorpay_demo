@@ -2,16 +2,21 @@
 Compliance Guardrails Engine (Hard-coded safety boundaries).
 
 Enforces:
-1. Do-Not-Disturb (DND) contact hours (e.g., 9:00 AM - 8:00 PM IST).
+1. RISK_FLAG isolation (Zero outreach and zero retries for fraud/security cases).
 2. Customer opt-out enforcement.
 3. Lifetime contact attempt caps across the entire subscription lifecycle.
+4. Do-Not-Disturb (DND) contact hours (e.g., 9:00 AM - 8:00 PM IST).
 """
 import datetime
 import zoneinfo
 import logging
 from typing import Optional, Tuple
 from db.config import settings
-from db.repository import is_subscription_opted_out, get_subscription_contact_count
+from db.repository import (
+    is_subscription_opted_out,
+    get_subscription_contact_count,
+    get_subscription_recovery_state
+)
 from agent.models import ComplianceCheckResult
 
 logger = logging.getLogger(__name__)
@@ -69,11 +74,24 @@ def evaluate_contact_compliance(
     Evaluates all mandatory compliance guardrails before allowing any outbound customer nudge.
     
     Precedence:
-    1. Opt-out check (Permanent block)
-    2. Lifetime contact cap (Subscription lifetime touch limit)
-    3. DND hours (Time-of-day window check)
+    1. Risk / Fraud isolation check (Zero outreach permitted)
+    2. Opt-out check (Permanent block)
+    3. Lifetime contact cap (Subscription lifetime touch limit)
+    4. DND hours (Time-of-day window check)
     """
-    # 1. Check Opt-out
+    # 1. Check Risk Isolation
+    state = get_subscription_recovery_state(subscription_id)
+    if state and (state.get("status") == "ESCALATED_HUMAN_REVIEW" or state.get("last_bucket") == "RISK_FLAG"):
+        logger.warning(
+            f"[COMPLIANCE GUARDRAIL] Subscription '{subscription_id}' is flagged RISK_FLAG. Outreach strictly forbidden."
+        )
+        return ComplianceCheckResult(
+            allowed=False,
+            guardrail="RISK_FLAG",
+            reason="Automated outreach forbidden on RISK_FLAG / human escalation subscription."
+        )
+
+    # 2. Check Opt-out
     if is_subscription_opted_out(subscription_id):
         logger.warning(
             f"[COMPLIANCE GUARDRAIL] Subscription '{subscription_id}' is opted-out. Outreach forbidden."
@@ -84,7 +102,7 @@ def evaluate_contact_compliance(
             reason="Customer has opted out of notifications. Automated outreach strictly blocked."
         )
 
-    # 2. Check Lifetime Contact Cap
+    # 3. Check Lifetime Contact Cap
     contact_count = get_subscription_contact_count(subscription_id)
     if contact_count >= settings.MAX_LIFETIME_CONTACT_ATTEMPTS:
         logger.warning(
@@ -97,7 +115,7 @@ def evaluate_contact_compliance(
             reason=f"Global lifetime contact cap ({settings.MAX_LIFETIME_CONTACT_ATTEMPTS}) reached for subscription. Further outreach blocked."
         )
 
-    # 3. Check DND Window
+    # 4. Check DND Window
     allowed_dnd, next_window = check_dnd_window(check_time)
     if not allowed_dnd:
         logger.warning(

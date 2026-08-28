@@ -9,7 +9,7 @@ import razorpay
 import razorpay.errors
 
 from db.config import settings
-from db.repository import update_recovery_audit_action_outcome
+from db.repository import update_recovery_audit_action_outcome, get_subscription_recovery_state
 from agent.models import ActionExecutionType, ActionExecutionStatus
 
 logger = logging.getLogger(__name__)
@@ -29,21 +29,42 @@ def execute_payment_retry(
 ) -> Dict[str, Any]:
     """
     Executes a real retry against Razorpay test mode:
-    1. Interacts with Razorpay API (fetches subscription / pending invoice).
-    2. Captures real API outcome (success or structured error code).
-    3. Updates recovery_audit_log with the continuous decision-to-outcome record.
+    1. Evaluates risk state (strictly blocks retry on RISK_FLAG / ESCALATED_HUMAN_REVIEW).
+    2. Interacts with Razorpay API (fetches subscription / pending invoice).
+    3. Captures real API outcome (success or structured error code).
+    4. Updates recovery_audit_log with continuous decision-to-outcome record.
     """
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    # Safety Guardrail: Reject if subscription is flagged RISK_FLAG or in human review
+    state = get_subscription_recovery_state(subscription_id)
+    if state and (state.get("status") == "ESCALATED_HUMAN_REVIEW" or state.get("last_bucket") == "RISK_FLAG"):
+        logger.warning(
+            f"[RETRY FORBIDDEN] Subscription '{subscription_id}' is flagged RISK_FLAG / ESCALATED_HUMAN_REVIEW. Retry strictly rejected."
+        )
+        if audit_log_id:
+            update_recovery_audit_action_outcome(
+                audit_id=audit_log_id,
+                action_executed=ActionExecutionType.RETRY_PAYMENT.value,
+                action_result="BLOCKED_RISK_FLAG",
+                action_details={"reason": "Retry forbidden on RISK_FLAG / human escalation subscription"},
+                executed_at=now_iso
+            )
+        return {
+            "action_executed": ActionExecutionType.RETRY_PAYMENT.value,
+            "action_result": "BLOCKED_RISK_FLAG",
+            "api_response": {"error": "Retry forbidden on RISK_FLAG / human escalation subscription"},
+            "executed_at": now_iso
+        }
+
     client = get_razorpay_client()
 
     logger.info(f"[RETRY EXECUTOR] Initiating Razorpay test-mode retry for subscription '{subscription_id}'...")
 
     try:
         # Call Razorpay Subscription API in test mode
-        # Fetches the real subscription details and pending invoices
         sub_data = client.subscription.fetch(subscription_id)
         
-        # Real API call succeeded
         api_outcome = {
             "status": "success",
             "subscription_id": sub_data.get("id"),
@@ -56,7 +77,6 @@ def execute_payment_retry(
         logger.info(f"[RETRY EXECUTOR] Real Razorpay API call succeeded: {api_outcome}")
 
     except razorpay.errors.BadRequestError as e:
-        # Captured real Razorpay API 400 error
         action_result = f"FAILED: BAD_REQUEST_ERROR"
         api_outcome = {
             "error_type": "BadRequestError",
@@ -75,7 +95,6 @@ def execute_payment_retry(
         logger.warning(f"[RETRY EXECUTOR] Razorpay API returned GatewayError: {e}")
 
     except Exception as e:
-        # General API/Network error
         action_result = f"FAILED: {type(e).__name__}"
         api_outcome = {
             "error_type": type(e).__name__,
@@ -83,7 +102,6 @@ def execute_payment_retry(
         }
         logger.error(f"[RETRY EXECUTOR] Unexpected API error during retry: {e}")
 
-    # Persist outcome to audit trail if audit_log_id provided
     updated_audit_entry = None
     if audit_log_id:
         updated_audit_entry = update_recovery_audit_action_outcome(

@@ -8,13 +8,51 @@ import logging
 from typing import Optional, Dict, Any, List, Union
 from db.client import get_supabase_client
 
+import os
+import json
+
 logger = logging.getLogger(__name__)
 
 # In-memory stores for testing / offline fallback
+_LOCAL_STORE_PATH = os.path.join(os.path.dirname(__file__), "local_store.json")
 _local_webhook_store: List[Dict[str, Any]] = []
 _local_audit_log_store: List[Dict[str, Any]] = []
 _local_subscription_states: Dict[str, Dict[str, Any]] = {}
 _local_promise_to_pay_store: List[Dict[str, Any]] = []
+
+
+def _load_local_store() -> None:
+    """Loads local persistent state from local_store.json if present."""
+    global _local_webhook_store, _local_audit_log_store, _local_subscription_states, _local_promise_to_pay_store
+    if os.path.exists(_LOCAL_STORE_PATH):
+        try:
+            with open(_LOCAL_STORE_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                _local_webhook_store = data.get("webhooks", [])
+                _local_audit_log_store = data.get("audit_logs", [])
+                _local_subscription_states = data.get("subscription_states", {})
+                _local_promise_to_pay_store = data.get("promise_to_pay", [])
+        except Exception:
+            pass
+
+
+def _save_local_store() -> None:
+    """Saves local persistent state to local_store.json for cross-process CLI sharing."""
+    try:
+        data = {
+            "webhooks": _local_webhook_store,
+            "audit_logs": _local_audit_log_store,
+            "subscription_states": _local_subscription_states,
+            "promise_to_pay": _local_promise_to_pay_store
+        }
+        with open(_LOCAL_STORE_PATH, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception:
+        pass
+
+
+_load_local_store()
+
 
 
 # ============================================================================
@@ -353,6 +391,7 @@ def record_promise_to_pay(
             logger.error(f"Error inserting promise_to_pay into Supabase: {e}. Storing locally.")
 
     _local_promise_to_pay_store.append(record_data)
+    _save_local_store()
     return record_data
 
 
@@ -375,6 +414,7 @@ def get_active_promise_to_pay(subscription_id: str) -> Optional[Dict[str, Any]]:
         except Exception as e:
             logger.error(f"Error querying active promise_to_pay from Supabase: {e}")
 
+    _load_local_store()
     for record in reversed(_local_promise_to_pay_store):
         if record.get("subscription_id") == subscription_id and record.get("status") == "PENDING":
             return record
@@ -394,6 +434,7 @@ def get_all_promise_to_pay(subscription_id: Optional[str] = None) -> List[Dict[s
         except Exception as e:
             logger.error(f"Error querying promise_to_pay: {e}")
 
+    _load_local_store()
     results = _local_promise_to_pay_store
     if subscription_id:
         results = [r for r in results if r.get("subscription_id") == subscription_id]
@@ -408,6 +449,7 @@ def check_in_promise_to_pay(promise_id: str) -> Optional[Dict[str, Any]]:
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
     supabase = get_supabase_client()
 
+    _load_local_store()
     for record in _local_promise_to_pay_store:
         if record.get("id") == promise_id:
             record["check_in_count"] = record.get("check_in_count", 0) + 1
@@ -415,11 +457,11 @@ def check_in_promise_to_pay(promise_id: str) -> Optional[Dict[str, Any]]:
             record["updated_at"] = now_iso
             if record["check_in_count"] >= 1:
                 record["status"] = "CHECKED_IN"
+            _save_local_store()
             return record
 
     if supabase:
         try:
-            # Fetch current count
             fetch_res = supabase.table("promise_to_pay").select("*").eq("id", promise_id).single().execute()
             if fetch_res.data:
                 curr_count = fetch_res.data.get("check_in_count", 0) + 1
@@ -436,6 +478,7 @@ def check_in_promise_to_pay(promise_id: str) -> Optional[Dict[str, Any]]:
             logger.error(f"Error updating promise_to_pay in Supabase: {e}")
 
     return None
+
 
 
 def clear_local_store() -> None:

@@ -44,3 +44,27 @@
 ### Entry 6: Hard-Coded Policy Boundaries vs LLM Judgment (Phase 2)
 * **What happened:** Debating whether to let an LLM agent determine retry backoff and escalation rules per case.
 * **Fix & Learning:** Regulated payment recovery requires strict financial invariants (e.g., RBI recurring mandate retry guidelines and card network debit frequencies). Non-deterministic LLM reasoning cannot guarantee that attempt #4 is never scheduled or that a stolen card is never retried. Therefore, policy execution and stopping rules are strictly hard-coded in Python as non-negotiable safety guardrails; LLMs are reserved for semantic reasoning and communications in Phase 3+.
+
+---
+
+### Entry 7: DND Window Timezone Desynchronization (Phase 3)
+* **What happened:** Server runtimes default to UTC system time. When checking whether a nudge is within the 9:00 AM - 8:00 PM DND window, comparing naive `datetime.now()` in UTC resulted in 2:00 PM IST (which is 08:30 UTC) being incorrectly blocked as outside business hours, and 10:00 PM IST (16:30 UTC) being incorrectly allowed.
+* **Fix & Learning:** Localized all DND timestamp evaluations explicitly to `zoneinfo.ZoneInfo("Asia/Kolkata")`. When blocked at 11:00 PM IST, the engine deterministically computes the reschedule timestamp to 09:00:00 AM IST of the following day.
+
+---
+
+### Entry 8: SMTP Transmission Transparency vs Silent Fallback (Phase 3)
+* **What happened:** When external mail servers or test SMTP relays fail (e.g., authentication failure or connection refused), naive email executors catch the exception and log generic warnings while letting the agent report success.
+* **Fix & Learning:** Built explicit error capture in `send_email_via_smtp` where the real error string (e.g. `ConnectionRefusedError`, `SMTPAuthenticationError`) is recorded directly into `recovery_audit_log` with `action_result = "FAILED: <error>"`. This maintains an honest audit trail rather than papering over delivery failures.
+
+---
+
+### Entry 9: Promise-to-Pay Re-check Loops (Phase 3)
+* **What happened:** When a customer replies stating they will pay on date $D$, if the customer does not pay immediately on date $D$, background workers could continuously fire repeated check-in reminders every day after $D$, annoying the customer.
+* **Fix & Learning:** Implemented a state machine with a `check_in_count` counter and `CHECKED_IN` status. The agent checks in exactly ONCE on or after date $D$, transitions status to `CHECKED_IN`, and strictly blocks any second automatic check-in until a fresh webhook or manual payment re-evaluation occurs.
+
+---
+
+### Entry 10: Lifetime Subscription Contact Cap Across Multiple Decline Events (Phase 3)
+* **What happened:** If contact throttling is tracked only per decline event, a customer whose subscription fails periodically across multiple billing cycles could receive dozens of notifications over the subscription lifetime, violating anti-harassment policies.
+* **Fix & Learning:** Added a global `total_contact_attempts` counter to `subscription_recovery_state` that increments across all decline events over the subscription's entire lifetime. When lifetime touches reach $N$ (e.g. 3), all subsequent nudges are unconditionally blocked with `action_executed = "BLOCKED_LIFETIME_CAP"` and `action_result = "BLOCKED"`.

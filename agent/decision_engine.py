@@ -90,18 +90,25 @@ def process_webhook_decision(webhook_payload: Dict[str, Any]) -> Tuple[Extracted
     }
     upsert_subscription_recovery_state(updated_state_data)
 
-    # 6. Record immutable decision in recovery_audit_log
-    audit_entry = AuditLogEntry(
-        event_id=extracted.event_id,
-        subscription_id=sub_id,
-        payment_id=extracted.payment_id,
-        decline_bucket=decision.bucket.value,
-        reasoning=decision.reasoning,
-        decided_action=decision.action.value,
-        attempt_number=decision.attempt_number,
-        retry_delay_seconds=decision.retry_delay_seconds,
-        subscription_lifecycle_state=decision.lifecycle_state.value
-    )
-    saved_audit_row = save_recovery_audit_log(audit_entry)
+    # 6. Record immutable decision in recovery_audit_log ONLY if a new decision was made
+    # (Replayed webhooks on terminal subscriptions must not create duplicate audit decision rows)
+    saved_audit_row = {}
+    if decision.action != DecidedAction.NO_ACTION_ALREADY_STOPPED:
+        audit_entry = AuditLogEntry(
+            event_id=extracted.event_id,
+            subscription_id=sub_id,
+            payment_id=extracted.payment_id,
+            decline_bucket=decision.bucket.value,
+            reasoning=decision.reasoning,
+            decided_action=decision.action.value,
+            attempt_number=decision.attempt_number,
+            retry_delay_seconds=decision.retry_delay_seconds,
+            subscription_lifecycle_state=decision.lifecycle_state.value
+        )
+        saved_audit_row = save_recovery_audit_log(audit_entry)
+    else:
+        logger.info(
+            f"[REPLAY IGNORED] Subscription '{sub_id}' is already terminal. Skipped inserting new recovery_audit_log row."
+        )
 
     return extracted, classification, decision, saved_audit_row

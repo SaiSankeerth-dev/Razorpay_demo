@@ -1,6 +1,6 @@
 """
-Database Repository for Webhook Events, Decline Recovery States, and Audit Logs.
-Handles Supabase table reads/writes with in-memory fallback for local offline testing.
+Database Repository for Webhook Events, Decline Recovery States, Decision Audit Logs,
+and Phase 3 Action Outcomes & Promise-to-Pay Records.
 """
 import uuid
 import datetime
@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 _local_webhook_store: List[Dict[str, Any]] = []
 _local_audit_log_store: List[Dict[str, Any]] = []
 _local_subscription_states: Dict[str, Dict[str, Any]] = {}
+_local_promise_to_pay_store: List[Dict[str, Any]] = []
 
 
 # ============================================================================
@@ -98,11 +99,11 @@ def get_latest_event_by_type(event_type: str) -> Optional[Dict[str, Any]]:
 
 
 # ============================================================================
-# SUBSCRIPTION RECOVERY STATE (PHASE 2)
+# SUBSCRIPTION RECOVERY STATE & COMPLIANCE (PHASE 2 & PHASE 3)
 # ============================================================================
 
 def get_subscription_recovery_state(subscription_id: str) -> Optional[Dict[str, Any]]:
-    """Fetches the current recovery state and attempt count for a subscription."""
+    """Fetches the current recovery state for a subscription."""
     supabase = get_supabase_client()
     if supabase:
         try:
@@ -129,6 +130,13 @@ def upsert_subscription_recovery_state(state_data: Dict[str, Any]) -> Dict[str, 
     if "created_at" not in state_data:
         state_data["created_at"] = now_iso
 
+    # Preserve existing contact count & opt-out status if not explicitly passed
+    existing = _local_subscription_states.get(subscription_id, {})
+    if "total_contact_attempts" not in state_data:
+        state_data["total_contact_attempts"] = existing.get("total_contact_attempts", 0)
+    if "is_opted_out" not in state_data:
+        state_data["is_opted_out"] = existing.get("is_opted_out", False)
+
     supabase = get_supabase_client()
     if supabase:
         try:
@@ -146,13 +154,48 @@ def upsert_subscription_recovery_state(state_data: Dict[str, Any]) -> Dict[str, 
     return state_data
 
 
+def opt_out_subscription(subscription_id: str) -> Dict[str, Any]:
+    """Marks a subscription as customer-opted-out from further contact."""
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    state = get_subscription_recovery_state(subscription_id) or {"subscription_id": subscription_id}
+    state["is_opted_out"] = True
+    state["opted_out_at"] = now_iso
+    state["updated_at"] = now_iso
+    return upsert_subscription_recovery_state(state)
+
+
+def is_subscription_opted_out(subscription_id: str) -> bool:
+    """Checks whether customer/subscription is flagged opted-out."""
+    state = get_subscription_recovery_state(subscription_id)
+    if state:
+        return state.get("is_opted_out", False)
+    return False
+
+
+def get_subscription_contact_count(subscription_id: str) -> int:
+    """Returns the lifetime contact count for a subscription across all decline events."""
+    state = get_subscription_recovery_state(subscription_id)
+    if state:
+        return state.get("total_contact_attempts", 0)
+    return 0
+
+
+def increment_subscription_contact_count(subscription_id: str) -> int:
+    """Increments and persists the lifetime contact touch count for a subscription."""
+    state = get_subscription_recovery_state(subscription_id) or {"subscription_id": subscription_id}
+    current_contacts = state.get("total_contact_attempts", 0) + 1
+    state["total_contact_attempts"] = current_contacts
+    upsert_subscription_recovery_state(state)
+    return current_contacts
+
+
 # ============================================================================
-# RECOVERY DECISION AUDIT LOG (PHASE 2)
+# RECOVERY DECISION & OUTCOME AUDIT LOG (PHASE 2 & PHASE 3)
 # ============================================================================
 
 def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
     """
-    Persists an immutable decision log entry for decline classification and policy choice.
+    Persists a decision log entry for decline classification and policy choice.
     """
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
@@ -169,6 +212,10 @@ def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
             "attempt_number": entry.get("attempt_number", 1),
             "retry_delay_seconds": entry.get("retry_delay_seconds"),
             "subscription_lifecycle_state": entry.get("subscription_lifecycle_state"),
+            "action_executed": entry.get("action_executed"),
+            "action_result": entry.get("action_result"),
+            "action_details": entry.get("action_details") or {},
+            "executed_at": entry.get("executed_at"),
             "created_at": entry.get("created_at") or now_iso
         }
     else:
@@ -184,6 +231,10 @@ def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
             "attempt_number": getattr(entry, "attempt_number", 1),
             "retry_delay_seconds": getattr(entry, "retry_delay_seconds", None),
             "subscription_lifecycle_state": getattr(entry, "subscription_lifecycle_state", ""),
+            "action_executed": getattr(entry, "action_executed", None),
+            "action_result": getattr(entry, "action_result", None),
+            "action_details": getattr(entry, "action_details", {}) or {},
+            "executed_at": getattr(entry, "executed_at", None),
             "created_at": getattr(entry, "created_at", None) or now_iso
         }
 
@@ -201,13 +252,52 @@ def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
     return record_data
 
 
+def update_recovery_audit_action_outcome(
+    audit_id: str,
+    action_executed: str,
+    action_result: str,
+    action_details: Optional[Dict[str, Any]] = None,
+    executed_at: Optional[str] = None
+) -> Optional[Dict[str, Any]]:
+    """
+    Updates an existing audit log entry with the executed recovery action and outcome.
+    Ensures a single, continuous decision-to-outcome audit trail.
+    """
+    now_iso = executed_at or datetime.datetime.now(datetime.timezone.utc).isoformat()
+    update_data = {
+        "action_executed": action_executed,
+        "action_result": action_result,
+        "action_details": action_details or {},
+        "executed_at": now_iso
+    }
+
+    supabase = get_supabase_client()
+    if supabase:
+        try:
+            response = (
+                supabase.table("recovery_audit_log")
+                .update(update_data)
+                .eq("id", audit_id)
+                .execute()
+            )
+            if response.data and len(response.data) > 0:
+                return response.data[0]
+        except Exception as e:
+            logger.error(f"Error updating recovery audit outcome in Supabase: {e}")
+
+    for entry in _local_audit_log_store:
+        if entry.get("id") == audit_id:
+            entry.update(update_data)
+            return entry
+
+    return None
+
+
 def get_recovery_audit_logs(
     subscription_id: Optional[str] = None,
     limit: int = 50
 ) -> List[Dict[str, Any]]:
-    """
-    Retrieves decision audit log entries, optionally filtered by subscription ID.
-    """
+    """Retrieves decision and action audit log entries."""
     supabase = get_supabase_client()
     if supabase:
         try:
@@ -225,9 +315,133 @@ def get_recovery_audit_logs(
     return list(reversed(results[-limit:]))
 
 
+# ============================================================================
+# PROMISE-TO-PAY (PHASE 3)
+# ============================================================================
+
+def record_promise_to_pay(
+    subscription_id: str,
+    promised_date: str,
+    customer_id: Optional[str] = None,
+    notes: Optional[str] = None
+) -> Dict[str, Any]:
+    """Records a customer commitment to pay by a specific date."""
+    record_id = str(uuid.uuid4())
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    record_data = {
+        "id": record_id,
+        "subscription_id": subscription_id,
+        "customer_id": customer_id,
+        "promised_date": promised_date,
+        "status": "PENDING",
+        "check_in_count": 0,
+        "last_checked_in_at": None,
+        "notes": notes or f"Customer committed to pay on/by {promised_date}",
+        "created_at": now_iso,
+        "updated_at": now_iso
+    }
+
+    supabase = get_supabase_client()
+    if supabase:
+        try:
+            response = supabase.table("promise_to_pay").insert(record_data).execute()
+            if response.data and len(response.data) > 0:
+                logger.info(f"Recorded promise-to-pay (ID: {record_id}) for subscription '{subscription_id}'.")
+                return response.data[0]
+        except Exception as e:
+            logger.error(f"Error inserting promise_to_pay into Supabase: {e}. Storing locally.")
+
+    _local_promise_to_pay_store.append(record_data)
+    return record_data
+
+
+def get_active_promise_to_pay(subscription_id: str) -> Optional[Dict[str, Any]]:
+    """Fetches the pending promise-to-pay record for a subscription."""
+    supabase = get_supabase_client()
+    if supabase:
+        try:
+            response = (
+                supabase.table("promise_to_pay")
+                .select("*")
+                .eq("subscription_id", subscription_id)
+                .eq("status", "PENDING")
+                .order("created_at", desc=True)
+                .limit(1)
+                .execute()
+            )
+            if response.data and len(response.data) > 0:
+                return response.data[0]
+        except Exception as e:
+            logger.error(f"Error querying active promise_to_pay from Supabase: {e}")
+
+    for record in reversed(_local_promise_to_pay_store):
+        if record.get("subscription_id") == subscription_id and record.get("status") == "PENDING":
+            return record
+    return None
+
+
+def get_all_promise_to_pay(subscription_id: Optional[str] = None) -> List[Dict[str, Any]]:
+    """Retrieves all promise to pay records."""
+    supabase = get_supabase_client()
+    if supabase:
+        try:
+            query = supabase.table("promise_to_pay").select("*").order("created_at", desc=True)
+            if subscription_id:
+                query = query.eq("subscription_id", subscription_id)
+            response = query.execute()
+            return response.data or []
+        except Exception as e:
+            logger.error(f"Error querying promise_to_pay: {e}")
+
+    results = _local_promise_to_pay_store
+    if subscription_id:
+        results = [r for r in results if r.get("subscription_id") == subscription_id]
+    return list(reversed(results))
+
+
+def check_in_promise_to_pay(promise_id: str) -> Optional[Dict[str, Any]]:
+    """
+    Executes a single check-in on a promise-to-pay record.
+    Increments check_in_count and updates last_checked_in_at.
+    """
+    now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    supabase = get_supabase_client()
+
+    for record in _local_promise_to_pay_store:
+        if record.get("id") == promise_id:
+            record["check_in_count"] = record.get("check_in_count", 0) + 1
+            record["last_checked_in_at"] = now_iso
+            record["updated_at"] = now_iso
+            if record["check_in_count"] >= 1:
+                record["status"] = "CHECKED_IN"
+            return record
+
+    if supabase:
+        try:
+            # Fetch current count
+            fetch_res = supabase.table("promise_to_pay").select("*").eq("id", promise_id).single().execute()
+            if fetch_res.data:
+                curr_count = fetch_res.data.get("check_in_count", 0) + 1
+                update_data = {
+                    "check_in_count": curr_count,
+                    "last_checked_in_at": now_iso,
+                    "status": "CHECKED_IN",
+                    "updated_at": now_iso
+                }
+                update_res = supabase.table("promise_to_pay").update(update_data).eq("id", promise_id).execute()
+                if update_res.data:
+                    return update_res.data[0]
+        except Exception as e:
+            logger.error(f"Error updating promise_to_pay in Supabase: {e}")
+
+    return None
+
+
 def clear_local_store() -> None:
     """Helper for test cleanup."""
-    global _local_webhook_store, _local_audit_log_store, _local_subscription_states
+    global _local_webhook_store, _local_audit_log_store, _local_subscription_states, _local_promise_to_pay_store
     _local_webhook_store.clear()
     _local_audit_log_store.clear()
     _local_subscription_states.clear()
+    _local_promise_to_pay_store.clear()

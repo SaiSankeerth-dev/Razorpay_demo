@@ -31,9 +31,9 @@ CREATE INDEX IF NOT EXISTS idx_webhook_events_subscription_id ON webhook_events 
 CREATE INDEX IF NOT EXISTS idx_webhook_events_payment_id ON webhook_events USING gin ((payload -> 'payload' -> 'payment' -> 'entity' -> 'id'));
 
 -- ============================================================================
--- Table: subscription_recovery_state (PHASE 2)
--- Purpose: Tracks current lifecycle state and attempt count per subscription
--- to strictly enforce stopping rules, replay idempotency, and state persistence.
+-- Table: subscription_recovery_state (PHASE 2 + PHASE 3)
+-- Purpose: Tracks current lifecycle state, retry attempts, lifetime contacts,
+-- and opt-out status per subscription to enforce compliance guardrails.
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS subscription_recovery_state (
     subscription_id VARCHAR(100) PRIMARY KEY,
@@ -44,17 +44,23 @@ CREATE TABLE IF NOT EXISTS subscription_recovery_state (
     last_bucket VARCHAR(50),
     last_action VARCHAR(100),
     is_terminal BOOLEAN NOT NULL DEFAULT false,           -- True if max attempts reached or human escalation required
+    total_contact_attempts INT NOT NULL DEFAULT 0,        -- Phase 3: Lifetime contact count across whole subscription
+    is_opted_out BOOLEAN NOT NULL DEFAULT false,          -- Phase 3: Customer opt-out status
+    opted_out_at TIMESTAMPTZ,
+    customer_email VARCHAR(255),
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
 CREATE INDEX IF NOT EXISTS idx_sub_recovery_status ON subscription_recovery_state (status);
 CREATE INDEX IF NOT EXISTS idx_sub_recovery_is_terminal ON subscription_recovery_state (is_terminal);
+CREATE INDEX IF NOT EXISTS idx_sub_recovery_is_opted_out ON subscription_recovery_state (is_opted_out);
 
 -- ============================================================================
--- Table: recovery_audit_log (PHASE 2)
--- Purpose: Immutable decision audit log for decline classification & policy choices.
--- Tracks every automated reasoning step without executing actions.
+-- Table: recovery_audit_log (PHASE 2 + PHASE 3)
+-- Purpose: Continuous decision-to-outcome audit trail.
+-- Records decline classification, policy decision, executed recovery action,
+-- outcome (success/fail/reason), and timestamp.
 -- ============================================================================
 CREATE TABLE IF NOT EXISTS recovery_audit_log (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -67,18 +73,49 @@ CREATE TABLE IF NOT EXISTS recovery_audit_log (
     attempt_number INT NOT NULL DEFAULT 1,              -- Attempt count at decision time
     retry_delay_seconds INT,                            -- Retry backoff delay (if applicable)
     subscription_lifecycle_state VARCHAR(50) NOT NULL,  -- Resulting state of the subscription
+    
+    -- Phase 3: Action Execution & Outcome Tracking
+    action_executed VARCHAR(100),                       -- 'RETRY_PAYMENT', 'SEND_EMAIL_NUDGE', 'ESCALATE_TO_HUMAN', 'HOLD_DND', 'BLOCKED_OPT_OUT', 'BLOCKED_LIFETIME_CAP'
+    action_result VARCHAR(100),                         -- 'SUCCESS', 'FAILED: <reason>', 'SENT', 'FLAGGED_FOR_HUMAN_REVIEW', 'HELD_DND', 'BLOCKED'
+    action_details JSONB DEFAULT '{}'::jsonb,           -- Full API response or SMTP error log
+    executed_at TIMESTAMPTZ,                            -- Timestamp when recovery action executed
+    
     created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
 );
 
 CREATE INDEX IF NOT EXISTS idx_audit_subscription_id ON recovery_audit_log (subscription_id);
 CREATE INDEX IF NOT EXISTS idx_audit_decline_bucket ON recovery_audit_log (decline_bucket);
 CREATE INDEX IF NOT EXISTS idx_audit_decided_action ON recovery_audit_log (decided_action);
+CREATE INDEX IF NOT EXISTS idx_audit_action_executed ON recovery_audit_log (action_executed);
 CREATE INDEX IF NOT EXISTS idx_audit_created_at ON recovery_audit_log (created_at DESC);
+
+-- ============================================================================
+-- Table: promise_to_pay (PHASE 3)
+-- Purpose: Tracks customer promise-to-pay commitments and enforces exactly-once
+-- check-in logic on or after the promised date.
+-- ============================================================================
+CREATE TABLE IF NOT EXISTS promise_to_pay (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    subscription_id VARCHAR(100) NOT NULL,
+    customer_id VARCHAR(100),
+    promised_date DATE NOT NULL,
+    status VARCHAR(50) NOT NULL DEFAULT 'PENDING',      -- 'PENDING', 'CHECKED_IN', 'FULFILLED', 'BROKEN'
+    check_in_count INT NOT NULL DEFAULT 0,              -- Guaranteed <= 1 before re-evaluation
+    last_checked_in_at TIMESTAMPTZ,
+    notes TEXT,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now()),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT timezone('utc'::text, now())
+);
+
+CREATE INDEX IF NOT EXISTS idx_promise_sub_id ON promise_to_pay (subscription_id);
+CREATE INDEX IF NOT EXISTS idx_promise_date ON promise_to_pay (promised_date);
+CREATE INDEX IF NOT EXISTS idx_promise_status ON promise_to_pay (status);
 
 -- Enable RLS
 ALTER TABLE webhook_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE subscription_recovery_state ENABLE ROW LEVEL SECURITY;
 ALTER TABLE recovery_audit_log ENABLE ROW LEVEL SECURITY;
+ALTER TABLE promise_to_pay ENABLE ROW LEVEL SECURITY;
 
 -- Policies for service role full access
 CREATE POLICY IF NOT EXISTS "Service role full access on webhook_events"
@@ -90,6 +127,9 @@ CREATE POLICY IF NOT EXISTS "Service role full access on subscription_recovery_s
 CREATE POLICY IF NOT EXISTS "Service role full access on recovery_audit_log"
     ON recovery_audit_log FOR ALL TO service_role USING (true) WITH CHECK (true);
 
+CREATE POLICY IF NOT EXISTS "Service role full access on promise_to_pay"
+    ON promise_to_pay FOR ALL TO service_role USING (true) WITH CHECK (true);
+
 -- Policies for authenticated read-only access (for reporting/dashboards)
 CREATE POLICY IF NOT EXISTS "Authenticated users can read webhook_events"
     ON webhook_events FOR SELECT TO authenticated USING (true);
@@ -99,3 +139,6 @@ CREATE POLICY IF NOT EXISTS "Authenticated users can read subscription_recovery_
 
 CREATE POLICY IF NOT EXISTS "Authenticated users can read recovery_audit_log"
     ON recovery_audit_log FOR SELECT TO authenticated USING (true);
+
+CREATE POLICY IF NOT EXISTS "Authenticated users can read promise_to_pay"
+    ON promise_to_pay FOR SELECT TO authenticated USING (true);

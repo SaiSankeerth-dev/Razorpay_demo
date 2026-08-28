@@ -113,6 +113,11 @@ def test_replay_webhook_on_terminal_subscription_ignored():
     assert state["is_terminal"] is True
     assert state["status"] == SubscriptionLifecycleState.STOPPED_MAX_ATTEMPTS.value
 
+    # Confirm that NO new row was added to recovery_audit_log for the replayed event
+    audit_logs = get_recovery_audit_logs(subscription_id=sub_id)
+    assert len(audit_logs) == 4  # Exactly 4 rows from attempts 1, 2, 3, 4 (0 from replay)
+    assert audit_replay == {}
+
 
 def test_risk_escalated_subscription_cannot_be_reopened():
     """

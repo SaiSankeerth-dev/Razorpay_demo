@@ -20,7 +20,8 @@ from agent.action_engine import execute_recovery_action
 from db.repository import (
     clear_local_store,
     save_recovery_audit_log,
-    get_recovery_audit_logs
+    get_recovery_audit_logs,
+    upsert_subscription_recovery_state
 )
 
 
@@ -36,7 +37,6 @@ def test_retry_executor_real_api_call():
     CRITICAL ACCEPTANCE CRITERIA:
     Execute real retry against Razorpay test mode and verify real API outcome is logged.
     """
-    # 1. Save a decision row
     audit_entry = AuditLogEntry(
         subscription_id="sub_test_retry_001",
         decline_bucket=DeclineBucket.SOFT_DECLINE.value,
@@ -49,7 +49,6 @@ def test_retry_executor_real_api_call():
     saved_audit = save_recovery_audit_log(audit_entry)
     audit_id = saved_audit["id"]
 
-    # 2. Execute retry
     res = execute_payment_retry(
         subscription_id="sub_test_retry_001",
         audit_log_id=audit_id
@@ -60,7 +59,6 @@ def test_retry_executor_real_api_call():
     assert "api_response" in res
     assert res["executed_at"] is not None
 
-    # 3. Verify continuous audit trail (SAME row updated with action outcome)
     updated_logs = get_recovery_audit_logs(subscription_id="sub_test_retry_001")
     assert len(updated_logs) == 1
     log_row = updated_logs[0]
@@ -87,7 +85,6 @@ def test_nudge_sender_email_attempt():
     saved_audit = save_recovery_audit_log(audit_entry)
     audit_id = saved_audit["id"]
 
-    # Force check_time within allowed DND window (e.g. 12:00 PM IST)
     dt_midday = datetime.datetime(2026, 8, 28, 12, 0, 0)
 
     res = execute_nudge_send(
@@ -99,9 +96,8 @@ def test_nudge_sender_email_attempt():
 
     assert res["allowed"] is True
     assert res["action_executed"] == "SEND_EMAIL_NUDGE"
-    assert res["action_result"] is not None  # Either SENT or FAILED: <smtp error>
+    assert res["action_result"] is not None
 
-    # Verify audit table row updated
     logs = get_recovery_audit_logs(subscription_id="sub_test_nudge_002")
     assert len(logs) == 1
     assert logs[0]["action_executed"] == "SEND_EMAIL_NUDGE"
@@ -135,21 +131,46 @@ def test_risk_flag_zero_contact_and_zero_retry_guarantee():
         policy_rule_id="RULE_RISK_001"
     )
 
-    # Dispatch through Action Engine
     res = execute_recovery_action(
         decision=decision,
         audit_log_id=audit_id
     )
 
-    # Prove zero contact and zero retry
     assert res["action_executed"] == "ESCALATE_TO_HUMAN"
     assert res["action_result"] == "FLAGGED_FOR_HUMAN_REVIEW"
     assert res["details"]["automated_contact_sent"] is False
     assert res["details"]["automated_retry_called"] is False
     assert res["details"]["human_review_required"] is True
 
-    # Check continuous audit log row
     logs = get_recovery_audit_logs(subscription_id="sub_test_risk_003")
     assert len(logs) == 1
     assert logs[0]["action_executed"] == "ESCALATE_TO_HUMAN"
     assert logs[0]["action_result"] == "FLAGGED_FOR_HUMAN_REVIEW"
+
+
+def test_risk_flag_direct_forced_retry_and_nudge_rejected():
+    """
+    CRITICAL ACCEPTANCE CRITERIA (Check 3):
+    Prove that even if an external caller directly invokes execute_payment_retry
+    or execute_nudge_send on a RISK_FLAG / human escalation subscription,
+    both actions are strictly rejected and blocked.
+    """
+    sub_id = "sub_forced_risk_999"
+    upsert_subscription_recovery_state({
+        "subscription_id": sub_id,
+        "status": SubscriptionLifecycleState.ESCALATED_HUMAN_REVIEW.value,
+        "last_bucket": DeclineBucket.RISK_FLAG.value,
+        "is_terminal": True
+    })
+
+    # 1. Try to force a direct payment retry
+    forced_retry = execute_payment_retry(subscription_id=sub_id)
+    assert forced_retry["action_result"] == "BLOCKED_RISK_FLAG"
+    assert "Retry forbidden" in forced_retry["api_response"]["error"]
+
+    # 2. Try to force a direct customer nudge
+    dt_daytime = datetime.datetime(2026, 8, 28, 12, 0, 0)
+    forced_nudge = execute_nudge_send(subscription_id=sub_id, check_time=dt_daytime)
+    assert forced_nudge["allowed"] is False
+    assert forced_nudge["action_result"] == "BLOCKED"
+    assert "forbidden on RISK_FLAG" in forced_nudge["compliance_details"]["reason"]

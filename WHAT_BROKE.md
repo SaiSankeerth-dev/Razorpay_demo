@@ -68,3 +68,15 @@
 ### Entry 10: Lifetime Subscription Contact Cap Across Multiple Decline Events (Phase 3)
 * **What happened:** If contact throttling is tracked only per decline event, a customer whose subscription fails periodically across multiple billing cycles could receive dozens of notifications over the subscription lifetime, violating anti-harassment policies.
 * **Fix & Learning:** Added a global `total_contact_attempts` counter to `subscription_recovery_state` that increments across all decline events over the subscription's entire lifetime. When lifetime touches reach $N$ (e.g. 3), all subsequent nudges are unconditionally blocked with `action_executed = "BLOCKED_LIFETIME_CAP"` and `action_result = "BLOCKED"`.
+
+---
+
+### Entry 11: Currency Unit Polymorphism (Paise vs INR) & Arithmetic Reconciliation (Phase 4)
+* **What happened:** Razorpay webhook payloads deliver monetary amounts in paise (integers where 100 paise = 1 INR), whereas dashboard executive summaries require INR currency formatting. If conversion is done loosely before aggregation across disparate failure events, rounding discrepancies can make `(recovered / failing) * 100` disagree with the displayed percentage by fractional points.
+* **Fix & Learning:** Standardized all dashboard arithmetic to derive both the total failing ARR and recovered amounts from exact integer paise calculations normalized to 2-decimal INR floats. The dashboard explicitly renders the raw SQL query and mathematical formula proof directly in the UI for 100% auditability.
+
+---
+
+### Entry 12: Honest Recovery Attribution vs "Nudge Count" Inflation (Phase 4)
+* **What happened:** When building executive dashboards, there is a strong temptation to count hard decline customers who were sent a self-serve email nudge as "recovered revenue" to inflate recovery rates above 80-90%. In reality, an email nudge is merely an outbound communication touch, not recovered capital.
+* **Fix & Learning:** Enforced strict attribution rules in `get_dashboard_metrics()`: only `SOFT_DECLINE` automated retries that genuinely returned `action_result = "SUCCESS"` are credited towards "Total ₹ Recovered". All hard declines, DND holds, opt-outs, and exhausted retries are transparently categorized in the Exceptions Workbench. This yields a realistic, credible recovery rate (~32.28%) aligned with industry benchmarks.

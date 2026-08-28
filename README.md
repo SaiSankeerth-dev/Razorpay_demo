@@ -1,7 +1,19 @@
 # Razorpay Decline-Aware Subscription Payment Recovery Agent
 
+[![CI Test Suite](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions/workflows/ci.yml/badge.svg)](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions/workflows/ci.yml)
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E.svg?logo=supabase)](https://supabase.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > **Razorpay AI Buildathon — Revenue Recovery Track**  
 > *Autonomous, decline-aware subscription recovery engine with deterministic policy guardrails, test-mode action execution, and a single continuous decision-to-outcome audit trail.*
+
+---
+
+## 📊 Live Executive Dashboard Preview
+
+![Razorpay Decline-Aware Recovery Agent Live Dashboard](assets/dashboard_preview.jpg)
 
 ---
 
@@ -49,6 +61,7 @@ Razorpay/
 │   ├── generate_batch_data.py    # Generates 60 subscriptions through real pipeline
 │   ├── verify_phase3.py          # Phase 3 acceptance runner
 │   ├── verify_phase4.py          # Phase 4 acceptance runner
+│   ├── audit_all_phases.py       # Full 5-phase comprehensive audit runner
 │   ├── simulate_webhook.py       # Webhook simulation runner
 │   ├── simulate_customer_reply.py# CLI for Promise-to-Pay and Opt-Outs
 │   └── create_plan_and_subscription.py # Razorpay SDK test plan provisioner
@@ -75,8 +88,8 @@ Razorpay/
 
 ### 1. Clone & Environment Setup
 ```bash
-git clone https://github.com/your-username/razorpay-subscription-recovery.git
-cd razorpay-subscription-recovery
+git clone https://github.com/SaiSankeerth-dev/Razorpay_demo.git
+cd Razorpay_demo
 
 # Create and activate Python virtual environment
 python -m venv .venv
@@ -127,9 +140,9 @@ python scripts/generate_batch_data.py
 uvicorn webhooks.server:app --host 0.0.0.0 --port 8000 --reload
 ```
 Open your browser to:
-- **Interactive Executive Dashboard:** [`http://localhost:8000/dashboard`](http://localhost:8000/dashboard)
-- **API Documentation (Swagger):** [`http://localhost:8000/docs`](http://localhost:8000/docs)
-- **Health Check:** [`http://localhost:8000/health`](http://localhost:8000/health)
+- **Interactive Executive Dashboard:** `http://localhost:8000/dashboard`
+- **API Documentation (Swagger):** `http://localhost:8000/docs`
+- **Health Check:** `http://localhost:8000/health`
 
 ---
 

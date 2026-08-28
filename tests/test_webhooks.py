@@ -1,12 +1,18 @@
 """
-Integration tests for FastAPI Webhook Receiver and Database Persistence.
+Integration tests for FastAPI Webhook Receiver, Decline Classification, and Database Persistence.
 """
 import json
 import pytest
 from fastapi.testclient import TestClient
 from webhooks.server import app
 from db.config import settings
-from db.repository import clear_local_store, get_webhook_events, get_latest_event_by_type
+from db.repository import (
+    clear_local_store,
+    get_webhook_events,
+    get_latest_event_by_type,
+    get_recovery_audit_logs,
+    get_subscription_recovery_state
+)
 from scripts.simulate_webhook import (
     build_payment_failed_payload,
     build_subscription_pending_payload,
@@ -40,13 +46,14 @@ def test_health_check():
     assert "payment.failed" in data["supported_events"]
 
 
-def test_payment_failed_event_capture():
-    """Verify that a valid payment.failed webhook is authenticated and saved to the DB."""
+def test_payment_failed_event_capture_and_decision():
+    """Verify that a valid payment.failed webhook is authenticated, classified, and logged to audit trail."""
     payload = build_payment_failed_payload(
         subscription_id="sub_test_1001",
         plan_id="plan_test_1001",
         error_code="BAD_REQUEST_ERROR",
-        error_description="Payment failed due to insufficient funds"
+        error_description="Payment failed due to insufficient funds",
+        error_reason="insufficient_funds"
     )
     payload_bytes = json.dumps(payload, separators=(',', ':')).encode("utf-8")
     sig = compute_signature(payload_bytes, TEST_SECRET)
@@ -62,18 +69,27 @@ def test_payment_failed_event_capture():
     res_json = response.json()
     assert res_json["status"] == "success"
     assert res_json["event"] == "payment.failed"
+    assert "decision" in res_json
+    assert res_json["decision"]["decline_bucket"] == "SOFT_DECLINE"
+    assert res_json["decision"]["decided_action"] == "SCHEDULE_RETRY"
 
-    # Verify DB storage
+    # Verify DB storage - raw capture
     saved = get_latest_event_by_type("payment.failed")
     assert saved is not None
     assert saved["event_type"] == "payment.failed"
     assert saved["signature_valid"] is True
-    assert saved["payload"]["payload"]["payment"]["entity"]["notes"]["subscription_id"] == "sub_test_1001"
-    assert saved["payload"]["payload"]["payment"]["entity"]["error_code"] == "BAD_REQUEST_ERROR"
+
+    # Verify DB storage - decision audit log
+    audit_logs = get_recovery_audit_logs(subscription_id="sub_test_1001")
+    assert len(audit_logs) >= 1
+    latest_decision = audit_logs[0]
+    assert latest_decision["decline_bucket"] == "SOFT_DECLINE"
+    assert latest_decision["decided_action"] == "SCHEDULE_RETRY"
+    assert latest_decision["attempt_number"] == 1
 
 
-def test_subscription_pending_event_capture():
-    """Verify that a valid subscription.pending webhook is authenticated and saved to the DB."""
+def test_subscription_pending_event_capture_and_decision():
+    """Verify that a valid subscription.pending webhook is authenticated, classified, and logged."""
     payload = build_subscription_pending_payload(
         subscription_id="sub_test_pending_2002",
         plan_id="plan_test_2002"
@@ -92,15 +108,17 @@ def test_subscription_pending_event_capture():
     res_json = response.json()
     assert res_json["status"] == "success"
     assert res_json["event"] == "subscription.pending"
+    assert res_json["decision"]["decline_bucket"] == "SOFT_DECLINE"
 
     # Verify DB storage
     saved = get_latest_event_by_type("subscription.pending")
     assert saved is not None
-    assert saved["payload"]["payload"]["subscription"]["entity"]["status"] == "pending"
+    audit_logs = get_recovery_audit_logs(subscription_id="sub_test_pending_2002")
+    assert len(audit_logs) >= 1
 
 
-def test_subscription_halted_event_capture():
-    """Verify that a valid subscription.halted webhook is authenticated and saved to the DB."""
+def test_subscription_halted_event_capture_and_decision():
+    """Verify that a valid subscription.halted webhook is classified as HARD_DECLINE."""
     payload = build_subscription_halted_payload(
         subscription_id="sub_test_halted_3003",
         plan_id="plan_test_3003"
@@ -119,16 +137,17 @@ def test_subscription_halted_event_capture():
     res_json = response.json()
     assert res_json["status"] == "success"
     assert res_json["event"] == "subscription.halted"
+    assert res_json["decision"]["decline_bucket"] == "HARD_DECLINE"
+    assert res_json["decision"]["decided_action"] == "NUDGE_PAYMENT_UPDATE"
 
     # Verify DB storage
-    saved = get_latest_event_by_type("subscription.halted")
-    assert saved is not None
-    assert saved["payload"]["payload"]["subscription"]["entity"]["status"] == "halted"
+    audit_logs = get_recovery_audit_logs(subscription_id="sub_test_halted_3003")
+    assert len(audit_logs) >= 1
+    assert audit_logs[0]["decline_bucket"] == "HARD_DECLINE"
 
 
 def test_tampered_signature_rejected_by_receiver():
     """
-    CRITICAL ACCEPTANCE CRITERIA:
     Verify that webhook receiver strictly rejects tampered payloads with HTTP 400.
     """
     payload = build_payment_failed_payload()

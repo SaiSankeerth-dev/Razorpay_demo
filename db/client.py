@@ -14,9 +14,12 @@ _supabase_client: Optional[Client] = None
 def get_supabase_client() -> Optional[Client]:
     """
     Initializes and returns the Supabase client instance.
-    Returns None if credentials are placeholder/unconfigured.
+    Returns None if credentials are placeholder/unconfigured or USE_LOCAL_DB is True.
     """
     global _supabase_client
+
+    if settings.USE_LOCAL_DB:
+        return None
 
     if _supabase_client is not None:
         return _supabase_client
@@ -25,9 +28,9 @@ def get_supabase_client() -> Optional[Client]:
     key = settings.SUPABASE_KEY
 
     # Check if URL and Key are real / configured
-    if not url or "placeholder" in url or not key or "placeholder" in key:
+    if not url or "placeholder" in url or not key or "placeholder" in key or "dummytest" in url:
         logger.warning(
-            "Supabase credentials not configured in .env. Operating in local in-memory fallback mode."
+            "Supabase credentials not configured or placeholder in .env. Operating in local in-memory fallback mode."
         )
         return None
 

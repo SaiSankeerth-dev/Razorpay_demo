@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     # Supabase Settings
     SUPABASE_URL: str = "https://placeholder.supabase.co"
     SUPABASE_KEY: str = "placeholder_supabase_key"
+    USE_LOCAL_DB: bool = False
 
     # Server Settings
     HOST: str = "0.0.0.0"

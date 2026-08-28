@@ -1,111 +1,195 @@
-# System Architecture — Decline-Aware Subscription Recovery Agent
+# System Architecture & Technical Specification
 
-> **Razorpay AI Buildathon (Revenue Recovery Track)**
-
----
-
-## 1. End-to-End System Flow
-
-```
-[Razorpay Webhook Stream]
- (payment.failed / subscription.pending / subscription.halted)
-            │
-            ▼
- ┌────────────────────────┐
- │ Webhook Authenticator  │ ── HMAC-SHA256 Signature Verification on Raw Bytes
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Raw Webhook Ingestion  │ ── Persisted to `webhook_events` (Append-Only JSONB)
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Decline Classifier     │ ── Deterministic 3-Tier Error Taxonomy Mapping
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Policy Engine          │ ── Backoff Delays, Max 3 Retries, Stopping Rules
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Recovery Executors     │
- │ ├─ Soft Decline:       │ ── Test-Mode API Retry (Backoff: 1h, 6h, 24h)
- │ ├─ Hard Decline:       │ ── Customer Self-Serve Nudge (Email via SMTP)
- │ └─ Risk Flag:          │ ── Human Escalation Marker (0 Contact, 0 Retry)
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Compliance Guardrails  │ ── Hard-Coded DND (9am-8pm IST), Opt-Out & Lifetime Cap
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Continuous Audit Trail │ ── `recovery_audit_log` (Decision + Execution Outcome in Same Row)
- └────────────────────────┘
-            │
-            ▼
- ┌────────────────────────┐
- │ Live Next.js Dashboard │ ── Executive ARR Metrics, Exceptions Workbench & Drill-Down
- └────────────────────────┘
-```
+> **Core System Invariant:**  
+> $$\text{AI Diagnostician Recommends} \longrightarrow \text{Deterministic Policy Firewall Authorizes} \longrightarrow \text{Financial Action Executes}$$
 
 ---
 
-## 2. Audit Trail & State Database Schema
+## 1. End-to-End System Architecture
 
-```sql
--- Single Continuous Decision-to-Outcome Audit Trail Table
-CREATE TABLE public.recovery_audit_log (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    event_id VARCHAR(255),
-    subscription_id VARCHAR(255) NOT NULL,
-    payment_id VARCHAR(255),
-    
-    -- Phase 2 Decision Attributes
-    decline_bucket VARCHAR(50) NOT NULL,            -- SOFT_DECLINE | HARD_DECLINE | RISK_FLAG
-    reasoning TEXT NOT NULL,
-    decided_action VARCHAR(50) NOT NULL,            -- SCHEDULE_RETRY | NUDGE_PAYMENT_UPDATE | ESCALATE_TO_HUMAN | NO_ACTION_ALREADY_STOPPED
-    attempt_number INT NOT NULL DEFAULT 0,
-    retry_delay_seconds INT,
-    subscription_lifecycle_state VARCHAR(50) NOT NULL,
-    
-    -- Phase 3 Action Execution Attributes (Populated in Same Row)
-    action_executed VARCHAR(50),                     -- RETRY_PAYMENT | SEND_EMAIL_NUDGE | ESCALATE_TO_HUMAN | HOLD_DND | BLOCKED_OPT_OUT | BLOCKED_LIFETIME_CAP
-    action_result VARCHAR(50),                       -- SUCCESS | FAILED | SENT | FLAGGED_FOR_HUMAN_REVIEW | HELD_DND | BLOCKED
-    action_details JSONB DEFAULT '{}'::jsonb,        -- Raw Razorpay API response or transport error
-    executed_at TIMESTAMPTZ,
-    
-    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
-);
-
--- Persistent Subscription Recovery State Machine
-CREATE TABLE public.subscription_recovery_state (
-    subscription_id VARCHAR(255) PRIMARY KEY,
-    current_attempt_count INT DEFAULT 0 NOT NULL,
-    status VARCHAR(50) NOT NULL,                    -- ACTIVE_RECOVERY | STOPPED_MAX_ATTEMPTS | ESCALATED_HUMAN_REVIEW | AWAITING_CUSTOMER_UPDATE | RESOLVED
-    last_bucket VARCHAR(50),
-    is_terminal BOOLEAN DEFAULT FALSE NOT NULL,
-    total_contact_attempts INT DEFAULT 0 NOT NULL,   -- Global lifetime contact counter
-    is_opted_out BOOLEAN DEFAULT FALSE NOT NULL,
-    opted_out_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL,
-    updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
-);
+```text
+                               RAZORPAY WEBHOOKS
+                    (payment.failed, subscription.pending/halted)
+                                      │
+                                      ▼
+                        CRYPTOGRAPHIC INGESTION LAYER
+                    (HMAC-SHA256 on Raw Request Bytes)
+                                      │
+                                      ▼
+                        RAW EVENT LEDGER (webhook_events)
+                                      │
+                                      ▼
+                       CONTEXT EXTRACTION & CLASSIFIER
+                     (3-Tier: Soft / Hard / Risk Precedence)
+                                      │
+                                      ▼
+                       AI DIAGNOSTICIAN (JUDGMENT LAYER)
+                 (Root Cause, Recovery Prob P(rec), Delay, Message)
+                                      │
+                                      │ Validated AIDiagnosisResult
+                                      ▼
+                  ═════════════════════════════════════════════
+                  ████████ DETERMINISTIC POLICY FIREWALL ████████
+                  ═════════════════════════════════════════════
+                  │ 1. Schema Contract Validation             │
+                  │ 2. Risk Quarantine Override (0 Contact)   │
+                  │ 3. Max Retry Budget Check (Hard 3/3 Cap)  │
+                  │ 4. Replay Idempotency & Terminal Check    │
+                  │ 5. Customer Opt-Out Compliance Check      │
+                  │ 6. Lifetime Contact Touch Cap (3 Touches) │
+                  │ 7. DND Window Hours (9am-8pm IST)         │
+                  │ 8. Hard Decline Debit Prevention          │
+                  ═════════════════════════════════════════════
+                                      │
+                 ┌────────────────────┼────────────────────┐
+                 │                    │                    │
+                 ▼                    ▼                    ▼
+          AUTHORIZED RETRY     AUTHORIZED NUDGE    BLOCKED: ESCALATE
+         (Phase 3 SDK Retry)   (Phase 3 SMTP Link)  (0 Retry, 0 Contact)
+                 │                    │                    │
+                 └────────────────────┼────────────────────┘
+                                      ▼
+                        STATE & AUDIT TRAIL PERSISTENCE
+                           (recovery_audit_log)
+                                      │
+                                      ▼
+                        EXECUTIVE ANALYTICS DASHBOARD
 ```
 
 ---
 
-## 3. Why Decline-Aware Taxonomy Beats Fixed Retries
+## 2. Cryptographic Webhook Ingestion & Idempotency
 
-Traditional subscription billing engines treat all payment failures identically: they blindly hammer cards every 24 hours until hitting a hard cap. This damages merchant standing with card networks, incurs unnecessary decline fees, and triggers fraud scoring algorithms on cards that were simply stolen or expired. By mapping Razorpay's error taxonomy into three canonical buckets (**`SOFT_DECLINE`**, **`HARD_DECLINE`**, and **`RISK_FLAG`**), the agent only retries transient issues (`insufficient_funds`, gateway timeouts) with exponential backoff, halts retries on permanent failures (`expired_card`, `token_not_eligible`) to prompt immediate self-serve payment updates, and completely isolates risk declines (`payment_risk_check_failed`) for manual human review without sending a single spam message or unauthorized debit.
+### Raw Bytes Signature Verification
+Razorpay signs webhook payloads using HMAC-SHA256 with a shared secret. Because standard JSON serializers alter key ordering, whitespace separators (`", "` vs `","`), and unicode escaping, signature verification must never parse JSON prior to validation.
+```python
+# Raw request bytes streamed directly into cryptographic utility
+raw_bytes = await request.body()
+razorpay.utility.Utility.verify_webhook_signature(
+    body=raw_bytes.decode("utf-8"),
+    signature=x_razorpay_signature,
+    secret=settings.RAZORPAY_WEBHOOK_SECRET
+)
+```
+
+### Idempotency & Concurrency Synchronization
+- Raw payloads are appended to `webhook_events` with their unique `event_id`.
+- Subscription lifecycle state is managed in `subscription_recovery_state`.
+- All write operations and state transitions are thread-synchronized via `threading.RLock()` to guarantee that concurrent duplicate webhook deliveries result in strictly **1 logical decision and 1 financial execution**.
 
 ---
 
-## 4. Why Compliance Guardrails Are Strictly Hard-Coded
+## 3. 3-Tier Decline Classification Taxonomy
 
-In regulated financial environments governed by RBI recurring mandate rules and TRAI communication guidelines, non-negotiable legal invariants cannot be entrusted to non-deterministic LLM prompting. A model hallucination that fires a recovery notification at 2:00 AM or sends a 5th contact touch to an opted-out customer exposes the merchant to regulatory fines and consumer harassment complaints. Therefore, Do-Not-Disturb hours (9:00 AM – 8:00 PM IST), permanent customer opt-outs, and global lifetime contact caps ($N \le 3$) are hard-coded in Python as un-bypassable stateful guardrails. The LLM is reserved exclusively for natural language customer interactions and semantic intent parsing.
+Incoming failure codes are categorized into three distinct operational buckets with strict precedence:
+
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│ TIER 1: RISK / FRAUD (Precedence 1)                                     │
+│ Codes: card_blacklisted, fraud_suspected, payment_risk_check_failed      │
+│ Action: Quarantine. Strictly 0 automated retries, 0 customer contacts.  │
+├─────────────────────────────────────────────────────────────────────────┤
+│ TIER 2: HARD DECLINES (Precedence 2)                                    │
+│ Codes: expired_card, token_not_eligible, mandate_revoked, halted        │
+│ Action: Automated retries blocked. Queues self-serve update link nudge. │
+├─────────────────────────────────────────────────────────────────────────┤
+│ TIER 3: SOFT DECLINES (Precedence 3)                                    │
+│ Codes: insufficient_funds, gateway_technical_error, subscription.pending│
+│ Action: Automated exponential backoff retries (1h, 6h, 24h) up to 3/3.  │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 4. AI Diagnostician & Provider Abstraction
+
+The AI Diagnostician provides semantic judgment where unstructured gateway error descriptions, temporal retry history, and customer value dictate optimal timing.
+
+### Pluggable Provider Architecture
+```text
+AIProvider (Base Class)
+├── LocalAIProvider    (Deterministic semantic rules; 0 API keys; <1ms latency)
+├── OpenAIProvider     (Cloud LLM inference with structured JSON schema)
+└── MockAIProvider     (Adversarial test injection for safety verification)
+```
+
+### Structured Output Contract (`AIDiagnosisResult`)
+```json
+{
+  "failure_diagnosis": "temporary_liquidity_deficit",
+  "recovery_probability": 0.88,
+  "recommended_action": "SCHEDULE_RETRY",
+  "recommended_delay_hours": 1,
+  "customer_message_strategy": "NONE",
+  "confidence": 0.92,
+  "reasoning": "Transient deficit on active card; backoff 1h recommended."
+}
+```
+
+---
+
+## 5. Deterministic Policy Firewall (Safety Boundary)
+
+AI models are strictly advisory. The Policy Firewall (`agent/policy_firewall.py`) enforces hard mathematical and financial guardrails:
+
+| Guardrail Rule | Trigger Condition | Firewall Action | Guaranteed Invariant |
+| :--- | :--- | :--- | :--- |
+| `RULE_FIREWALL_RISK_QUARANTINE` | Classification == `RISK_FLAG` | `ESCALATE_TO_HUMAN` | **Zero retry API calls, zero customer contacts.** |
+| `RULE_FIREWALL_MAX_RETRY_BUDGET_EXHAUSTED` | Next Attempt > 3 | `NUDGE_PAYMENT_UPDATE` $\rightarrow$ `STOPPED_MAX_ATTEMPTS` | **Hard cap of 3 automated retry attempts.** |
+| `RULE_FIREWALL_TERMINAL_STOP` | Subscription `is_terminal == True` | `NO_ACTION_ALREADY_STOPPED` | **Replayed webhooks ignore execution.** |
+| `RULE_FIREWALL_OPT_OUT_GUARDRAIL` | `is_opted_out == True` | `NO_ACTION_ALREADY_STOPPED` | **Customer communication permanently blocked.** |
+| `RULE_FIREWALL_LIFETIME_CAP_GUARDRAIL` | Lifetime touches $\ge$ 3 | `BLOCKED_LIFETIME_CAP` | **Anti-harassment ceiling across all billing cycles.** |
+| `RULE_FIREWALL_DND_HOLD` | Outside 9:00 AM – 8:00 PM IST | `HOLD_DND` | **Reschedules outreach to 9:00 AM next morning.** |
+| `RULE_FIREWALL_HARD_DECLINE_NUDGE_ONLY` | Classification == `HARD_DECLINE` & AI proposed Retry | `NUDGE_PAYMENT_UPDATE` | **Prohibits wasted debits on invalid cards.** |
+
+---
+
+## 6. Single Continuous Decision-to-Outcome Audit Ledger
+
+Every transaction failure creates or updates a single unified audit entry in `recovery_audit_log`:
+
+| Field Name | Type | Description |
+| :--- | :--- | :--- |
+| `id` | UUID | Unique immutable primary key |
+| `subscription_id` | String | Razorpay subscription identifier |
+| `event_id` | String | Webhook event identifier |
+| `decline_bucket` | Enum | `SOFT_DECLINE`, `HARD_DECLINE`, `RISK_FLAG` |
+| `ai_diagnosis` | String | Semantic failure diagnosis from AI layer |
+| `ai_recovery_prob` | Float | Estimated recovery likelihood $P(\text{recovery}) \in [0, 1]$ |
+| `ai_confidence` | Float | Calibrated model confidence |
+| `policy_decision` | Enum | Authorized action authorized by Policy Firewall |
+| `policy_override_applied`| Boolean | `True` if Policy Firewall intercepted an unsafe AI action |
+| `policy_rule_id` | String | Exact rule identifier enforcing the authorization |
+| `action_executed` | String | Physical action dispatched (`RETRY_PAYMENT`, `SEND_NUDGE`, `ESCALATE`) |
+| `action_result` | String | Final outcome (`SUCCESS`, `FAILED: <reason>`, `BLOCKED`) |
+| `created_at` | Timestamp | UTC timestamp of event processing |
+
+---
+
+## 7. Evaluation Methodology & Benchmark Specification
+
+### Dataset Generation (1,000 Scenarios)
+Generated via `evaluation/dataset_generator.py` with fixed random seed (`seed=42`):
+- **50% Soft Declines (500 cases):** Insufficient funds, gateway timeouts, temporary bank errors.
+- **25% Risk Flags (250 cases):** Stolen cards, blacklisted instruments, issuer risk checks.
+- **25% Hard Declines (250 cases):** Expired cards, deleted tokens, revoked mandates.
+
+### Data Splits
+- **Development Set (70%, 700 cases):** Algorithm calibration and rule development (`evaluation/data/dev_set.json`).
+- **Validation Set (15%, 150 cases):** Threshold tuning (`evaluation/data/val_set.json`).
+- **Held-Out Test Set (15%, 150 cases):** **Unseen benchmark evaluation (`evaluation/data/test_set.json`).**
+
+### Baseline Definition: Naive Fixed-Schedule Retry
+Legacy billing baseline executing blind 24-hour retries up to 3 attempts with 0 decline awareness, 0 customer nudging, and illegal retry attempts on fraud-flagged instruments.
+
+### Mathematical Formulations
+1. **Recovery Rate (%):**
+   $$\text{Recovery Rate} = \left(\frac{\text{Total Recovered Revenue (INR)}}{\text{Total Revenue at Risk (INR)}}\right) \times 100$$
+2. **Incremental Recovered Revenue (INR):**
+   $$\Delta \text{Revenue} = \text{Agent Recovered Revenue} - \text{Baseline Recovered Revenue} = +\text{INR } 45,985.00$$
+3. **Incremental Recovery Gain:**
+   $$\Delta \text{Rate} = 37.59\% - 28.19\% = \mathbf{+9.40\% \text{ (+9.4pp)}}$$
+4. **Unnecessary Retries Avoided:**
+   $$\text{Retries Avoided} = \text{Baseline Retries (403)} - \text{Agent Retries (178)} = \mathbf{225 \text{ retries}}$$
+5. **Risk Violations Prevented:**
+   $$\text{Risk Retries Prevented} = 114 \text{ baseline violations} - 0 \text{ agent retries} = \mathbf{114 \text{ (100\% isolation)}}$$

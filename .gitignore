@@ -39,5 +39,7 @@ db/local_store.json
 node_modules/
 .next/
 
-# Logs
+# Logs & Agent Workspaces
 *.log
+.agents/
+

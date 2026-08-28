@@ -16,18 +16,17 @@
 
 ## 📊 Benchmark Evidence (Held-Out Test Set)
 
-
 Evaluated across **150 held-out subscription failure scenarios** comparing the AI Recovery Agent against legacy **Naive Fixed-Schedule Retry**:
 
-| Metric | Naive Fixed Retry (Baseline) | AI Recovery Agent + Policy Firewall | Business Impact / Delta |
+| Key Performance Indicator | Naive Fixed Retry (Baseline) | AI Recovery Agent + Policy Firewall | Business Impact / Delta |
 | :--- | :--- | :--- | :--- |
-| **Recovery Rate (%)** | **28.19%** | **37.59%** | **+9.40% Absolute Gain** |
-| **Revenue Recovered** | ₹137,955.00 | **₹183,940.00** | **+₹45,985.00 Incremental ARR** |
-| **Retries Attempted** | 403 attempts | **178 attempts** | **225 Unnecessary Retries Eliminated** |
-| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **100% Fraud/Risk Isolation** |
+| **Recovery Rate (%)** | **28.19%** | **37.59%** | **+9.40% Absolute Gain (+9.4pp)** |
+| **Revenue Recovered** | ₹137,955.00 | **₹183,940.00** | **+₹45,985.00 Incremental Revenue** |
+| **Retries Attempted** | 403 attempts | **178 attempts** | **225 Wasted Retries Avoided** |
+| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **100% Risk Quarantine (0 Unsafe)** |
 | **Targeted Nudges** | 0 | **37 Nudges** | Self-serve credential recovery |
 | **AI Diagnosis Accuracy** | N/A | **100.00%** | Root-cause semantic diagnosis |
-| **AI Intervention Accuracy**| N/A | **98.67%** | Optimal intervention selection |
+| **AI Intervention Accuracy**| N/A | **98.67%** | Optimal action recommendation |
 | **Policy Violation Rate** | 100% Risk Failures | **0.00%** | **Zero Unauthorized Money Movement** |
 
 *All metrics are generated dynamically by `evaluation/benchmark.py` and reproducible via `python scripts/run_evaluation.py`.*
@@ -95,16 +94,11 @@ The **Razorpay AI Revenue Recovery Engine** replaces blind retries with an intel
 
 ---
 
-## 4. AI Safety Model & Policy Firewall
+## 4. Why AI & The Deterministic Safety Model
 
-```text
-AI Recommendation ──> Schema Validation ──> Policy Firewall ──> Authorized Execution
-                                                  │
-                                            [Override Unsafe]
-                                                  │
-                                                  ▼
-                                          ESCALATE_TO_HUMAN
-```
+Payment failure context is nuanced: unstructured banking error descriptions, temporal failure history, and varying recovery likelihoods require semantic reasoning. The AI Diagnostician estimates empirical recovery likelihood and optimal timing.
+
+However, **AI must never directly execute financial actions**. The Policy Firewall enforces hard invariants before any money moves:
 
 | Guardrail Layer | Enforcement Mechanism | Safety Invariant Guaranteed |
 | :--- | :--- | :--- |
@@ -149,7 +143,7 @@ cp .env.example .env
 ```bash
 python scripts/run_evaluation.py
 ```
-*Evaluates Baseline vs AI Recovery Agent over 150 held-out scenarios and outputs `evaluation/results/benchmark.json` and `evaluation/results/benchmark.md`.*
+*Evaluates Baseline vs AI Recovery Agent over 150 held-out scenarios and outputs `evaluation/results/benchmark.json`.*
 
 ### 2. Run 3-Minute Interactive Demo
 ```bash
@@ -157,11 +151,11 @@ python scripts/run_demo.py
 ```
 *Demonstrates Scenario A (Transient Recovery), Scenario B (Adversarial AI Blocked by Policy), and Scenario C (Budget Exhaustion).*
 
-### 3. Run Full Automated Test Suite (51 Tests)
+### 3. Run Full Automated Test Suite (59 Tests)
 ```bash
 pytest -v
 ```
-*Executes unit, invariant, adversarial safety, compliance, and concurrency tests (100% passing).*
+*Executes unit, invariant, adversarial safety, compliance, and high-contention concurrency stress tests (100% passing).*
 
 ### 4. Launch Live Executive Dashboard
 ```bash
@@ -171,15 +165,24 @@ Open **[http://localhost:8000/dashboard](http://localhost:8000/dashboard)** to v
 
 ---
 
-## 7. Documentation Index
+## 7. Repository Structure & Documentation
 
-- [`docs/CURRENT_STATE_AUDIT.md`](docs/CURRENT_STATE_AUDIT.md) — Pre-implementation repository audit & gap analysis.
-- [`docs/AI_SAFETY_MODEL.md`](docs/AI_SAFETY_MODEL.md) — Formal specification of the Deterministic Policy Firewall.
-- [`docs/EVALUATION.md`](docs/EVALUATION.md) — Dataset construction, partitioning, and mathematical evaluation formulas.
-- [`docs/PITCH.md`](docs/PITCH.md) — Complete 5-minute presentation script.
-- [`docs/PANEL_QA.md`](docs/PANEL_QA.md) — Comprehensive technical Q&A preparation.
-- [`WHAT_BROKE.md`](WHAT_BROKE.md) — 10 engineering case studies detailing real bugs, root causes, and fixes.
-- [`LIMITATIONS.md`](LIMITATIONS.md) — Honest boundaries of synthetic data, test mode, and local storage.
+```text
+Razorpay_demo/
+├── README.md               # Overview, benchmark evidence, quickstart & architecture summary
+├── ARCHITECTURE.md         # Full technical design, AI safety boundary, and evaluation specification
+├── WHAT_BROKE.md           # 10 engineering case studies detailing real bugs, root causes, and fixes
+├── LIMITATIONS.md          # Transparent boundaries of synthetic data, test mode, and local storage
+├── PANEL_PREP.md           # 5-minute pitch script and comprehensive technical panel Q&A
+├── agent/                  # AI diagnostician, provider abstraction, policy firewall, decision engine
+│   ├── ai/                 # LocalAIProvider, OpenAIProvider, MockAIProvider, AIDiagnostician
+│   ├── executors/          # Razorpay SDK retry executor, SMTP nudge sender, promise-to-pay
+│   ├── policy_firewall.py  # Deterministic Policy Firewall safety boundary
+│   └── decision_engine.py  # Webhook orchestrator & audit logger
+├── evaluation/             # 1,000-scenario dataset, naive baseline, benchmark runner, held-out splits
+├── webhooks/               # FastAPI webhook receiver (HMAC-SHA256) & live dashboard UI
+└── tests/                  # 59 automated unit, integration, adversarial, and concurrency tests
+```
 
 ---
 

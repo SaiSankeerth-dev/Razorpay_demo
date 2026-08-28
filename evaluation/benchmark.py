@@ -83,9 +83,9 @@ def run_benchmark(dataset_file: str = "test_set.json") -> Dict[str, Any]:
                 recovered = False
         elif decision.action == DecidedAction.NUDGE_PAYMENT_UPDATE:
             contacts = 1
-            # Generic static template nudge: ~20% conversion without AI message customization
+            # Identical standardized conversion assumption across both governed arms
             int_id = int(s["scenario_id"].split("_")[-1])
-            if int_id % 5 == 0:
+            if int_id % 5 in [0, 1]:  # 40% conversion
                 recovered = True
         elif decision.action == DecidedAction.ESCALATE_TO_HUMAN:
             escalations = 1

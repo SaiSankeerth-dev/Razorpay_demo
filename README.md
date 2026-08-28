@@ -18,20 +18,21 @@
 
 Evaluated across **150 held-out subscription failure scenarios** comparing legacy **Naive Fixed Retry**, deterministic **Rules-Only (Classifier + Policy)**, and the **AI Recovery Agent + Policy Firewall**:
 
-| Key Performance Indicator | Arm 1: Naive Fixed Retry | Arm 2: Rules-Only Baseline | Arm 3: AI Agent + Policy Firewall | AI vs Fixed Baseline |
+| Key Performance Indicator | Arm 1: Naive Fixed Retry | Arm 2: Rules-Only Baseline | Arm 3: AI Agent + Policy Firewall | Governed vs Fixed Baseline |
 | :--- | :--- | :--- | :--- | :--- |
-| **Recovery Rate (%)** | **28.19%** | **33.60%** | **37.59%** | **+9.40% Absolute Gain (+9.4pp)** |
-| **Revenue Recovered** | ₹137,955.00 | ₹164,445.00 | **₹183,940.00** | **+₹45,985.00 Incremental ARR** |
-| **Retries Attempted** | 403 attempts | 178 attempts | **178 attempts** | **225 Wasted Retries Avoided** |
-| **Risk / Fraud Retries** | 114 (Violations) | 0 (Zero Violations) | **0 (Zero Violations)** | **100% Risk Quarantine (0 Unsafe)** |
-| **Targeted Nudges** | 0 | 37 (Generic Links) | **37 (AI Tailored Links)** | Self-serve credential recovery |
+| **Recovery Rate (%)** | **28.19%** | **37.59%** | **37.59%** | **+9.40% Absolute Gain (+9.4pp)** |
+| **Revenue Recovered** | ₹137,955.00 | **₹183,940.00** | **₹183,940.00** | **+₹45,985.00 Incremental ARR** |
+| **Retries Attempted** | 403 attempts | **178 attempts** | **178 attempts** | **225 Wasted Retries Avoided** |
+| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **0 (Zero Violations)** | **100% Risk Quarantine (0 Unsafe)** |
+| **Targeted Nudges** | 0 | 37 Nudges | 37 Nudges | Self-serve credential recovery |
 | **AI Diagnosis Accuracy** | N/A | N/A | **100.00%** | Root-cause semantic diagnosis |
 | **AI Intervention Accuracy**| N/A | N/A | **98.67%** | Optimal action recommendation |
 | **Policy Violation Rate** | 100% Risk Failures | 0.00% | **0.00%** | **Zero Unauthorized Money Movement** |
 
 > **Honest Engineering Assessment on AI's Contribution:**  
-> The deterministic 3-tier classification rules (Arm 2) do the heavy lifting of eliminating 225 wasted debit attempts on invalid cards and quarantining 114 risk violations, reaching 33.60% recovery.  
-> The **AI Diagnostician (Arm 3)** adds a measured **+3.98% incremental recovery gain (+₹19,495.00)** over Rules-Only by analyzing unstructured gateway errors, calibrating retry backoff intervals per failure severity, and tailoring customer nudge copy (e.g. urgency vs courtesy re-authorization).
+> When evaluated on clean synthetic benchmark data where error reasons match exact taxonomy strings, the **deterministic 3-tier rules engine (Arm 2)** accounts for the entirety of the measured financial lift (+9.40% recovery, 225 retries avoided, 114 risk violations prevented).  
+> On this synthetic dataset, the gap between Rules-Only and AI+Firewall is **0.00%** because synthetic data does not contain the noisy, unstructured, multi-gateway error descriptions seen in live production where an AI diagnostician's semantic judgment is necessary.  
+> The **AI Diagnostician's true role** is semantic parsing of ambiguous gateway text, predicting empirical recovery probability $P(\text{recovery})$, and selecting customer messaging strategies—while the **Deterministic Policy Firewall** remains the immutable authority ensuring 100% financial safety.
 
 *All metrics are generated dynamically by `evaluation/benchmark.py` and reproducible via `python scripts/run_evaluation.py`.*
 

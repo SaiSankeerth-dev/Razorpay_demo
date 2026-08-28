@@ -203,7 +203,7 @@ Generated via `evaluation/dataset_generator.py` with fixed random seed (`seed=42
 ### Three Comparative Arms
 1. **Arm 1: Naive Fixed-Schedule Retry (Baseline):** Blind 24-hour retries up to 3 attempts with 0 decline awareness, 0 customer nudging, and illegal retry attempts on fraud-flagged instruments.
 2. **Arm 2: Rules-Only (Phase 2 Classifier + Policy Engine):** 3-tier decline classification and deterministic backoff rules without AI semantic reasoning (generic payment update nudges).
-3. **Arm 3: Decline-Aware AI Agent + Policy Firewall:** AI failure diagnosis, calibrated backoff timing, tailored customer message strategies + Deterministic Policy Firewall.
+3. **Arm 3: Decline-Aware AI Agent + Policy Firewall:** AI failure diagnosis, empirical recovery probability estimation, and customer messaging strategies + Deterministic Policy Firewall.
 
 ### Mathematical Formulations
 1. **Recovery Rate (%):**
@@ -211,9 +211,10 @@ Generated via `evaluation/dataset_generator.py` with fixed random seed (`seed=42
 2. **Incremental Recovered Revenue vs Baseline (INR):**
    $$\Delta \text{Revenue}_{\text{Baseline}} = \text{Agent Recovered} - \text{Baseline Recovered} = +\text{INR } 45,985.00 \text{ (+9.40\% absolute gain)}$$
 3. **Incremental Recovered Revenue vs Rules-Only (INR):**
-   $$\Delta \text{Revenue}_{\text{Rules}} = \text{Agent Recovered} - \text{Rules-Only Recovered} = +\text{INR } 19,495.00 \text{ (+3.98\% absolute gain)}$$
+   $$\Delta \text{Revenue}_{\text{Rules}} = \text{Agent Recovered} - \text{Rules-Only Recovered} = +\text{INR } 0.00 \text{ (0.00\% on clean synthetic taxonomy)}$$
 4. **Unnecessary Retries Avoided:**
    $$\text{Retries Avoided} = \text{Baseline Retries (403)} - \text{Agent Retries (178)} = \mathbf{225 \text{ retries}}$$
 5. **Risk Violations Prevented:**
    $$\text{Risk Retries Prevented} = 114 \text{ baseline violations} - 0 \text{ agent retries} = \mathbf{114 \text{ (100\% isolation)}}$$
+
 

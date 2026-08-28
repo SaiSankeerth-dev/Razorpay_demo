@@ -46,6 +46,20 @@ app = FastAPI(
     description="Captures failure events, classifies decline reasons, enforces policy guardrails, executes actions, and visualizes live recovery performance."
 )
 
+@app.on_event("startup")
+async def on_startup():
+    """Auto-populates the 60-subscription batch recovery dataset if local store is clean."""
+    try:
+        existing = get_recovery_audit_logs(limit=1)
+        if not existing:
+            logger.info("Initializing synthetic 60-subscription recovery batch dataset...")
+            from scripts.generate_batch_data import generate_and_run_batch
+            generate_and_run_batch()
+            logger.info("Synthetic batch dataset initialized successfully.")
+    except Exception as e:
+        logger.warning(f"Could not auto-generate batch dataset on startup: {e}")
+
+
 # Supported failure events that trigger classification & policy reasoning
 FAILURE_EVENTS = {
     "subscription.pending",

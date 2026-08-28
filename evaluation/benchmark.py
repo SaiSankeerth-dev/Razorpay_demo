@@ -181,12 +181,8 @@ def run_benchmark(dataset_file: str = "test_set.json") -> Dict[str, Any]:
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(benchmark_summary, f, indent=2)
 
-    md_path = os.path.join(res_dir, "benchmark.md")
-    with open(md_path, "w", encoding="utf-8") as f:
-        f.write(generate_markdown_report(benchmark_summary))
-
-
     return benchmark_summary
+
 
 
 def generate_markdown_report(b: Dict[str, Any]) -> str:

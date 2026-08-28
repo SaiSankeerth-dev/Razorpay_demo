@@ -1,0 +1,5706 @@
+{
+  "split": "validation",
+  "count": 150,
+  "scenarios": [
+    {
+      "scenario_id": "scen_0363",
+      "subscription_id": "sub_syn_0363",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0363",
+        "created_at": 1787911780,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0363",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0363",
+                "customer_email": "user_363@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0442",
+      "subscription_id": "sub_syn_0442",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0442",
+        "created_at": 1787916520,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0442",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0442",
+                "customer_email": "user_442@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0675",
+      "subscription_id": "sub_syn_0675",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "card_blacklisted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0675",
+        "created_at": 1787930500,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0675",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_blacklisted",
+              "error_description": "Security risk block: card_blacklisted",
+              "notes": {
+                "subscription_id": "sub_syn_0675",
+                "customer_email": "risk_675@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0947",
+      "subscription_id": "sub_syn_0947",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0947",
+        "created_at": 1787946820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0947",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0947",
+                "customer_email": "hard_947@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0097",
+      "subscription_id": "sub_syn_0097",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0097",
+        "created_at": 1787895820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0097",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0097",
+                "customer_email": "user_97@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0195",
+      "subscription_id": "sub_syn_0195",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0195",
+        "created_at": 1787901700,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0195",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0195",
+                "customer_email": "user_195@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0417",
+      "subscription_id": "sub_syn_0417",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0417",
+        "created_at": 1787915020,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0417",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0417",
+                "customer_email": "user_417@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0710",
+      "subscription_id": "sub_syn_0710",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "velocity_exceeded_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0710",
+        "created_at": 1787932600,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0710",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Security risk block: velocity_exceeded_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0710",
+                "customer_email": "risk_710@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0249",
+      "subscription_id": "sub_syn_0249",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0249",
+        "created_at": 1787904940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0249",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0249",
+                "customer_email": "user_249@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0485",
+      "subscription_id": "sub_syn_0485",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0485",
+        "created_at": 1787919100,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0485",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0485",
+                "customer_email": "user_485@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0591",
+      "subscription_id": "sub_syn_0591",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0591",
+        "created_at": 1787925460,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0591",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Security risk block: payment_risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0591",
+                "customer_email": "risk_591@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0585",
+      "subscription_id": "sub_syn_0585",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "card_blacklisted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0585",
+        "created_at": 1787925100,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0585",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_blacklisted",
+              "error_description": "Security risk block: card_blacklisted",
+              "notes": {
+                "subscription_id": "sub_syn_0585",
+                "customer_email": "risk_585@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0136",
+      "subscription_id": "sub_syn_0136",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0136",
+        "created_at": 1787898160,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0136",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0136",
+                "customer_email": "user_136@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0754",
+      "subscription_id": "sub_syn_0754",
+      "amount_inr": 2499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "mandate_cancelled",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0754",
+        "created_at": 1787935240,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0754",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Permanent decline: mandate_cancelled",
+              "notes": {
+                "subscription_id": "sub_syn_0754",
+                "customer_email": "hard_754@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0220",
+      "subscription_id": "sub_syn_0220",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0220",
+        "created_at": 1787903200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0220",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0220",
+                "customer_email": "user_220@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0768",
+      "subscription_id": "sub_syn_0768",
+      "amount_inr": 9999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": true,
+      "is_night_dnd": false,
+      "error_reason": "card_inactive",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0768",
+        "created_at": 1787936080,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0768",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_inactive",
+              "error_description": "Permanent decline: card_inactive",
+              "notes": {
+                "subscription_id": "sub_syn_0768",
+                "customer_email": "hard_768@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0686",
+      "subscription_id": "sub_syn_0686",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "stolen_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0686",
+        "created_at": 1787931160,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0686",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "stolen_card",
+              "error_description": "Security risk block: stolen_card",
+              "notes": {
+                "subscription_id": "sub_syn_0686",
+                "customer_email": "risk_686@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0286",
+      "subscription_id": "sub_syn_0286",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0286",
+        "created_at": 1787907160,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0286",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0286",
+                "customer_email": "user_286@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0244",
+      "subscription_id": "sub_syn_0244",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0244",
+        "created_at": 1787904640,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0244",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0244",
+                "customer_email": "user_244@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0527",
+      "subscription_id": "sub_syn_0527",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0527",
+        "created_at": 1787921620,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0527",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0527",
+                "customer_email": "risk_527@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0729",
+      "subscription_id": "sub_syn_0729",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "security_violation",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0729",
+        "created_at": 1787933740,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0729",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "security_violation",
+              "error_description": "Security risk block: security_violation",
+              "notes": {
+                "subscription_id": "sub_syn_0729",
+                "customer_email": "risk_729@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0339",
+      "subscription_id": "sub_syn_0339",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0339",
+        "created_at": 1787910340,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0339",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0339",
+                "customer_email": "user_339@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0873",
+      "subscription_id": "sub_syn_0873",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0873",
+        "created_at": 1787942380,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0873",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0873",
+                "customer_email": "hard_873@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0070",
+      "subscription_id": "sub_syn_0070",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0070",
+        "created_at": 1787894200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0070",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0070",
+                "customer_email": "user_70@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0875",
+      "subscription_id": "sub_syn_0875",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": true,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0875",
+        "created_at": 1787942500,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0875",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0875",
+                "customer_email": "hard_875@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0061",
+      "subscription_id": "sub_syn_0061",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0061",
+        "created_at": 1787893660,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0061",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0061",
+                "customer_email": "user_61@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0647",
+      "subscription_id": "sub_syn_0647",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0647",
+        "created_at": 1787928820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0647",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0647",
+                "customer_email": "risk_647@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0725",
+      "subscription_id": "sub_syn_0725",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "card_blacklisted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0725",
+        "created_at": 1787933500,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0725",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_blacklisted",
+              "error_description": "Security risk block: card_blacklisted",
+              "notes": {
+                "subscription_id": "sub_syn_0725",
+                "customer_email": "risk_725@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0073",
+      "subscription_id": "sub_syn_0073",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0073",
+        "created_at": 1787894380,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0073",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0073",
+                "customer_email": "user_73@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0008",
+      "subscription_id": "sub_syn_0008",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0008",
+        "created_at": 1787890480,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0008",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0008",
+                "customer_email": "user_8@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0968",
+      "subscription_id": "sub_syn_0968",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_deleted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0968",
+        "created_at": 1787948080,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0968",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_deleted",
+              "error_description": "Permanent decline: token_deleted",
+              "notes": {
+                "subscription_id": "sub_syn_0968",
+                "customer_email": "hard_968@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0735",
+      "subscription_id": "sub_syn_0735",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "card_blacklisted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0735",
+        "created_at": 1787934100,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0735",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_blacklisted",
+              "error_description": "Security risk block: card_blacklisted",
+              "notes": {
+                "subscription_id": "sub_syn_0735",
+                "customer_email": "risk_735@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0236",
+      "subscription_id": "sub_syn_0236",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "payment_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0236",
+        "created_at": 1787904160,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0236",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_failed",
+              "error_description": "Payment debit declined: payment_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0236",
+                "customer_email": "user_236@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0568",
+      "subscription_id": "sub_syn_0568",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "restricted_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0568",
+        "created_at": 1787924080,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0568",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "restricted_card",
+              "error_description": "Security risk block: restricted_card",
+              "notes": {
+                "subscription_id": "sub_syn_0568",
+                "customer_email": "risk_568@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0603",
+      "subscription_id": "sub_syn_0603",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "high_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0603",
+        "created_at": 1787926180,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0603",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "high_risk",
+              "error_description": "Security risk block: high_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0603",
+                "customer_email": "risk_603@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0022",
+      "subscription_id": "sub_syn_0022",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0022",
+        "created_at": 1787891320,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0022",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0022",
+                "customer_email": "user_22@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0347",
+      "subscription_id": "sub_syn_0347",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "bank_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0347",
+        "created_at": 1787910820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0347",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_technical_error",
+              "error_description": "Payment debit declined: bank_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0347",
+                "customer_email": "user_347@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0828",
+      "subscription_id": "sub_syn_0828",
+      "amount_inr": 9999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": true,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0828",
+        "created_at": 1787939680,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0828",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0828",
+                "customer_email": "hard_828@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0231",
+      "subscription_id": "sub_syn_0231",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0231",
+        "created_at": 1787903860,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0231",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0231",
+                "customer_email": "user_231@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0254",
+      "subscription_id": "sub_syn_0254",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0254",
+        "created_at": 1787905240,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0254",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_failed",
+              "error_description": "Payment debit declined: payment_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0254",
+                "customer_email": "user_254@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0124",
+      "subscription_id": "sub_syn_0124",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0124",
+        "created_at": 1787897440,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0124",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0124",
+                "customer_email": "user_124@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0463",
+      "subscription_id": "sub_syn_0463",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0463",
+        "created_at": 1787917780,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0463",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0463",
+                "customer_email": "user_463@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0530",
+      "subscription_id": "sub_syn_0530",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "velocity_exceeded_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0530",
+        "created_at": 1787921800,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0530",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Security risk block: velocity_exceeded_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0530",
+                "customer_email": "risk_530@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0449",
+      "subscription_id": "sub_syn_0449",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0449",
+        "created_at": 1787916940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0449",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0449",
+                "customer_email": "user_449@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0832",
+      "subscription_id": "sub_syn_0832",
+      "amount_inr": 2499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_not_eligible",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0832",
+        "created_at": 1787939920,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0832",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_not_eligible",
+              "error_description": "Permanent decline: token_not_eligible",
+              "notes": {
+                "subscription_id": "sub_syn_0832",
+                "customer_email": "hard_832@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0972",
+      "subscription_id": "sub_syn_0972",
+      "amount_inr": 9999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": true,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0972",
+        "created_at": 1787948320,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0972",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0972",
+                "customer_email": "hard_972@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0688",
+      "subscription_id": "sub_syn_0688",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "restricted_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0688",
+        "created_at": 1787931280,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0688",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "restricted_card",
+              "error_description": "Security risk block: restricted_card",
+              "notes": {
+                "subscription_id": "sub_syn_0688",
+                "customer_email": "risk_688@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0845",
+      "subscription_id": "sub_syn_0845",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "customer_mandate_revoked",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0845",
+        "created_at": 1787940700,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0845",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "customer_mandate_revoked",
+              "error_description": "Permanent decline: customer_mandate_revoked",
+              "notes": {
+                "subscription_id": "sub_syn_0845",
+                "customer_email": "hard_845@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0320",
+      "subscription_id": "sub_syn_0320",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "bank_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0320",
+        "created_at": 1787909200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0320",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_technical_error",
+              "error_description": "Payment debit declined: bank_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0320",
+                "customer_email": "user_320@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0731",
+      "subscription_id": "sub_syn_0731",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0731",
+        "created_at": 1787933860,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0731",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Security risk block: payment_risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0731",
+                "customer_email": "risk_731@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0206",
+      "subscription_id": "sub_syn_0206",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0206",
+        "created_at": 1787902360,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0206",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0206",
+                "customer_email": "user_206@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0707",
+      "subscription_id": "sub_syn_0707",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0707",
+        "created_at": 1787932420,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0707",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0707",
+                "customer_email": "risk_707@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0939",
+      "subscription_id": "sub_syn_0939",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "card_inactive",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0939",
+        "created_at": 1787946340,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0939",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_inactive",
+              "error_description": "Permanent decline: card_inactive",
+              "notes": {
+                "subscription_id": "sub_syn_0939",
+                "customer_email": "hard_939@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0785",
+      "subscription_id": "sub_syn_0785",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0785",
+        "created_at": 1787937100,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0785",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0785",
+                "customer_email": "hard_785@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0867",
+      "subscription_id": "sub_syn_0867",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "card_inactive",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0867",
+        "created_at": 1787942020,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0867",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_inactive",
+              "error_description": "Permanent decline: card_inactive",
+              "notes": {
+                "subscription_id": "sub_syn_0867",
+                "customer_email": "hard_867@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0434",
+      "subscription_id": "sub_syn_0434",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0434",
+        "created_at": 1787916040,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0434",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_failed",
+              "error_description": "Payment debit declined: payment_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0434",
+                "customer_email": "user_434@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0622",
+      "subscription_id": "sub_syn_0622",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0622",
+        "created_at": 1787927320,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0622",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "risk_check_failed",
+              "error_description": "Security risk block: risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0622",
+                "customer_email": "risk_622@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0541",
+      "subscription_id": "sub_syn_0541",
+      "amount_inr": 499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0541",
+        "created_at": 1787922460,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0541",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Security risk block: payment_risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0541",
+                "customer_email": "risk_541@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0856",
+      "subscription_id": "sub_syn_0856",
+      "amount_inr": 2499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "expired_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0856",
+        "created_at": 1787941360,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0856",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "expired_card",
+              "error_description": "Permanent decline: expired_card",
+              "notes": {
+                "subscription_id": "sub_syn_0856",
+                "customer_email": "hard_856@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0170",
+      "subscription_id": "sub_syn_0170",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0170",
+        "created_at": 1787900200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0170",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0170",
+                "customer_email": "user_170@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0563",
+      "subscription_id": "sub_syn_0563",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "high_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0563",
+        "created_at": 1787923780,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0563",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "high_risk",
+              "error_description": "Security risk block: high_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0563",
+                "customer_email": "risk_563@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0487",
+      "subscription_id": "sub_syn_0487",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0487",
+        "created_at": 1787919220,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0487",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0487",
+                "customer_email": "user_487@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0676",
+      "subscription_id": "sub_syn_0676",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "stolen_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0676",
+        "created_at": 1787930560,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0676",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "stolen_card",
+              "error_description": "Security risk block: stolen_card",
+              "notes": {
+                "subscription_id": "sub_syn_0676",
+                "customer_email": "risk_676@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0132",
+      "subscription_id": "sub_syn_0132",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0132",
+        "created_at": 1787897920,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0132",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0132",
+                "customer_email": "user_132@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0129",
+      "subscription_id": "sub_syn_0129",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0129",
+        "created_at": 1787897740,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0129",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0129",
+                "customer_email": "user_129@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0546",
+      "subscription_id": "sub_syn_0546",
+      "amount_inr": 9999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "stolen_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0546",
+        "created_at": 1787922760,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0546",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "stolen_card",
+              "error_description": "Security risk block: stolen_card",
+              "notes": {
+                "subscription_id": "sub_syn_0546",
+                "customer_email": "risk_546@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0071",
+      "subscription_id": "sub_syn_0071",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0071",
+        "created_at": 1787894260,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0071",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0071",
+                "customer_email": "user_71@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0498",
+      "subscription_id": "sub_syn_0498",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0498",
+        "created_at": 1787919880,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0498",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0498",
+                "customer_email": "user_498@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0750",
+      "subscription_id": "sub_syn_0750",
+      "amount_inr": 9999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "velocity_exceeded_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0750",
+        "created_at": 1787935000,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0750",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Security risk block: velocity_exceeded_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0750",
+                "customer_email": "risk_750@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0088",
+      "subscription_id": "sub_syn_0088",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0088",
+        "created_at": 1787895280,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0088",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0088",
+                "customer_email": "user_88@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0934",
+      "subscription_id": "sub_syn_0934",
+      "amount_inr": 2499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "mandate_cancelled",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0934",
+        "created_at": 1787946040,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0934",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Permanent decline: mandate_cancelled",
+              "notes": {
+                "subscription_id": "sub_syn_0934",
+                "customer_email": "hard_934@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0866",
+      "subscription_id": "sub_syn_0866",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0866",
+        "created_at": 1787941960,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0866",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0866",
+                "customer_email": "hard_866@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0247",
+      "subscription_id": "sub_syn_0247",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0247",
+        "created_at": 1787904820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0247",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0247",
+                "customer_email": "user_247@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0060",
+      "subscription_id": "sub_syn_0060",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0060",
+        "created_at": 1787893600,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0060",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0060",
+                "customer_email": "user_60@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0246",
+      "subscription_id": "sub_syn_0246",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0246",
+        "created_at": 1787904760,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0246",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0246",
+                "customer_email": "user_246@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0315",
+      "subscription_id": "sub_syn_0315",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "bank_timeout",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0315",
+        "created_at": 1787908900,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0315",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_timeout",
+              "error_description": "Payment debit declined: bank_timeout",
+              "notes": {
+                "subscription_id": "sub_syn_0315",
+                "customer_email": "user_315@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0372",
+      "subscription_id": "sub_syn_0372",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0372",
+        "created_at": 1787912320,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0372",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0372",
+                "customer_email": "user_372@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0809",
+      "subscription_id": "sub_syn_0809",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "customer_mandate_revoked",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0809",
+        "created_at": 1787938540,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0809",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "customer_mandate_revoked",
+              "error_description": "Permanent decline: customer_mandate_revoked",
+              "notes": {
+                "subscription_id": "sub_syn_0809",
+                "customer_email": "hard_809@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0020",
+      "subscription_id": "sub_syn_0020",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "payment_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0020",
+        "created_at": 1787891200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0020",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_failed",
+              "error_description": "Payment debit declined: payment_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0020",
+                "customer_email": "user_20@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0501",
+      "subscription_id": "sub_syn_0501",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0501",
+        "created_at": 1787920060,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0501",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Security risk block: payment_risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0501",
+                "customer_email": "risk_501@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0332",
+      "subscription_id": "sub_syn_0332",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0332",
+        "created_at": 1787909920,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0332",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0332",
+                "customer_email": "user_332@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0614",
+      "subscription_id": "sub_syn_0614",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "fraud_suspected",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0614",
+        "created_at": 1787926840,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0614",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "fraud_suspected",
+              "error_description": "Security risk block: fraud_suspected",
+              "notes": {
+                "subscription_id": "sub_syn_0614",
+                "customer_email": "risk_614@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0001",
+      "subscription_id": "sub_syn_0001",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0001",
+        "created_at": 1787890060,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0001",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0001",
+                "customer_email": "user_1@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0544",
+      "subscription_id": "sub_syn_0544",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "fraud_suspected",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0544",
+        "created_at": 1787922640,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0544",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "fraud_suspected",
+              "error_description": "Security risk block: fraud_suspected",
+              "notes": {
+                "subscription_id": "sub_syn_0544",
+                "customer_email": "risk_544@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0553",
+      "subscription_id": "sub_syn_0553",
+      "amount_inr": 499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "high_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0553",
+        "created_at": 1787923180,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0553",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "high_risk",
+              "error_description": "Security risk block: high_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0553",
+                "customer_email": "risk_553@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0166",
+      "subscription_id": "sub_syn_0166",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0166",
+        "created_at": 1787899960,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0166",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0166",
+                "customer_email": "user_166@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0799",
+      "subscription_id": "sub_syn_0799",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "mandate_cancelled",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0799",
+        "created_at": 1787937940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0799",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Permanent decline: mandate_cancelled",
+              "notes": {
+                "subscription_id": "sub_syn_0799",
+                "customer_email": "hard_799@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0383",
+      "subscription_id": "sub_syn_0383",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "bank_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0383",
+        "created_at": 1787912980,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0383",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_technical_error",
+              "error_description": "Payment debit declined: bank_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0383",
+                "customer_email": "user_383@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0835",
+      "subscription_id": "sub_syn_0835",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "mandate_cancelled",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0835",
+        "created_at": 1787940100,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0835",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Permanent decline: mandate_cancelled",
+              "notes": {
+                "subscription_id": "sub_syn_0835",
+                "customer_email": "hard_835@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0974",
+      "subscription_id": "sub_syn_0974",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0974",
+        "created_at": 1787948440,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0974",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0974",
+                "customer_email": "hard_974@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0895",
+      "subscription_id": "sub_syn_0895",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_not_eligible",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0895",
+        "created_at": 1787943700,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0895",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_not_eligible",
+              "error_description": "Permanent decline: token_not_eligible",
+              "notes": {
+                "subscription_id": "sub_syn_0895",
+                "customer_email": "hard_895@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0797",
+      "subscription_id": "sub_syn_0797",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_deleted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0797",
+        "created_at": 1787937820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0797",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_deleted",
+              "error_description": "Permanent decline: token_deleted",
+              "notes": {
+                "subscription_id": "sub_syn_0797",
+                "customer_email": "hard_797@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_1000",
+      "subscription_id": "sub_syn_1000",
+      "amount_inr": 2499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": true,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "expired_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_1000",
+        "created_at": 1787950000,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_1000",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "expired_card",
+              "error_description": "Permanent decline: expired_card",
+              "notes": {
+                "subscription_id": "sub_syn_1000",
+                "customer_email": "hard_1000@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0306",
+      "subscription_id": "sub_syn_0306",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "bank_timeout",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0306",
+        "created_at": 1787908360,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0306",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_timeout",
+              "error_description": "Payment debit declined: bank_timeout",
+              "notes": {
+                "subscription_id": "sub_syn_0306",
+                "customer_email": "user_306@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0641",
+      "subscription_id": "sub_syn_0641",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0641",
+        "created_at": 1787928460,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0641",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Security risk block: payment_risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0641",
+                "customer_email": "risk_641@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0109",
+      "subscription_id": "sub_syn_0109",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0109",
+        "created_at": 1787896540,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0109",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0109",
+                "customer_email": "user_109@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0520",
+      "subscription_id": "sub_syn_0520",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "velocity_exceeded_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0520",
+        "created_at": 1787921200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0520",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Security risk block: velocity_exceeded_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0520",
+                "customer_email": "risk_520@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0183",
+      "subscription_id": "sub_syn_0183",
+      "amount_inr": 1499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0183",
+        "created_at": 1787900980,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0183",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0183",
+                "customer_email": "user_183@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0781",
+      "subscription_id": "sub_syn_0781",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "mandate_cancelled",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0781",
+        "created_at": 1787936860,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0781",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Permanent decline: mandate_cancelled",
+              "notes": {
+                "subscription_id": "sub_syn_0781",
+                "customer_email": "hard_781@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0513",
+      "subscription_id": "sub_syn_0513",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "high_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0513",
+        "created_at": 1787920780,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0513",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "high_risk",
+              "error_description": "Security risk block: high_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0513",
+                "customer_email": "risk_513@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0931",
+      "subscription_id": "sub_syn_0931",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": true,
+      "error_reason": "token_not_eligible",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0931",
+        "created_at": 1787945860,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0931",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_not_eligible",
+              "error_description": "Permanent decline: token_not_eligible",
+              "notes": {
+                "subscription_id": "sub_syn_0931",
+                "customer_email": "hard_931@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0737",
+      "subscription_id": "sub_syn_0737",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0737",
+        "created_at": 1787934220,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0737",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0737",
+                "customer_email": "risk_737@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0740",
+      "subscription_id": "sub_syn_0740",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "velocity_exceeded_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0740",
+        "created_at": 1787934400,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0740",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Security risk block: velocity_exceeded_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0740",
+                "customer_email": "risk_740@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0004",
+      "subscription_id": "sub_syn_0004",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0004",
+        "created_at": 1787890240,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0004",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0004",
+                "customer_email": "user_4@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0909",
+      "subscription_id": "sub_syn_0909",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0909",
+        "created_at": 1787944540,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0909",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0909",
+                "customer_email": "hard_909@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0162",
+      "subscription_id": "sub_syn_0162",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "bank_timeout",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0162",
+        "created_at": 1787899720,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0162",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_timeout",
+              "error_description": "Payment debit declined: bank_timeout",
+              "notes": {
+                "subscription_id": "sub_syn_0162",
+                "customer_email": "user_162@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0446",
+      "subscription_id": "sub_syn_0446",
+      "amount_inr": 999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "bank_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0446",
+        "created_at": 1787916760,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0446",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_technical_error",
+              "error_description": "Payment debit declined: bank_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0446",
+                "customer_email": "user_446@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0932",
+      "subscription_id": "sub_syn_0932",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_deleted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0932",
+        "created_at": 1787945920,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0932",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_deleted",
+              "error_description": "Permanent decline: token_deleted",
+              "notes": {
+                "subscription_id": "sub_syn_0932",
+                "customer_email": "hard_932@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0999",
+      "subscription_id": "sub_syn_0999",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0999",
+        "created_at": 1787949940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0999",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0999",
+                "customer_email": "hard_999@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0956",
+      "subscription_id": "sub_syn_0956",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0956",
+        "created_at": 1787947360,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0956",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0956",
+                "customer_email": "hard_956@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0657",
+      "subscription_id": "sub_syn_0657",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0657",
+        "created_at": 1787929420,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0657",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0657",
+                "customer_email": "risk_657@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0788",
+      "subscription_id": "sub_syn_0788",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_deleted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0788",
+        "created_at": 1787937280,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0788",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_deleted",
+              "error_description": "Permanent decline: token_deleted",
+              "notes": {
+                "subscription_id": "sub_syn_0788",
+                "customer_email": "hard_788@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0900",
+      "subscription_id": "sub_syn_0900",
+      "amount_inr": 9999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": true,
+      "has_lifetime_cap": true,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0900",
+        "created_at": 1787944000,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0900",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0900",
+                "customer_email": "hard_900@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0769",
+      "subscription_id": "sub_syn_0769",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "token_not_eligible",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0769",
+        "created_at": 1787936140,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0769",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_not_eligible",
+              "error_description": "Permanent decline: token_not_eligible",
+              "notes": {
+                "subscription_id": "sub_syn_0769",
+                "customer_email": "hard_769@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0937",
+      "subscription_id": "sub_syn_0937",
+      "amount_inr": 499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "expired_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0937",
+        "created_at": 1787946220,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0937",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "expired_card",
+              "error_description": "Permanent decline: expired_card",
+              "notes": {
+                "subscription_id": "sub_syn_0937",
+                "customer_email": "hard_937@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0699",
+      "subscription_id": "sub_syn_0699",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "security_violation",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0699",
+        "created_at": 1787931940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0699",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "security_violation",
+              "error_description": "Security risk block: security_violation",
+              "notes": {
+                "subscription_id": "sub_syn_0699",
+                "customer_email": "risk_699@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0118",
+      "subscription_id": "sub_syn_0118",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "insufficient_funds",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0118",
+        "created_at": 1787897080,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0118",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment debit declined: insufficient_funds",
+              "notes": {
+                "subscription_id": "sub_syn_0118",
+                "customer_email": "user_118@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0739",
+      "subscription_id": "sub_syn_0739",
+      "amount_inr": 499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "security_violation",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0739",
+        "created_at": 1787934340,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0739",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "security_violation",
+              "error_description": "Security risk block: security_violation",
+              "notes": {
+                "subscription_id": "sub_syn_0739",
+                "customer_email": "risk_739@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0831",
+      "subscription_id": "sub_syn_0831",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "card_inactive",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0831",
+        "created_at": 1787939860,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0831",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_inactive",
+              "error_description": "Permanent decline: card_inactive",
+              "notes": {
+                "subscription_id": "sub_syn_0831",
+                "customer_email": "hard_831@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0012",
+      "subscription_id": "sub_syn_0012",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0012",
+        "created_at": 1787890720,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0012",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0012",
+                "customer_email": "user_12@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0567",
+      "subscription_id": "sub_syn_0567",
+      "amount_inr": 1499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0567",
+        "created_at": 1787924020,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0567",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0567",
+                "customer_email": "risk_567@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0258",
+      "subscription_id": "sub_syn_0258",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_timed_out",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0258",
+        "created_at": 1787905480,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0258",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_timed_out",
+              "error_description": "Payment debit declined: payment_timed_out",
+              "notes": {
+                "subscription_id": "sub_syn_0258",
+                "customer_email": "user_258@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0542",
+      "subscription_id": "sub_syn_0542",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0542",
+        "created_at": 1787922520,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0542",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "risk_check_failed",
+              "error_description": "Security risk block: risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0542",
+                "customer_email": "risk_542@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0480",
+      "subscription_id": "sub_syn_0480",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0480",
+        "created_at": 1787918800,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0480",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0480",
+                "customer_email": "user_480@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0964",
+      "subscription_id": "sub_syn_0964",
+      "amount_inr": 2499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "expired_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0964",
+        "created_at": 1787947840,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0964",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "expired_card",
+              "error_description": "Permanent decline: expired_card",
+              "notes": {
+                "subscription_id": "sub_syn_0964",
+                "customer_email": "hard_964@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0391",
+      "subscription_id": "sub_syn_0391",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0391",
+        "created_at": 1787913460,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0391",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0391",
+                "customer_email": "user_391@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0395",
+      "subscription_id": "sub_syn_0395",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 3,
+      "error_reason": "network_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0395",
+        "created_at": 1787913700,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0395",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "network_error",
+              "error_description": "Payment debit declined: network_error",
+              "notes": {
+                "subscription_id": "sub_syn_0395",
+                "customer_email": "user_395@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0066",
+      "subscription_id": "sub_syn_0066",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "gateway_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0066",
+        "created_at": 1787893960,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0066",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_error",
+              "error_description": "Payment debit declined: gateway_error",
+              "notes": {
+                "subscription_id": "sub_syn_0066",
+                "customer_email": "user_66@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0611",
+      "subscription_id": "sub_syn_0611",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "payment_risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0611",
+        "created_at": 1787926660,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0611",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Security risk block: payment_risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0611",
+                "customer_email": "risk_611@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0957",
+      "subscription_id": "sub_syn_0957",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "card_inactive",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0957",
+        "created_at": 1787947420,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0957",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "card_inactive",
+              "error_description": "Permanent decline: card_inactive",
+              "notes": {
+                "subscription_id": "sub_syn_0957",
+                "customer_email": "hard_957@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0697",
+      "subscription_id": "sub_syn_0697",
+      "amount_inr": 499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "lost_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0697",
+        "created_at": 1787931820,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0697",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "lost_card",
+              "error_description": "Security risk block: lost_card",
+              "notes": {
+                "subscription_id": "sub_syn_0697",
+                "customer_email": "risk_697@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0812",
+      "subscription_id": "sub_syn_0812",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": true,
+      "error_reason": "invalid_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0812",
+        "created_at": 1787938720,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0812",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "invalid_card",
+              "error_description": "Permanent decline: invalid_card",
+              "notes": {
+                "subscription_id": "sub_syn_0812",
+                "customer_email": "hard_812@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0959",
+      "subscription_id": "sub_syn_0959",
+      "amount_inr": 4999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": true,
+      "error_reason": "token_deleted",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0959",
+        "created_at": 1787947540,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0959",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "token_deleted",
+              "error_description": "Permanent decline: token_deleted",
+              "notes": {
+                "subscription_id": "sub_syn_0959",
+                "customer_email": "hard_959@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0643",
+      "subscription_id": "sub_syn_0643",
+      "amount_inr": 499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "high_risk",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0643",
+        "created_at": 1787928580,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0643",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "high_risk",
+              "error_description": "Security risk block: high_risk",
+              "notes": {
+                "subscription_id": "sub_syn_0643",
+                "customer_email": "risk_643@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0157",
+      "subscription_id": "sub_syn_0157",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0157",
+        "created_at": 1787899420,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0157",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0157",
+                "customer_email": "user_157@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0113",
+      "subscription_id": "sub_syn_0113",
+      "amount_inr": 4999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "bank_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0113",
+        "created_at": 1787896780,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0113",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_technical_error",
+              "error_description": "Payment debit declined: bank_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0113",
+                "customer_email": "user_113@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0049",
+      "subscription_id": "sub_syn_0049",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0049",
+        "created_at": 1787892940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0049",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0049",
+                "customer_email": "user_49@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0774",
+      "subscription_id": "sub_syn_0774",
+      "amount_inr": 9999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0774",
+        "created_at": 1787936440,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0774",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0774",
+                "customer_email": "hard_774@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0094",
+      "subscription_id": "sub_syn_0094",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0094",
+        "created_at": 1787895640,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0094",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0094",
+                "customer_email": "user_94@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0506",
+      "subscription_id": "sub_syn_0506",
+      "amount_inr": 999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "stolen_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0506",
+        "created_at": 1787920360,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0506",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "stolen_card",
+              "error_description": "Security risk block: stolen_card",
+              "notes": {
+                "subscription_id": "sub_syn_0506",
+                "customer_email": "risk_506@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0522",
+      "subscription_id": "sub_syn_0522",
+      "amount_inr": 9999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "risk_check_failed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0522",
+        "created_at": 1787921320,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0522",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "risk_check_failed",
+              "error_description": "Security risk block: risk_check_failed",
+              "notes": {
+                "subscription_id": "sub_syn_0522",
+                "customer_email": "risk_522@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0142",
+      "subscription_id": "sub_syn_0142",
+      "amount_inr": 2499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 2,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0142",
+        "created_at": 1787898520,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0142",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0142",
+                "customer_email": "user_142@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0882",
+      "subscription_id": "sub_syn_0882",
+      "amount_inr": 9999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": true,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0882",
+        "created_at": 1787942920,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0882",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0882",
+                "customer_email": "hard_882@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0926",
+      "subscription_id": "sub_syn_0926",
+      "amount_inr": 999.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "customer_mandate_revoked",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0926",
+        "created_at": 1787945560,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0926",
+              "amount": 99900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "customer_mandate_revoked",
+              "error_description": "Permanent decline: customer_mandate_revoked",
+              "notes": {
+                "subscription_id": "sub_syn_0926",
+                "customer_email": "hard_926@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0409",
+      "subscription_id": "sub_syn_0409",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "gateway_technical_error",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0409",
+        "created_at": 1787914540,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0409",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Payment debit declined: gateway_technical_error",
+              "notes": {
+                "subscription_id": "sub_syn_0409",
+                "customer_email": "user_409@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0598",
+      "subscription_id": "sub_syn_0598",
+      "amount_inr": 2499.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "restricted_card",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0598",
+        "created_at": 1787925880,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0598",
+              "amount": 249900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "restricted_card",
+              "error_description": "Security risk block: restricted_card",
+              "notes": {
+                "subscription_id": "sub_syn_0598",
+                "customer_email": "risk_598@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0439",
+      "subscription_id": "sub_syn_0439",
+      "amount_inr": 499.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "temporary_issuer_down",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0439",
+        "created_at": 1787916340,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0439",
+              "amount": 49900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Payment debit declined: temporary_issuer_down",
+              "notes": {
+                "subscription_id": "sub_syn_0439",
+                "customer_email": "user_439@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0599",
+      "subscription_id": "sub_syn_0599",
+      "amount_inr": 4999.0,
+      "category": "RISK_FLAG",
+      "ground_truth_bucket": "RISK_FLAG",
+      "ground_truth_action": "ESCALATE_TO_HUMAN",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "error_reason": "security_violation",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0599",
+        "created_at": 1787925940,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0599",
+              "amount": 499900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "security_violation",
+              "error_description": "Security risk block: security_violation",
+              "notes": {
+                "subscription_id": "sub_syn_0599",
+                "customer_email": "risk_599@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0765",
+      "subscription_id": "sub_syn_0765",
+      "amount_inr": 1499.0,
+      "category": "HARD_DECLINE",
+      "ground_truth_bucket": "HARD_DECLINE",
+      "ground_truth_action": "NUDGE_PAYMENT_UPDATE",
+      "is_recoverable_via_retry": false,
+      "attempt_recovered_on": null,
+      "is_opted_out": false,
+      "has_lifetime_cap": false,
+      "is_night_dnd": false,
+      "error_reason": "account_closed",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "id": "evt_syn_0765",
+        "created_at": 1787935900,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0765",
+              "amount": 149900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "account_closed",
+              "error_description": "Permanent decline: account_closed",
+              "notes": {
+                "subscription_id": "sub_syn_0765",
+                "customer_email": "hard_765@example.com"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "scenario_id": "scen_0270",
+      "subscription_id": "sub_syn_0270",
+      "amount_inr": 9999.0,
+      "category": "SOFT_DECLINE",
+      "ground_truth_bucket": "SOFT_DECLINE",
+      "ground_truth_action": "SCHEDULE_RETRY",
+      "is_recoverable_via_retry": true,
+      "attempt_recovered_on": 1,
+      "error_reason": "bank_timeout",
+      "webhook_payload": {
+        "entity": "event",
+        "account_id": "acc_demo_merchant_01",
+        "event": "payment.failed",
+        "contains": [
+          "payment"
+        ],
+        "id": "evt_syn_0270",
+        "created_at": 1787906200,
+        "payload": {
+          "payment": {
+            "entity": {
+              "id": "pay_syn_0270",
+              "amount": 999900,
+              "currency": "INR",
+              "status": "failed",
+              "error_code": "BAD_REQUEST_ERROR",
+              "error_reason": "bank_timeout",
+              "error_description": "Payment debit declined: bank_timeout",
+              "notes": {
+                "subscription_id": "sub_syn_0270",
+                "customer_email": "user_270@example.com"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

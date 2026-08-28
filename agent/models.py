@@ -114,8 +114,34 @@ class PromiseToPayRecord(BaseModel):
     created_at: Optional[str] = None
 
 
+class AIDiagnosisResult(BaseModel):
+    """Structured output from the AI Diagnostician."""
+    failure_diagnosis: str = Field(..., description="Likely root cause diagnosis (e.g. temporary_funds_deficit, gateway_timeout, credential_invalid, fraud_risk)")
+    recovery_probability: float = Field(..., ge=0.0, le=1.0, description="Predicted empirical recovery probability between 0.0 and 1.0")
+    recommended_action: DecidedAction = Field(..., description="Action recommended by AI")
+    recommended_delay_hours: int = Field(default=1, ge=0, description="Recommended delay before execution in hours")
+    customer_message_strategy: str = Field(default="NONE", description="Strategy: NONE, PAYMENT_LINK_EMAIL, URGENT_CARD_UPDATE, HUMAN_SUPPORT")
+    confidence: float = Field(..., ge=0.0, le=1.0, description="Model confidence score between 0.0 and 1.0")
+    reasoning: str = Field(..., description="Concise diagnostic rationale")
+    provider_used: str = Field(default="local_deterministic", description="Identifier of AI Provider used")
+    raw_model_response: Optional[Dict[str, Any]] = Field(default=None, description="Raw model payload for auditability")
+
+
+class PolicyFirewallDecision(BaseModel):
+    """Output from the deterministic policy firewall validating an AI recommendation."""
+    is_approved: bool = Field(..., description="Whether the AI recommendation was authorized as-is")
+    authorized_action: DecidedAction = Field(..., description="The final authorized action that will be executed")
+    override_applied: bool = Field(default=False, description="True if policy firewall overrode AI recommendation")
+    override_reason: Optional[str] = Field(default=None, description="Reason for policy override (e.g. Risk isolation, Opt-out block, Retry limit)")
+    policy_rule_id: str = Field(..., description="Specific policy rule ID enforcing the decision")
+    effective_delay_seconds: int = Field(default=0, description="Final authorized backoff delay in seconds")
+    lifecycle_state: SubscriptionLifecycleState = Field(..., description="Resulting subscription lifecycle state")
+    is_terminal: bool = Field(default=False, description="Whether the subscription is now in a terminal state")
+    compliance_details: Optional[ComplianceCheckResult] = None
+
+
 class AuditLogEntry(BaseModel):
-    """Continuous decision-to-outcome audit log entry (Phases 2 & 3)."""
+    """Continuous decision-to-outcome audit log entry with AI & Policy Firewall tracking."""
     id: Optional[str] = None
     event_id: Optional[str] = None
     subscription_id: str
@@ -127,10 +153,25 @@ class AuditLogEntry(BaseModel):
     retry_delay_seconds: Optional[int] = None
     subscription_lifecycle_state: str
     
-    # Phase 3 Fields
+    # AI Diagnosis Fields
+    ai_diagnosis: Optional[str] = None
+    ai_confidence: Optional[float] = None
+    ai_recommendation: Optional[str] = None
+    ai_provider: Optional[str] = None
+    
+    # Deterministic Policy Firewall Fields
+    policy_decision: Optional[str] = None
+    policy_reason: Optional[str] = None
+    policy_rule_id: Optional[str] = None
+    policy_override_applied: bool = False
+    policy_override_reason: Optional[str] = None
+    
+    # Action Execution & Outcome Tracking
     action_executed: Optional[str] = None
     action_result: Optional[str] = None
     action_details: Dict[str, Any] = Field(default_factory=dict)
     executed_at: Optional[str] = None
+    recovered_amount: Optional[float] = None
     
     created_at: Optional[str] = None
+

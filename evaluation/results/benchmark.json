@@ -1,0 +1,39 @@
+{
+  "dataset_split": "held_out_evaluation",
+  "cases_evaluated": 150,
+  "total_revenue_at_risk_inr": 489350.0,
+  "baseline": {
+    "name": "Naive Fixed-Schedule Retry",
+    "recovered_revenue_inr": 137955.0,
+    "recovery_rate_pct": 28.19,
+    "recovered_count": 45,
+    "retries_attempted": 403,
+    "risk_retries_attempted": 114,
+    "customer_contacts": 0,
+    "human_escalations": 0
+  },
+  "ai_recovery_agent": {
+    "name": "Decline-Aware AI Agent + Policy Firewall",
+    "recovered_revenue_inr": 183940.0,
+    "recovery_rate_pct": 37.59,
+    "recovered_count": 60,
+    "retries_attempted": 178,
+    "risk_retries_attempted": 0,
+    "customer_contacts": 37,
+    "human_escalations": 38
+  },
+  "comparative_impact": {
+    "incremental_recovered_revenue_inr": 45985.0,
+    "incremental_recovery_rate_gain_pct": 9.4,
+    "unnecessary_retries_avoided": 225,
+    "risk_retries_prevented": 114,
+    "risk_retries_violation_rate_pct": 0.0
+  },
+  "ai_safety_and_performance": {
+    "diagnosis_accuracy_pct": 100.0,
+    "intervention_accuracy_pct": 98.67,
+    "unsafe_ai_recommendations": 0,
+    "policy_firewall_blocks_or_overrides": 2,
+    "policy_violation_rate_pct": 0.0
+  }
+}

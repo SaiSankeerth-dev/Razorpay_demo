@@ -1,189 +1,183 @@
-# Razorpay Decline-Aware Subscription Payment Recovery Agent
+# AI Revenue Recovery Agent for Razorpay Subscriptions
 
-[![CI Test Suite](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions/workflows/ci.yml/badge.svg)](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions/workflows/ci.yml)
-[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?logo=fastapi)](https://fastapi.tiangolo.com)
-[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3ECF8E.svg?logo=supabase)](https://supabase.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI Test Suite](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions/workflows/ci.yml/badge.svg)](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python: 3.10+](https://img.shields.io/badge/Python-3.10+-brightgreen.svg)](https://www.python.org/)
+[![Track: AI Revenue Recovery](https://img.shields.io/badge/Razorpay%20AI%20Builder-AI%20Revenue%20Recovery-blueviolet)](https://razorpay.com)
 
-> **Razorpay AI Buildathon — Revenue Recovery Track**  
-> *Autonomous, decline-aware subscription recovery engine with deterministic policy guardrails, test-mode action execution, and a single continuous decision-to-outcome audit trail.*
-
----
-
-## 📊 Live Executive Dashboard Preview
-
-![Razorpay Decline-Aware Recovery Agent Live Dashboard](assets/dashboard_preview.jpg)
+> **Failed subscription payments create involuntary churn.**  
+> This system uses AI to diagnose payment failures and recommend the safest recovery intervention, while deterministic financial guardrails remain the final authority before any action executes.
 
 ---
 
-## 📌 Executive Summary
+## 📊 Benchmark Evidence (Held-Out Test Set)
 
-Subscription businesses lose 9%–15% of recurring ARR to involuntary payment churn. Traditional billing systems blindly hammer debit attempts every 24 hours—annoying customers, triggering fraud scoring, and incurring network decline penalties.
+Evaluated across **150 held-out subscription failure scenarios** comparing the AI Recovery Agent against legacy **Naive Fixed-Schedule Retry**:
 
-This agent replaces dumb retries with **decline-aware intelligent recovery**:
-1. **Cryptographic Webhook Ingestion (Phase 1):** Verifies HMAC-SHA256 signatures directly on raw request bytes and persists unmodified JSONB events.
-2. **Deterministic 3-Tier Classifier & Policy Engine (Phase 2):** Maps Razorpay's error taxonomy into `SOFT_DECLINE`, `HARD_DECLINE`, and `RISK_FLAG`, applying exponential backoff (1h, 6h, 24h) with a hard 3-retry ceiling.
-3. **Recovery Action Execution & Compliance Guardrails (Phase 3):** Dispatches real test-mode API retries, sends customer email update nudges, isolates risk declines (0 contact, 0 retry), tracks promise-to-pay commitments with exactly-once check-ins, and enforces non-negotiable compliance rules (DND 9am-8pm IST, opt-outs, 3-touch lifetime cap).
-4. **Synthetic Batch Dataset & Live Dashboard (Phase 4):** Evaluates a realistic SaaS failure mix (60 subscriptions) and renders real-time ARR metrics, underlying SQL query proofs, and an honest Exceptions Workbench.
+| Metric | Naive Fixed Retry (Baseline) | AI Recovery Agent + Policy Firewall | Business Impact / Delta |
+| :--- | :--- | :--- | :--- |
+| **Recovery Rate (%)** | **28.19%** | **37.59%** | **+9.40% Absolute Gain** |
+| **Revenue Recovered** | ₹137,955.00 | **₹183,940.00** | **+₹45,985.00 Incremental ARR** |
+| **Retries Attempted** | 403 attempts | **178 attempts** | **225 Unnecessary Retries Eliminated** |
+| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **100% Fraud/Risk Isolation** |
+| **Targeted Nudges** | 0 | **37 Nudges** | Self-serve credential recovery |
+| **AI Diagnosis Accuracy** | N/A | **100.00%** | Root-cause semantic diagnosis |
+| **AI Intervention Accuracy**| N/A | **98.67%** | Optimal intervention selection |
+| **Policy Violation Rate** | 100% Risk Failures | **0.00%** | **Zero Unauthorized Money Movement** |
+
+*All metrics are generated dynamically by `evaluation/benchmark.py` and reproducible via `python scripts/run_evaluation.py`.*
 
 ---
 
-## 🏗️ Repository Architecture
+## 1. Problem
+Subscription businesses lose 9%–15% of recurring ARR to involuntary payment failures. Conventional billing systems blindly retry debits every 24 hours:
+- **Expired Cards:** Blind retries fail 100% of the time, burning retry limits and annoying cardholders.
+- **Risk / Fraud Declines:** Retrying blacklisted cards incurs payment network decline fees and damages merchant risk scores.
+- **Spammy Outreach:** Blind dunning ignores customer opt-outs and violates Do-Not-Disturb (DND) contact hours.
 
+---
+
+## 2. Solution: AI Recommends. Deterministic Policy Authorizes.
+The **Razorpay AI Revenue Recovery Engine** replaces blind retries with an intelligent, decline-aware recovery pipeline:
+1. **Cryptographic Webhook Ingestion:** Verifies HMAC-SHA256 signatures on raw request bytes and persists raw JSONB events.
+2. **AI Diagnostician:** Assesses root cause semantics, estimates empirical recovery probability $P(\text{recovery})$, recommends delay timing (1h, 6h, 24h), and selects customer communication strategies.
+3. **Deterministic Policy Firewall:** An immutable Python safety layer enforcing hard retry limits (max 3), fraud quarantine (0 contact, 0 retry), DND contact windows (9am–8pm IST), customer opt-outs, and lifetime contact caps.
+4. **Action Executors:** Invokes Razorpay's Python SDK for test-mode debit retries, SMTP for self-serve payment link nudges, and risk operations routing.
+5. **Continuous Audit Trail:** Records a single immutable audit row capturing AI diagnosis, policy authorization, override rationale, and financial outcome.
+
+---
+
+## 3. Architecture
+
+```text
+                    RAZORPAY TEST MODE / WEBHOOKS
+                                 │
+                                 ▼
+                         WEBHOOK INGESTION
+                    (HMAC-SHA256 Raw Request Bytes)
+                                 │
+                                 ▼
+                        PAYMENT/USER CONTEXT
+                                 │
+                                 ▼
+                          AI DIAGNOSTICIAN
+                  (Root Cause, P(rec), Delay, Strategy)
+                                 │
+                                 ▼
+                      STRUCTURED RECOMMENDATION
+                     (Validated Pydantic Contract)
+                                 │
+                                 ▼
+                     DETERMINISTIC POLICY FIREWALL
+              (Risk Check, DND, Opt-Out, Cap, Retry Budget)
+                                 │
+            ┌────────────────────┼────────────────────┐
+            ▼                    ▼                    ▼
+     APPROVE: RETRY       APPROVE: NUDGE       BLOCK: ESCALATE
+            │                    │                    │
+            └────────────────────┼────────────────────┘
+                                 ▼
+                          ACTION EXECUTOR
+                     (Razorpay SDK / SMTP Nudge)
+                                 │
+                                 ▼
+                      CONTINUOUS AUDIT LEDGER
+                                 │
+                                 ▼
+                         EVALUATION ENGINE
+                    (Baseline vs AI Comparative)
 ```
-Razorpay/
-├── agent/                         # Core Recovery Intelligence & Compliance
-│   ├── classifier.py              # 3-tier error taxonomy decline classifier
-│   ├── policy_engine.py          # Deterministic policy rules & backoff scheduler
-│   ├── decision_engine.py        # Webhook decision orchestrator
-│   ├── compliance.py             # DND (9am-8pm IST), Opt-Out & Lifetime Cap Guardrails
-│   ├── action_engine.py          # Phase 3 action execution dispatcher
-│   ├── executors/                # Specific action executors
-│   │   ├── retry_executor.py     # Razorpay test-mode API retry executor
-│   │   ├── nudge_executor.py     # SMTP email nudge sender
-│   │   ├── escalation_executor.py# Human escalation marker (0 contact, 0 retry)
-│   │   └── promise_to_pay_executor.py # Exactly-once promise check-in tracker
-│   └── models.py                 # Pydantic schemas & state enums
-├── webhooks/                      # FastAPI Server & Cryptographic Verifiers
-│   ├── server.py                 # Webhook receiver, dashboard APIs & HTML Dashboard UI
-│   └── verifier.py               # Raw-bytes HMAC-SHA256 signature verifier
-├── db/                            # Storage & Repository Layer
-│   ├── client.py                 # Supabase client with in-memory offline fallback
-│   ├── config.py                 # Environment configuration & compliance constants
-│   ├── repository.py             # Continuous audit trail queries & state store
-│   └── schema.sql                # Supabase PostgreSQL schema with RLS & indices
-├── dashboard/                     # Next.js + Tailwind React Dashboard App
-│   ├── app/                      # Next.js App Router (page.tsx, layout.tsx)
-│   ├── lib/                      # Supabase client initializer
-│   └── package.json              # Dashboard dependencies
-├── scripts/                       # CLI Execution & Simulation Scripts
-│   ├── generate_batch_data.py    # Generates 60 subscriptions through real pipeline
-│   ├── verify_phase3.py          # Phase 3 acceptance runner
-│   ├── verify_phase4.py          # Phase 4 acceptance runner
-│   ├── audit_all_phases.py       # Full 5-phase comprehensive audit runner
-│   ├── simulate_webhook.py       # Webhook simulation runner
-│   ├── simulate_customer_reply.py# CLI for Promise-to-Pay and Opt-Outs
-│   └── create_plan_and_subscription.py # Razorpay SDK test plan provisioner
-├── tests/                         # Comprehensive Pytest Suite (41 Tests)
-│   ├── test_classifier.py
-│   ├── test_policy_engine.py
-│   ├── test_stopping_rules.py
-│   ├── test_compliance_guardrails.py
-│   ├── test_phase3_executors.py
-│   ├── test_promise_to_pay.py
-│   ├── test_batch_and_dashboard.py
-│   ├── test_signature.py
-│   └── test_webhooks.py
-├── ARCHITECTURE.md                # System flow diagram & audit schema spec
-├── WHAT_BROKE.md                  # 12 real engineering friction logs & learnings
-├── PITCH_SCRIPT.md                # 5-minute video presentation guide
-├── PANEL_PREP.md                  # 5 hardest Razorpay engineer interview Q&As
-└── requirements.txt               # Backend Python dependencies
-```
 
 ---
 
-## 🚀 Quickstart & Setup Guide
+## 4. AI Safety Model & Policy Firewall
 
-### 1. Clone & Environment Setup
+```text
+AI Recommendation ──> Schema Validation ──> Policy Firewall ──> Authorized Execution
+                                                  │
+                                            [Override Unsafe]
+                                                  │
+                                                  ▼
+                                          ESCALATE_TO_HUMAN
+```
+
+| Guardrail Layer | Enforcement Mechanism | Safety Invariant Guaranteed |
+| :--- | :--- | :--- |
+| **Risk Quarantine** | Rule `RULE_FIREWALL_RISK_QUARANTINE` | If failure code relates to fraud or risk, AI retry/nudge recommendations are overridden to `ESCALATE_TO_HUMAN` (**0 retries, 0 contacts**). |
+| **Retry Budget** | Rule `RULE_FIREWALL_MAX_RETRY_BUDGET_EXHAUSTED` | Subscriptions are capped at strictly **3 retries**. Attempt #4 transitions to terminal `STOPPED_MAX_ATTEMPTS`. |
+| **Replay Idempotency** | Rule `RULE_FIREWALL_TERMINAL_STOP` | Subscriptions in terminal states ignore duplicate/replayed webhooks without re-triggering actions. |
+| **Customer Opt-Out** | Rule `RULE_FIREWALL_OPT_OUT_GUARDRAIL` | Opted-out customers never receive automated outreach. |
+| **Lifetime Contact Cap** | Rule `RULE_FIREWALL_LIFETIME_CAP_GUARDRAIL` | Monotonic global counter limits customer touches to 3 across the whole subscription lifecycle. |
+| **DND Window Hours** | Rule `RULE_FIREWALL_DND_HOLD` | Nudges generated outside 9:00 AM – 8:00 PM IST are rescheduled to 9:00 AM next day. |
+
+---
+
+## 5. Quickstart & Setup
+
+### Prerequisites
+- Python 3.10+
+- Git
+
+### Installation
 ```bash
+# Clone the repository
 git clone https://github.com/SaiSankeerth-dev/Razorpay_demo.git
 cd Razorpay_demo
 
-# Create and activate Python virtual environment
-python -m venv .venv
-
-# On Windows:
-.venv\Scripts\activate
-# On Linux/macOS:
-source .venv/bin/activate
+# Create virtual environment
+python -m venv venv
+# Linux/macOS: source venv/bin/activate
+# Windows: .\venv\Scripts\Activate.ps1
 
 # Install dependencies
 pip install -r requirements.txt
-```
 
-### 2. Configure Environment Variables
-Copy `.env.example` to `.env`:
-```bash
+# Configure environment
 cp .env.example .env
 ```
-Populate `.env` with your Razorpay Test Keys and Supabase credentials:
-```ini
-RAZORPAY_KEY_ID=rzp_test_...
-RAZORPAY_KEY_SECRET=...
-RAZORPAY_WEBHOOK_SECRET=your_webhook_secret_here
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_KEY=your_supabase_anon_key
-USE_LOCAL_DB=false
-```
-*(Note: If Supabase is offline or not configured, the agent seamlessly uses high-speed local persistence fallback).*
 
-### 3. Run the Full Test Suite (41 Automated Tests)
+---
+
+## 6. One-Command Evaluation & Demo
+
+### 1. Run Benchmark Evaluation
+```bash
+python scripts/run_evaluation.py
+```
+*Evaluates Baseline vs AI Recovery Agent over 150 held-out scenarios and outputs `evaluation/results/benchmark.json` and `evaluation/results/benchmark.md`.*
+
+### 2. Run 3-Minute Interactive Demo
+```bash
+python scripts/run_demo.py
+```
+*Demonstrates Scenario A (Transient Recovery), Scenario B (Adversarial AI Blocked by Policy), and Scenario C (Budget Exhaustion).*
+
+### 3. Run Full Automated Test Suite (51 Tests)
 ```bash
 pytest -v
 ```
-*Expected: `41 passed in ~7s`.*
+*Executes unit, invariant, adversarial safety, compliance, and concurrency tests (100% passing).*
+
+### 4. Launch Live Executive Dashboard
+```bash
+python -m uvicorn webhooks.server:app --host 0.0.0.0 --port 8000
+```
+Open **[http://localhost:8000/dashboard](http://localhost:8000/dashboard)** to view the live dashboard.
 
 ---
 
-## 📊 Running the Live System & Dashboard
+## 7. Documentation Index
 
-### 1. Run the Batch Dataset Pipeline (60 Subscriptions)
-Generate 60 realistic subscription declines (50% Soft, 25% Risk, 25% Hard) and process them through the real recovery pipeline:
-```bash
-python scripts/generate_batch_data.py
-```
-
-### 2. Start the Backend & Executive Dashboard Server
-```bash
-uvicorn webhooks.server:app --host 0.0.0.0 --port 8000 --reload
-```
-Open your browser to:
-- **Interactive Executive Dashboard:** `http://localhost:8000/dashboard`
-- **API Documentation (Swagger):** `http://localhost:8000/docs`
-- **Health Check:** `http://localhost:8000/health`
+- [`docs/CURRENT_STATE_AUDIT.md`](docs/CURRENT_STATE_AUDIT.md) — Pre-implementation repository audit & gap analysis.
+- [`docs/AI_SAFETY_MODEL.md`](docs/AI_SAFETY_MODEL.md) — Formal specification of the Deterministic Policy Firewall.
+- [`docs/EVALUATION.md`](docs/EVALUATION.md) — Dataset construction, partitioning, and mathematical evaluation formulas.
+- [`docs/PITCH.md`](docs/PITCH.md) — Complete 5-minute presentation script.
+- [`docs/PANEL_QA.md`](docs/PANEL_QA.md) — Comprehensive technical Q&A preparation.
+- [`WHAT_BROKE.md`](WHAT_BROKE.md) — 10 engineering case studies detailing real bugs, root causes, and fixes.
+- [`LIMITATIONS.md`](LIMITATIONS.md) — Honest boundaries of synthetic data, test mode, and local storage.
 
 ---
 
-## 🧪 Interactive CLI Utilities
+## 8. License
 
-### 1. Simulate a Customer Promise-to-Pay
-```bash
-python scripts/simulate_customer_reply.py promise sub_soft_001 2026-09-01 --notes "Customer committed to pay on salary credit"
-```
-
-### 2. Check in on a Promise-to-Pay (Strictly Exactly-Once)
-```bash
-# Check on date (fires check-in #1)
-python scripts/simulate_customer_reply.py check-promise sub_soft_001 --date 2026-09-01
-
-# Attempt second check-in (strictly blocked by guardrail)
-python scripts/simulate_customer_reply.py check-promise sub_soft_001 --date 2026-09-02
-```
-
-### 3. Opt Out a Subscription from Outbound Notifications
-```bash
-python scripts/simulate_customer_reply.py opt-out sub_hard_002
-```
-
----
-
-## 🔒 Financial Safety & Compliance Invariants
-
-| Guardrail | Enforcement Mechanism | Safety Guarantee |
-| :--- | :--- | :--- |
-| **Max 3 Retries** | Hard-coded counter in `subscription_recovery_state` | Attempt #4 is unconditionally blocked |
-| **Risk Isolation** | Evaluated at Tier 1 before soft/hard logic | 0 automated contact sent, 0 retry API calls |
-| **DND Window** | Localized to `Asia/Kolkata` (9:00 AM – 8:00 PM IST) | 11:00 PM nudges held & rescheduled to 9:00 AM |
-| **Customer Opt-Out** | Stateful flag `is_opted_out = True` | Blocks all future nudges even on fresh declines |
-| **Lifetime Contact Cap** | Global counter `total_contact_attempts` across life of sub | Blocks contact touch $N+1$ across all decline events |
-| **Promise-to-Pay** | Monotonic `check_in_count` counter | Evaluates exactly ONCE; stops re-check loops |
-
----
-
-## 📚 Documentation Directory
-- [`ARCHITECTURE.md`](ARCHITECTURE.md): System architecture flow & audit trail schema.
-- [`WHAT_BROKE.md`](WHAT_BROKE.md): 12 real engineering friction logs and learnings.
-- [`PITCH_SCRIPT.md`](PITCH_SCRIPT.md): 5-minute video pitch presentation script.
-- [`PANEL_PREP.md`](PANEL_PREP.md): 5 hardest technical questions & honest answers for judges.
+Distributed under the MIT License. See [`LICENSE`](LICENSE) for details.

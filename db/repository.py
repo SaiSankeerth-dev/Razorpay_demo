@@ -10,8 +10,12 @@ from db.client import get_supabase_client
 
 import os
 import json
+import threading
 
 logger = logging.getLogger(__name__)
+
+# Thread lock for concurrency safety across parallel requests / webhooks
+_repo_lock = threading.RLock()
 
 # In-memory stores for testing / offline fallback
 _LOCAL_STORE_PATH = os.path.join(os.path.dirname(__file__), "local_store.json")
@@ -24,31 +28,34 @@ _local_promise_to_pay_store: List[Dict[str, Any]] = []
 def _load_local_store() -> None:
     """Loads local persistent state from local_store.json if present."""
     global _local_webhook_store, _local_audit_log_store, _local_subscription_states, _local_promise_to_pay_store
-    if os.path.exists(_LOCAL_STORE_PATH):
-        try:
-            with open(_LOCAL_STORE_PATH, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                _local_webhook_store = data.get("webhooks", [])
-                _local_audit_log_store = data.get("audit_logs", [])
-                _local_subscription_states = data.get("subscription_states", {})
-                _local_promise_to_pay_store = data.get("promise_to_pay", [])
-        except Exception:
-            pass
+    with _repo_lock:
+        if os.path.exists(_LOCAL_STORE_PATH):
+            try:
+                with open(_LOCAL_STORE_PATH, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                    _local_webhook_store = data.get("webhooks", [])
+                    _local_audit_log_store = data.get("audit_logs", [])
+                    _local_subscription_states = data.get("subscription_states", {})
+                    _local_promise_to_pay_store = data.get("promise_to_pay", [])
+            except Exception:
+                pass
 
 
 def _save_local_store() -> None:
     """Saves local persistent state to local_store.json for cross-process CLI sharing."""
-    try:
-        data = {
-            "webhooks": _local_webhook_store,
-            "audit_logs": _local_audit_log_store,
-            "subscription_states": _local_subscription_states,
-            "promise_to_pay": _local_promise_to_pay_store
-        }
-        with open(_LOCAL_STORE_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)
-    except Exception:
-        pass
+    with _repo_lock:
+        try:
+            data = {
+                "webhooks": _local_webhook_store,
+                "audit_logs": _local_audit_log_store,
+                "subscription_states": _local_subscription_states,
+                "promise_to_pay": _local_promise_to_pay_store
+            }
+            with open(_LOCAL_STORE_PATH, "w", encoding="utf-8") as f:
+                json.dump(data, f, indent=2)
+        except Exception:
+            pass
+
 
 
 _load_local_store()
@@ -250,10 +257,23 @@ def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
             "attempt_number": entry.get("attempt_number", 1),
             "retry_delay_seconds": entry.get("retry_delay_seconds"),
             "subscription_lifecycle_state": entry.get("subscription_lifecycle_state"),
+            # AI Diagnosis Fields
+            "ai_diagnosis": entry.get("ai_diagnosis"),
+            "ai_confidence": entry.get("ai_confidence"),
+            "ai_recommendation": entry.get("ai_recommendation"),
+            "ai_provider": entry.get("ai_provider"),
+            # Policy Firewall Fields
+            "policy_decision": entry.get("policy_decision"),
+            "policy_reason": entry.get("policy_reason"),
+            "policy_rule_id": entry.get("policy_rule_id"),
+            "policy_override_applied": entry.get("policy_override_applied", False),
+            "policy_override_reason": entry.get("policy_override_reason"),
+            # Action Outcome Fields
             "action_executed": entry.get("action_executed"),
             "action_result": entry.get("action_result"),
             "action_details": entry.get("action_details") or {},
             "executed_at": entry.get("executed_at"),
+            "recovered_amount": entry.get("recovered_amount"),
             "created_at": entry.get("created_at") or now_iso
         }
     else:
@@ -269,10 +289,23 @@ def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
             "attempt_number": getattr(entry, "attempt_number", 1),
             "retry_delay_seconds": getattr(entry, "retry_delay_seconds", None),
             "subscription_lifecycle_state": getattr(entry, "subscription_lifecycle_state", ""),
+            # AI Diagnosis Fields
+            "ai_diagnosis": getattr(entry, "ai_diagnosis", None),
+            "ai_confidence": getattr(entry, "ai_confidence", None),
+            "ai_recommendation": getattr(entry, "ai_recommendation", None),
+            "ai_provider": getattr(entry, "ai_provider", None),
+            # Policy Firewall Fields
+            "policy_decision": getattr(entry, "policy_decision", None),
+            "policy_reason": getattr(entry, "policy_reason", None),
+            "policy_rule_id": getattr(entry, "policy_rule_id", None),
+            "policy_override_applied": getattr(entry, "policy_override_applied", False),
+            "policy_override_reason": getattr(entry, "policy_override_reason", None),
+            # Action Outcome Fields
             "action_executed": getattr(entry, "action_executed", None),
             "action_result": getattr(entry, "action_result", None),
             "action_details": getattr(entry, "action_details", {}) or {},
             "executed_at": getattr(entry, "executed_at", None),
+            "recovered_amount": getattr(entry, "recovered_amount", None),
             "created_at": getattr(entry, "created_at", None) or now_iso
         }
 
@@ -288,6 +321,7 @@ def save_recovery_audit_log(entry: Any) -> Dict[str, Any]:
 
     _local_audit_log_store.append(record_data)
     return record_data
+
 
 
 def update_recovery_audit_action_outcome(
@@ -484,10 +518,13 @@ def check_in_promise_to_pay(promise_id: str) -> Optional[Dict[str, Any]]:
 def clear_local_store() -> None:
     """Helper for test cleanup."""
     global _local_webhook_store, _local_audit_log_store, _local_subscription_states, _local_promise_to_pay_store
-    _local_webhook_store.clear()
-    _local_audit_log_store.clear()
-    _local_subscription_states.clear()
-    _local_promise_to_pay_store.clear()
+    with _repo_lock:
+        _local_webhook_store.clear()
+        _local_audit_log_store.clear()
+        _local_subscription_states.clear()
+        _local_promise_to_pay_store.clear()
+        _save_local_store()
+
 
 
 # ============================================================================

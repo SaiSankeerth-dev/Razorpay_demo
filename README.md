@@ -54,7 +54,7 @@ Deterministic PolicyFirewall Authorizes
 ---
 
 ## 1. Problem
-Subscription businesses lose 9%–15% of recurring ARR to involuntary payment failures. Conventional billing systems blindly retry debits every 24 hours:
+Subscription businesses lose 9%–15% of recurring revenue to involuntary payment failures. Conventional billing systems blindly retry debits every 24 hours:
 - **Expired Cards:** Blind retries fail 100% of the time, burning retry limits and annoying cardholders.
 - **Risk / Fraud Declines:** Retrying blacklisted cards incurs payment network decline fees and damages merchant risk scores.
 - **Spammy Outreach:** Blind dunning ignores customer opt-outs and violates Do-Not-Disturb (DND) contact hours.

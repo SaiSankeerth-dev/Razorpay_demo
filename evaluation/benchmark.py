@@ -297,7 +297,7 @@ def generate_markdown_report(b: Dict[str, Any]) -> str:
 | Metric | Naive Fixed Retry (Baseline) | AI Recovery Agent + Policy Firewall | Business Impact / Delta |
 | :--- | :--- | :--- | :--- |
 | **Recovery Rate (%)** | **{base['recovery_rate_pct']:.2f}%** | **{agent['recovery_rate_pct']:.2f}%** | **+{comp['incremental_recovery_rate_gain_pct']:.2f}% Absolute Gain** |
-| **Total Revenue Recovered** | ₹{base['recovered_revenue_inr']:,.2f} | **₹{agent['recovered_revenue_inr']:,.2f}** | **+₹{comp['incremental_recovered_revenue_inr']:,.2f} Incremental ARR** |
+| **Total Revenue Recovered** | ₹{base['recovered_revenue_inr']:,.2f} | **₹{agent['recovered_revenue_inr']:,.2f}** | **+₹{comp['incremental_recovered_revenue_inr']:,.2f} Incremental Revenue Recovered** |
 | **Recovered Subscriptions** | {base['recovered_count']} subs | **{agent['recovered_count']} subs** | +{agent['recovered_count'] - base['recovered_count']} Subscriptions Saved |
 | **Total Retries Attempted** | {base['retries_attempted']} attempts | **{agent['retries_attempted']} attempts** | **{comp['unnecessary_retries_avoided']} Unnecessary Retries Eliminated** |
 | **Risk / Fraud Retries** | {base['risk_retries_attempted']} (Security Violations) | **0 (Zero Violations)** | **100% Fraud/Risk Isolation** |

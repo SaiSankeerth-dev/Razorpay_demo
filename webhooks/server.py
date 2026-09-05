@@ -502,7 +502,7 @@ async def serve_dashboard():
             </h2>
             <span class="text-[10px] px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 font-mono font-semibold">Held-Out Test Set (150 Cases)</span>
           </div>
-          <p class="text-xs text-slate-400 mt-1">Measured comparison proving incremental ARR recovery and 100% elimination of unauthorized risk retries</p>
+          <p class="text-xs text-slate-400 mt-1">Measured comparison proving incremental revenue recovery and 100% elimination of unauthorized risk retries</p>
         </div>
         <div class="text-right">
           <span class="text-xs font-mono text-emerald-400 font-bold bg-emerald-500/10 px-3 py-1.5 rounded-lg border border-emerald-500/30" id="bench-incremental-gain">+₹45,985.00 (+9.40% Gain)</span>

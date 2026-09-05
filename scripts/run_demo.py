@@ -27,7 +27,7 @@ logging.basicConfig(level=logging.INFO, format="%(message)s")
 
 def demo_scenario_a():
     print("\n" + "=" * 70)
-    print("SCENARIO A: INTELLIGENT TRANSIENT RECOVERY")
+    print("SCENARIO 1 - SUCCESS: INTELLIGENT TRANSIENT RECOVERY")
     print("=" * 70)
     print("1. Ingesting 'payment.failed' webhook with gateway technical timeout...")
 
@@ -66,15 +66,15 @@ def demo_scenario_a():
     print(f"   - Authorized Action:    {decision.action.value} (Attempt #{decision.attempt_number})")
     print(f"   - Override Applied:     {audit_row['policy_override_applied']}")
 
-    print("4. Executing Phase 3 Test-Mode Retry Action...")
+    print("4. Executing Phase 3 Recovery Action...")
     action_res = execute_recovery_action(decision=decision, audit_log_id=audit_row.get("id"))
-    print(f"   - Execution Result:     SUCCESS (Simulated Test-Mode Debit Succeeded)")
+    print(f"   - Execution Result:     {action_res.get('action_result', 'SUCCESS')} ({action_res.get('action_executed')})")
     print(f"   - Recovered Revenue:    INR 2,499.00")
 
 
 def demo_scenario_b():
     print("\n" + "=" * 70)
-    print("SCENARIO B: ADVERSARIAL AI CONTAINMENT (SECURITY / RISK OVERRIDE)")
+    print("SCENARIO 2 - AI IS WRONG: ADVERSARIAL RISK OVERRIDE (CRITICAL SAFETY)")
     print("=" * 70)
     print("1. Ingesting 'payment.failed' webhook with card_blacklisted / stolen card...")
 
@@ -145,7 +145,7 @@ def demo_scenario_b():
 
 def demo_scenario_c():
     print("\n" + "=" * 70)
-    print("SCENARIO C: HARD RETRY BUDGET EXHAUSTION (3/3 ATTEMPTS)")
+    print("SCENARIO 3 - STOPPING RULE: RETRY BUDGET EXHAUSTION (3/3 ATTEMPTS)")
     print("=" * 70)
     print("1. Sub 'sub_demo_003' has already failed attempts 1, 2, and 3.")
     print("2. Ingesting 4th failure webhook...")

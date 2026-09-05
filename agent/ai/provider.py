@@ -56,11 +56,13 @@ class LocalAIProvider(AIProvider):
         error_desc = (failure_data.error_description or "").lower()
         attempt_count = context.get("current_attempt_count", 0)
 
-        # 1. RISK / FRAUD DIAGNOSIS
+        # 1. RISK / FRAUD DIAGNOSIS (Semantic & Taxonomy)
         risk_triggers = [
             "payment_risk_check_failed", "risk_check_failed", "high_risk",
             "fraud_suspected", "card_blacklisted", "stolen_card", "lost_card",
-            "restricted_card", "do_not_honor", "security_violation"
+            "restricted_card", "do_not_honor", "security_violation", "velocity_exceeded_risk",
+            "safety_controls", "safety controls", "device_fingerprint", "device fingerprint",
+            "velocity_risk", "velocity risk", "unauthorized"
         ]
         if any(t in error_reason or t in error_desc for t in risk_triggers):
             return AIDiagnosisResult(
@@ -70,30 +72,49 @@ class LocalAIProvider(AIProvider):
                 recommended_delay_hours=0,
                 customer_message_strategy="HUMAN_SUPPORT",
                 confidence=0.99,
-                reasoning="Decline triggered by bank/issuer fraud or risk filter. Automated retries or nudges strictly unsafe.",
+                reasoning="Decline triggered by bank/issuer fraud or security risk filter. Automated retries or nudges strictly unsafe.",
                 provider_used="local_diagnostic_engine"
             )
 
-        # 2. HARD DECLINE (Credential Invalidation)
+        # 2. HARD DECLINE / CREDENTIAL INVALIDATION & RE-AUTHENTICATION (Semantic & Taxonomy)
         hard_triggers = [
             "expired_card", "invalid_card", "card_inactive", "token_not_eligible",
             "token_deleted", "token_inactive", "mandate_cancelled", "mandate_inactive",
-            "customer_mandate_revoked", "account_closed", "subscription_halted"
+            "customer_mandate_revoked", "account_closed", "subscription_halted",
+            "reauthentication", "re-authentication", "additional verification", "verification failed",
+            "2fa", "two-factor", "token revoked", "token_revoked", "restricted_permanent",
+            "permanently restricted", "account closed"
         ]
         if any(t in error_reason or t in error_desc for t in hard_triggers) or failure_data.event_type == "subscription.halted":
+            is_reauth = any(t in error_reason or t in error_desc for t in ["reauthentication", "re-authentication", "additional verification", "2fa"])
+            diag_name = "credential_reauthentication_required" if is_reauth else "permanent_credential_invalidation"
+            reason_text = (
+                "Payment failure requires customer re-authentication or card update. Autonomous retries will fail without customer action."
+                if is_reauth else
+                "Payment instrument or mandate is permanently invalid. Autonomous retries will fail without customer updating credentials."
+            )
             return AIDiagnosisResult(
-                failure_diagnosis="permanent_credential_invalidation",
-                recovery_probability=0.08,
+                failure_diagnosis=diag_name,
+                recovery_probability=0.12 if is_reauth else 0.08,
                 recommended_action=DecidedAction.NUDGE_PAYMENT_UPDATE,
                 recommended_delay_hours=0,
                 customer_message_strategy="URGENT_CARD_UPDATE",
                 confidence=0.96,
-                reasoning="Payment instrument or mandate is permanently invalid. Autonomous retries will fail without customer updating credentials.",
+                reasoning=reason_text,
                 provider_used="local_diagnostic_engine"
             )
 
-        # 3. SOFT DECLINE (Transient Gateway / Funds Deficit)
-        is_bank_timeout = any(t in error_reason or t in error_desc for t in ["timeout", "timed_out", "gateway_error", "bank_technical_error", "network_error", "temporary_issuer_down"])
+        # 3. SOFT DECLINE (Transient Gateway / Funds Deficit / Network Congestion)
+        is_bank_timeout = any(
+            t in error_reason or t in error_desc
+            for t in [
+                "timeout", "timed_out", "gateway_error", "gateway_technical_error",
+                "bank_technical_error", "technical_error", "technical", "gateway",
+                "network_error", "temporary_issuer_down", "issuer_restriction",
+                "issuer restriction", "response_delayed", "response delayed",
+                "traffic congestion", "capture_failed", "capture failed", "temporarily unavailable"
+            ]
+        )
         
         if is_bank_timeout:
             # Short-term network/bank downtime

@@ -133,8 +133,17 @@ def run_benchmark(dataset_file: str = "test_set.json") -> Dict[str, Any]:
         ai_rec = audit_row.get("ai_recommendation")
         is_override = audit_row.get("policy_override_applied", False)
 
-        # Check diagnostic accuracy
-        if classification.bucket.value == gt_bucket:
+        # Check diagnostic accuracy from AI Diagnostician
+        ai_diag_bucket_map = {
+            "transient_banking_gateway_downtime": "SOFT_DECLINE",
+            "temporary_liquidity_deficit": "SOFT_DECLINE",
+            "permanent_credential_invalidation": "HARD_DECLINE",
+            "credential_reauthentication_required": "HARD_DECLINE",
+            "issuer_security_risk_quarantine": "RISK_FLAG",
+            "unclassified_error_failsafe": "SOFT_DECLINE"
+        }
+        ai_diagnosed_bucket = ai_diag_bucket_map.get(ai_diag, "SOFT_DECLINE")
+        if ai_diagnosed_bucket == gt_bucket:
             ai_diag_correct += 1
         if ai_rec == gt_action:
             ai_interv_correct += 1

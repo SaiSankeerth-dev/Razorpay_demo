@@ -11,7 +11,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_error",
+      "error_reason": "issuer_temporarily_unavailable",
+      "error_description": "Issuer temporarily unavailable due to network traffic congestion",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -29,8 +30,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "issuer_temporarily_unavailable",
+              "error_description": "Issuer temporarily unavailable due to network traffic congestion",
               "notes": {
                 "subscription_id": "sub_syn_0363",
                 "customer_email": "user_363@example.com"
@@ -49,7 +50,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "insufficient_funds",
+      "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -67,8 +69,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0442",
                 "customer_email": "user_442@example.com"
@@ -87,7 +89,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "card_blacklisted",
+      "error_reason": "device_fingerprint_anomaly",
+      "error_description": "Security violation detected on anomalous device fingerprint",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -105,8 +108,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_blacklisted",
-              "error_description": "Security risk block: card_blacklisted",
+              "error_reason": "device_fingerprint_anomaly",
+              "error_description": "Security violation detected on anomalous device fingerprint",
               "notes": {
                 "subscription_id": "sub_syn_0675",
                 "customer_email": "risk_675@example.com"
@@ -128,7 +131,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "invalid_card",
+      "error_reason": "account_closed",
+      "error_description": "Cardholder bank account closed permanently",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -143,8 +147,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "account_closed",
+              "error_description": "Cardholder bank account closed permanently",
               "notes": {
                 "subscription_id": "sub_syn_0947",
                 "customer_email": "hard_947@example.com"
@@ -163,7 +167,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "issuer_temporarily_unavailable",
+      "error_description": "Issuer temporarily unavailable due to network traffic congestion",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -181,8 +186,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "issuer_temporarily_unavailable",
+              "error_description": "Issuer temporarily unavailable due to network traffic congestion",
               "notes": {
                 "subscription_id": "sub_syn_0097",
                 "customer_email": "user_97@example.com"
@@ -201,7 +206,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "payment_timed_out",
+      "error_reason": "issuer_temporarily_unavailable",
+      "error_description": "Issuer temporarily unavailable due to network traffic congestion",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -219,8 +225,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_reason": "issuer_temporarily_unavailable",
+              "error_description": "Issuer temporarily unavailable due to network traffic congestion",
               "notes": {
                 "subscription_id": "sub_syn_0195",
                 "customer_email": "user_195@example.com"
@@ -239,7 +245,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "gateway_error",
+      "error_reason": "bank_response_delayed",
+      "error_description": "Bank response delayed - debit authorization status unconfirmed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -257,8 +264,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "bank_response_delayed",
+              "error_description": "Bank response delayed - debit authorization status unconfirmed",
               "notes": {
                 "subscription_id": "sub_syn_0417",
                 "customer_email": "user_417@example.com"
@@ -277,7 +284,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "velocity_exceeded_risk",
+      "error_reason": "restricted_card",
+      "error_description": "Restricted card instrument: debit prohibited",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -295,8 +303,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "velocity_exceeded_risk",
-              "error_description": "Security risk block: velocity_exceeded_risk",
+              "error_reason": "restricted_card",
+              "error_description": "Restricted card instrument: debit prohibited",
               "notes": {
                 "subscription_id": "sub_syn_0710",
                 "customer_email": "risk_710@example.com"
@@ -315,7 +323,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_timed_out",
+      "error_reason": "bank_response_delayed",
+      "error_description": "Bank response delayed - debit authorization status unconfirmed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -333,8 +342,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_reason": "bank_response_delayed",
+              "error_description": "Bank response delayed - debit authorization status unconfirmed",
               "notes": {
                 "subscription_id": "sub_syn_0249",
                 "customer_email": "user_249@example.com"
@@ -353,7 +362,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "network_error",
+      "error_reason": "bank_timeout",
+      "error_description": "Bank authorization timeout during debit attempt",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -371,8 +381,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "bank_timeout",
+              "error_description": "Bank authorization timeout during debit attempt",
               "notes": {
                 "subscription_id": "sub_syn_0485",
                 "customer_email": "user_485@example.com"
@@ -391,7 +401,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_risk_check_failed",
+      "error_reason": "stolen_card",
+      "error_description": "Card reported stolen by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -409,8 +420,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_risk_check_failed",
-              "error_description": "Security risk block: payment_risk_check_failed",
+              "error_reason": "stolen_card",
+              "error_description": "Card reported stolen by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0591",
                 "customer_email": "risk_591@example.com"
@@ -429,7 +440,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "card_blacklisted",
+      "error_reason": "velocity_risk_alert",
+      "error_description": "High risk velocity alert triggered by payment processor",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -447,8 +459,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_blacklisted",
-              "error_description": "Security risk block: card_blacklisted",
+              "error_reason": "velocity_risk_alert",
+              "error_description": "High risk velocity alert triggered by payment processor",
               "notes": {
                 "subscription_id": "sub_syn_0585",
                 "customer_email": "risk_585@example.com"
@@ -467,7 +479,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "insufficient_funds",
+      "error_reason": "temporary_issuer_restriction",
+      "error_description": "Temporary issuer restriction - retry recommended after delay",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -485,8 +498,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "temporary_issuer_restriction",
+              "error_description": "Temporary issuer restriction - retry recommended after delay",
               "notes": {
                 "subscription_id": "sub_syn_0136",
                 "customer_email": "user_136@example.com"
@@ -508,7 +521,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "mandate_cancelled",
+      "error_reason": "mandate_2fa_failed",
+      "error_description": "Customer mandate authentication failed during 2FA step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -523,8 +537,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "mandate_cancelled",
-              "error_description": "Permanent decline: mandate_cancelled",
+              "error_reason": "mandate_2fa_failed",
+              "error_description": "Customer mandate authentication failed during 2FA step",
               "notes": {
                 "subscription_id": "sub_syn_0754",
                 "customer_email": "hard_754@example.com"
@@ -543,7 +557,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "temporary_issuer_restriction",
+      "error_description": "Temporary issuer restriction - retry recommended after delay",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -561,8 +576,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "temporary_issuer_restriction",
+              "error_description": "Temporary issuer restriction - retry recommended after delay",
               "notes": {
                 "subscription_id": "sub_syn_0220",
                 "customer_email": "user_220@example.com"
@@ -584,7 +599,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": true,
       "is_night_dnd": false,
-      "error_reason": "card_inactive",
+      "error_reason": "mandate_2fa_failed",
+      "error_description": "Customer mandate authentication failed during 2FA step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -599,8 +615,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_inactive",
-              "error_description": "Permanent decline: card_inactive",
+              "error_reason": "mandate_2fa_failed",
+              "error_description": "Customer mandate authentication failed during 2FA step",
               "notes": {
                 "subscription_id": "sub_syn_0768",
                 "customer_email": "hard_768@example.com"
@@ -619,7 +635,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "stolen_card",
+      "error_reason": "velocity_exceeded_risk",
+      "error_description": "Card velocity anomaly exceeded risk boundary",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -637,8 +654,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "stolen_card",
-              "error_description": "Security risk block: stolen_card",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Card velocity anomaly exceeded risk boundary",
               "notes": {
                 "subscription_id": "sub_syn_0686",
                 "customer_email": "risk_686@example.com"
@@ -657,7 +674,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "payment_timed_out",
+      "error_description": "Transaction timed out waiting for bank confirmation",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -675,8 +693,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "payment_timed_out",
+              "error_description": "Transaction timed out waiting for bank confirmation",
               "notes": {
                 "subscription_id": "sub_syn_0286",
                 "customer_email": "user_286@example.com"
@@ -695,7 +713,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "insufficient_funds",
+      "error_reason": "payment_timed_out",
+      "error_description": "Transaction timed out waiting for bank confirmation",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -713,8 +732,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "payment_timed_out",
+              "error_description": "Transaction timed out waiting for bank confirmation",
               "notes": {
                 "subscription_id": "sub_syn_0244",
                 "customer_email": "user_244@example.com"
@@ -734,6 +753,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "lost_card",
+      "error_description": "Card reported lost by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -752,7 +772,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_description": "Card reported lost by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0527",
                 "customer_email": "risk_527@example.com"
@@ -771,7 +791,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "security_violation",
+      "error_reason": "payment_risk_check_failed",
+      "error_description": "Payment risk evaluation score exceeded threshold",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -789,8 +810,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "security_violation",
-              "error_description": "Security risk block: security_violation",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Payment risk evaluation score exceeded threshold",
               "notes": {
                 "subscription_id": "sub_syn_0729",
                 "customer_email": "risk_729@example.com"
@@ -809,7 +830,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_timed_out",
+      "error_reason": "gateway_error",
+      "error_description": "Payment gateway processing error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -827,8 +849,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_reason": "gateway_error",
+              "error_description": "Payment gateway processing error",
               "notes": {
                 "subscription_id": "sub_syn_0339",
                 "customer_email": "user_339@example.com"
@@ -850,7 +872,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "token_deleted",
+      "error_description": "Recurring payment token was deleted by user or bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -865,8 +888,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "token_deleted",
+              "error_description": "Recurring payment token was deleted by user or bank",
               "notes": {
                 "subscription_id": "sub_syn_0873",
                 "customer_email": "hard_873@example.com"
@@ -885,7 +908,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "capture_failed_post_auth",
+      "error_description": "Authorization succeeded but capture failed during settlement",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -903,8 +927,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "capture_failed_post_auth",
+              "error_description": "Authorization succeeded but capture failed during settlement",
               "notes": {
                 "subscription_id": "sub_syn_0070",
                 "customer_email": "user_70@example.com"
@@ -926,7 +950,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": true,
-      "error_reason": "invalid_card",
+      "error_reason": "mandate_cancelled",
+      "error_description": "Recurring debit mandate was cancelled by customer",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -941,8 +966,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Recurring debit mandate was cancelled by customer",
               "notes": {
                 "subscription_id": "sub_syn_0875",
                 "customer_email": "hard_875@example.com"
@@ -961,7 +986,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "bank_technical_error",
+      "error_description": "Bank core banking server technical error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -979,8 +1005,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "bank_technical_error",
+              "error_description": "Bank core banking server technical error",
               "notes": {
                 "subscription_id": "sub_syn_0061",
                 "customer_email": "user_61@example.com"
@@ -999,7 +1025,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "lost_card",
+      "error_reason": "velocity_exceeded_risk",
+      "error_description": "Card velocity anomaly exceeded risk boundary",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1017,8 +1044,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Card velocity anomaly exceeded risk boundary",
               "notes": {
                 "subscription_id": "sub_syn_0647",
                 "customer_email": "risk_647@example.com"
@@ -1037,7 +1064,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "card_blacklisted",
+      "error_reason": "velocity_exceeded_risk",
+      "error_description": "Card velocity anomaly exceeded risk boundary",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1055,8 +1083,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_blacklisted",
-              "error_description": "Security risk block: card_blacklisted",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Card velocity anomaly exceeded risk boundary",
               "notes": {
                 "subscription_id": "sub_syn_0725",
                 "customer_email": "risk_725@example.com"
@@ -1075,7 +1103,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "insufficient_funds",
+      "error_reason": "gateway_error",
+      "error_description": "Payment gateway processing error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1093,8 +1122,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "gateway_error",
+              "error_description": "Payment gateway processing error",
               "notes": {
                 "subscription_id": "sub_syn_0073",
                 "customer_email": "user_73@example.com"
@@ -1114,6 +1143,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1132,7 +1162,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0008",
                 "customer_email": "user_8@example.com"
@@ -1154,7 +1184,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_deleted",
+      "error_reason": "invalid_card",
+      "error_description": "Invalid card number or credentials",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1169,8 +1200,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_deleted",
-              "error_description": "Permanent decline: token_deleted",
+              "error_reason": "invalid_card",
+              "error_description": "Invalid card number or credentials",
               "notes": {
                 "subscription_id": "sub_syn_0968",
                 "customer_email": "hard_968@example.com"
@@ -1189,7 +1220,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "card_blacklisted",
+      "error_reason": "lost_card",
+      "error_description": "Card reported lost by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1207,8 +1239,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_blacklisted",
-              "error_description": "Security risk block: card_blacklisted",
+              "error_reason": "lost_card",
+              "error_description": "Card reported lost by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0735",
                 "customer_email": "risk_735@example.com"
@@ -1227,7 +1259,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "payment_failed",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1245,8 +1278,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_failed",
-              "error_description": "Payment debit declined: payment_failed",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0236",
                 "customer_email": "user_236@example.com"
@@ -1265,7 +1298,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "restricted_card",
+      "error_reason": "security_violation",
+      "error_description": "Security compliance violation detected during processing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1283,8 +1317,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "restricted_card",
-              "error_description": "Security risk block: restricted_card",
+              "error_reason": "security_violation",
+              "error_description": "Security compliance violation detected during processing",
               "notes": {
                 "subscription_id": "sub_syn_0568",
                 "customer_email": "risk_568@example.com"
@@ -1303,7 +1337,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "high_risk",
+      "error_reason": "card_blacklisted",
+      "error_description": "Card blacklisted by card scheme security filters",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1321,8 +1356,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "high_risk",
-              "error_description": "Security risk block: high_risk",
+              "error_reason": "card_blacklisted",
+              "error_description": "Card blacklisted by card scheme security filters",
               "notes": {
                 "subscription_id": "sub_syn_0603",
                 "customer_email": "risk_603@example.com"
@@ -1341,7 +1376,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1359,8 +1395,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0022",
                 "customer_email": "user_22@example.com"
@@ -1379,7 +1415,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "bank_technical_error",
+      "error_reason": "bank_response_delayed",
+      "error_description": "Bank response delayed - debit authorization status unconfirmed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1397,8 +1434,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_technical_error",
-              "error_description": "Payment debit declined: bank_technical_error",
+              "error_reason": "bank_response_delayed",
+              "error_description": "Bank response delayed - debit authorization status unconfirmed",
               "notes": {
                 "subscription_id": "sub_syn_0347",
                 "customer_email": "user_347@example.com"
@@ -1420,7 +1457,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": true,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "invalid_card",
+      "error_description": "Invalid card number or credentials",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1435,8 +1473,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "invalid_card",
+              "error_description": "Invalid card number or credentials",
               "notes": {
                 "subscription_id": "sub_syn_0828",
                 "customer_email": "hard_828@example.com"
@@ -1455,7 +1493,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "payment_timed_out",
+      "error_reason": "temporary_issuer_down",
+      "error_description": "Issuing bank switch temporarily offline",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1473,8 +1512,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Issuing bank switch temporarily offline",
               "notes": {
                 "subscription_id": "sub_syn_0231",
                 "customer_email": "user_231@example.com"
@@ -1494,6 +1533,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "payment_failed",
+      "error_description": "Payment processing failed at issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1512,7 +1552,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "payment_failed",
-              "error_description": "Payment debit declined: payment_failed",
+              "error_description": "Payment processing failed at issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0254",
                 "customer_email": "user_254@example.com"
@@ -1531,7 +1571,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1549,8 +1590,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0124",
                 "customer_email": "user_124@example.com"
@@ -1569,7 +1610,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "insufficient_funds",
+      "error_description": "Payment failed: insufficient funds in account",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1587,8 +1629,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment failed: insufficient funds in account",
               "notes": {
                 "subscription_id": "sub_syn_0463",
                 "customer_email": "user_463@example.com"
@@ -1608,6 +1650,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "velocity_exceeded_risk",
+      "error_description": "Card velocity anomaly exceeded risk boundary",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1626,7 +1669,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "velocity_exceeded_risk",
-              "error_description": "Security risk block: velocity_exceeded_risk",
+              "error_description": "Card velocity anomaly exceeded risk boundary",
               "notes": {
                 "subscription_id": "sub_syn_0530",
                 "customer_email": "risk_530@example.com"
@@ -1645,7 +1688,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "network_error",
+      "error_reason": "insufficient_funds",
+      "error_description": "Payment failed: insufficient funds in account",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1663,8 +1707,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment failed: insufficient funds in account",
               "notes": {
                 "subscription_id": "sub_syn_0449",
                 "customer_email": "user_449@example.com"
@@ -1686,7 +1730,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_not_eligible",
+      "error_reason": "token_inactive",
+      "error_description": "Saved token is inactive or expired",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1701,8 +1746,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_not_eligible",
-              "error_description": "Permanent decline: token_not_eligible",
+              "error_reason": "token_inactive",
+              "error_description": "Saved token is inactive or expired",
               "notes": {
                 "subscription_id": "sub_syn_0832",
                 "customer_email": "hard_832@example.com"
@@ -1724,7 +1769,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": true,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "token_inactive",
+      "error_description": "Saved token is inactive or expired",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1739,8 +1785,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "token_inactive",
+              "error_description": "Saved token is inactive or expired",
               "notes": {
                 "subscription_id": "sub_syn_0972",
                 "customer_email": "hard_972@example.com"
@@ -1759,7 +1805,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "restricted_card",
+      "error_reason": "device_fingerprint_anomaly",
+      "error_description": "Security violation detected on anomalous device fingerprint",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1777,8 +1824,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "restricted_card",
-              "error_description": "Security risk block: restricted_card",
+              "error_reason": "device_fingerprint_anomaly",
+              "error_description": "Security violation detected on anomalous device fingerprint",
               "notes": {
                 "subscription_id": "sub_syn_0688",
                 "customer_email": "risk_688@example.com"
@@ -1800,7 +1847,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "customer_mandate_revoked",
+      "error_reason": "token_deleted",
+      "error_description": "Recurring payment token was deleted by user or bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1815,8 +1863,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "customer_mandate_revoked",
-              "error_description": "Permanent decline: customer_mandate_revoked",
+              "error_reason": "token_deleted",
+              "error_description": "Recurring payment token was deleted by user or bank",
               "notes": {
                 "subscription_id": "sub_syn_0845",
                 "customer_email": "hard_845@example.com"
@@ -1835,7 +1883,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "bank_technical_error",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1853,8 +1902,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_technical_error",
-              "error_description": "Payment debit declined: bank_technical_error",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0320",
                 "customer_email": "user_320@example.com"
@@ -1873,7 +1922,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_risk_check_failed",
+      "error_reason": "high_risk",
+      "error_description": "Transaction flagged as high risk by processor rules",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1891,8 +1941,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_risk_check_failed",
-              "error_description": "Security risk block: payment_risk_check_failed",
+              "error_reason": "high_risk",
+              "error_description": "Transaction flagged as high risk by processor rules",
               "notes": {
                 "subscription_id": "sub_syn_0731",
                 "customer_email": "risk_731@example.com"
@@ -1911,7 +1961,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "network_error",
+      "error_reason": "temporary_issuer_restriction",
+      "error_description": "Temporary issuer restriction - retry recommended after delay",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1929,8 +1980,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "temporary_issuer_restriction",
+              "error_description": "Temporary issuer restriction - retry recommended after delay",
               "notes": {
                 "subscription_id": "sub_syn_0206",
                 "customer_email": "user_206@example.com"
@@ -1949,7 +2000,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "lost_card",
+      "error_reason": "card_blacklisted",
+      "error_description": "Card blacklisted by card scheme security filters",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -1967,8 +2019,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_reason": "card_blacklisted",
+              "error_description": "Card blacklisted by card scheme security filters",
               "notes": {
                 "subscription_id": "sub_syn_0707",
                 "customer_email": "risk_707@example.com"
@@ -1990,7 +2042,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "card_inactive",
+      "error_reason": "expired_card",
+      "error_description": "Payment card has expired",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2005,8 +2058,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_inactive",
-              "error_description": "Permanent decline: card_inactive",
+              "error_reason": "expired_card",
+              "error_description": "Payment card has expired",
               "notes": {
                 "subscription_id": "sub_syn_0939",
                 "customer_email": "hard_939@example.com"
@@ -2028,7 +2081,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "invalid_card",
+      "error_reason": "expired_card",
+      "error_description": "Payment card has expired",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2043,8 +2097,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "expired_card",
+              "error_description": "Payment card has expired",
               "notes": {
                 "subscription_id": "sub_syn_0785",
                 "customer_email": "hard_785@example.com"
@@ -2066,7 +2120,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "card_inactive",
+      "error_reason": "token_revoked_by_issuer",
+      "error_description": "Card authentication token revoked by issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2081,8 +2136,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_inactive",
-              "error_description": "Permanent decline: card_inactive",
+              "error_reason": "token_revoked_by_issuer",
+              "error_description": "Card authentication token revoked by issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0867",
                 "customer_email": "hard_867@example.com"
@@ -2101,7 +2156,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_failed",
+      "error_reason": "capture_failed_post_auth",
+      "error_description": "Authorization succeeded but capture failed during settlement",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2119,8 +2175,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_failed",
-              "error_description": "Payment debit declined: payment_failed",
+              "error_reason": "capture_failed_post_auth",
+              "error_description": "Authorization succeeded but capture failed during settlement",
               "notes": {
                 "subscription_id": "sub_syn_0434",
                 "customer_email": "user_434@example.com"
@@ -2139,7 +2195,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "risk_check_failed",
+      "error_reason": "bank_safety_controls_blocked",
+      "error_description": "Transaction stopped by beneficiary bank safety controls",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2157,8 +2214,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "risk_check_failed",
-              "error_description": "Security risk block: risk_check_failed",
+              "error_reason": "bank_safety_controls_blocked",
+              "error_description": "Transaction stopped by beneficiary bank safety controls",
               "notes": {
                 "subscription_id": "sub_syn_0622",
                 "customer_email": "risk_622@example.com"
@@ -2177,7 +2234,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_risk_check_failed",
+      "error_reason": "restricted_card",
+      "error_description": "Restricted card instrument: debit prohibited",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2195,8 +2253,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_risk_check_failed",
-              "error_description": "Security risk block: payment_risk_check_failed",
+              "error_reason": "restricted_card",
+              "error_description": "Restricted card instrument: debit prohibited",
               "notes": {
                 "subscription_id": "sub_syn_0541",
                 "customer_email": "risk_541@example.com"
@@ -2218,7 +2276,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "expired_card",
+      "error_reason": "invalid_card",
+      "error_description": "Invalid card number or credentials",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2233,8 +2292,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "expired_card",
-              "error_description": "Permanent decline: expired_card",
+              "error_reason": "invalid_card",
+              "error_description": "Invalid card number or credentials",
               "notes": {
                 "subscription_id": "sub_syn_0856",
                 "customer_email": "hard_856@example.com"
@@ -2253,7 +2312,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "network_error",
+      "error_reason": "payment_failed",
+      "error_description": "Payment processing failed at issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2271,8 +2331,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "payment_failed",
+              "error_description": "Payment processing failed at issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0170",
                 "customer_email": "user_170@example.com"
@@ -2291,7 +2351,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "high_risk",
+      "error_reason": "fraud_suspected",
+      "error_description": "Suspected fraudulent activity reported on card",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2309,8 +2370,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "high_risk",
-              "error_description": "Security risk block: high_risk",
+              "error_reason": "fraud_suspected",
+              "error_description": "Suspected fraudulent activity reported on card",
               "notes": {
                 "subscription_id": "sub_syn_0563",
                 "customer_email": "risk_563@example.com"
@@ -2329,7 +2390,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "insufficient_funds",
+      "error_reason": "bank_response_delayed",
+      "error_description": "Bank response delayed - debit authorization status unconfirmed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2347,8 +2409,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "bank_response_delayed",
+              "error_description": "Bank response delayed - debit authorization status unconfirmed",
               "notes": {
                 "subscription_id": "sub_syn_0487",
                 "customer_email": "user_487@example.com"
@@ -2367,7 +2429,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "stolen_card",
+      "error_reason": "velocity_risk_alert",
+      "error_description": "High risk velocity alert triggered by payment processor",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2385,8 +2448,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "stolen_card",
-              "error_description": "Security risk block: stolen_card",
+              "error_reason": "velocity_risk_alert",
+              "error_description": "High risk velocity alert triggered by payment processor",
               "notes": {
                 "subscription_id": "sub_syn_0676",
                 "customer_email": "risk_676@example.com"
@@ -2406,6 +2469,7 @@
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
       "error_reason": "payment_timed_out",
+      "error_description": "Transaction timed out waiting for bank confirmation",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2424,7 +2488,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_description": "Transaction timed out waiting for bank confirmation",
               "notes": {
                 "subscription_id": "sub_syn_0132",
                 "customer_email": "user_132@example.com"
@@ -2444,6 +2508,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "gateway_error",
+      "error_description": "Payment gateway processing error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2462,7 +2527,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_description": "Payment gateway processing error",
               "notes": {
                 "subscription_id": "sub_syn_0129",
                 "customer_email": "user_129@example.com"
@@ -2481,7 +2546,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "stolen_card",
+      "error_reason": "velocity_risk_alert",
+      "error_description": "High risk velocity alert triggered by payment processor",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2499,8 +2565,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "stolen_card",
-              "error_description": "Security risk block: stolen_card",
+              "error_reason": "velocity_risk_alert",
+              "error_description": "High risk velocity alert triggered by payment processor",
               "notes": {
                 "subscription_id": "sub_syn_0546",
                 "customer_email": "risk_546@example.com"
@@ -2519,7 +2585,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "network_error",
+      "error_reason": "insufficient_funds",
+      "error_description": "Payment failed: insufficient funds in account",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2537,8 +2604,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment failed: insufficient funds in account",
               "notes": {
                 "subscription_id": "sub_syn_0071",
                 "customer_email": "user_71@example.com"
@@ -2557,7 +2624,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_error",
+      "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2575,8 +2643,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0498",
                 "customer_email": "user_498@example.com"
@@ -2595,7 +2663,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "velocity_exceeded_risk",
+      "error_reason": "security_violation",
+      "error_description": "Security compliance violation detected during processing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2613,8 +2682,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "velocity_exceeded_risk",
-              "error_description": "Security risk block: velocity_exceeded_risk",
+              "error_reason": "security_violation",
+              "error_description": "Security compliance violation detected during processing",
               "notes": {
                 "subscription_id": "sub_syn_0750",
                 "customer_email": "risk_750@example.com"
@@ -2633,7 +2702,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "gateway_technical_error",
+      "error_description": "Gateway technical error during transaction routing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2651,8 +2721,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Gateway technical error during transaction routing",
               "notes": {
                 "subscription_id": "sub_syn_0088",
                 "customer_email": "user_88@example.com"
@@ -2674,7 +2744,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "mandate_cancelled",
+      "error_reason": "reauthentication_required",
+      "error_description": "Payment method requires customer re-authentication",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2689,8 +2760,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "mandate_cancelled",
-              "error_description": "Permanent decline: mandate_cancelled",
+              "error_reason": "reauthentication_required",
+              "error_description": "Payment method requires customer re-authentication",
               "notes": {
                 "subscription_id": "sub_syn_0934",
                 "customer_email": "hard_934@example.com"
@@ -2712,7 +2783,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "invalid_card",
+      "error_reason": "mandate_2fa_failed",
+      "error_description": "Customer mandate authentication failed during 2FA step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2727,8 +2799,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "mandate_2fa_failed",
+              "error_description": "Customer mandate authentication failed during 2FA step",
               "notes": {
                 "subscription_id": "sub_syn_0866",
                 "customer_email": "hard_866@example.com"
@@ -2747,7 +2819,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "bank_timeout",
+      "error_description": "Bank authorization timeout during debit attempt",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2765,8 +2838,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "bank_timeout",
+              "error_description": "Bank authorization timeout during debit attempt",
               "notes": {
                 "subscription_id": "sub_syn_0247",
                 "customer_email": "user_247@example.com"
@@ -2785,7 +2858,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "payment_timed_out",
+      "error_reason": "gateway_technical_error",
+      "error_description": "Gateway technical error during transaction routing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2803,8 +2877,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Gateway technical error during transaction routing",
               "notes": {
                 "subscription_id": "sub_syn_0060",
                 "customer_email": "user_60@example.com"
@@ -2823,7 +2897,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "gateway_error",
+      "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2841,8 +2916,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0246",
                 "customer_email": "user_246@example.com"
@@ -2861,7 +2936,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "bank_timeout",
+      "error_reason": "temporary_issuer_down",
+      "error_description": "Issuing bank switch temporarily offline",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2879,8 +2955,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_timeout",
-              "error_description": "Payment debit declined: bank_timeout",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Issuing bank switch temporarily offline",
               "notes": {
                 "subscription_id": "sub_syn_0315",
                 "customer_email": "user_315@example.com"
@@ -2899,7 +2975,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "gateway_error",
+      "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2917,8 +2994,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0372",
                 "customer_email": "user_372@example.com"
@@ -2940,7 +3017,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "customer_mandate_revoked",
+      "error_reason": "issuer_declined_verification",
+      "error_description": "Issuer declined after additional verification failed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2955,8 +3033,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "customer_mandate_revoked",
-              "error_description": "Permanent decline: customer_mandate_revoked",
+              "error_reason": "issuer_declined_verification",
+              "error_description": "Issuer declined after additional verification failed",
               "notes": {
                 "subscription_id": "sub_syn_0809",
                 "customer_email": "hard_809@example.com"
@@ -2975,7 +3053,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "payment_failed",
+      "error_reason": "payment_timed_out",
+      "error_description": "Transaction timed out waiting for bank confirmation",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -2993,8 +3072,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_failed",
-              "error_description": "Payment debit declined: payment_failed",
+              "error_reason": "payment_timed_out",
+              "error_description": "Transaction timed out waiting for bank confirmation",
               "notes": {
                 "subscription_id": "sub_syn_0020",
                 "customer_email": "user_20@example.com"
@@ -3013,7 +3092,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_risk_check_failed",
+      "error_reason": "lost_card",
+      "error_description": "Card reported lost by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3031,8 +3111,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_risk_check_failed",
-              "error_description": "Security risk block: payment_risk_check_failed",
+              "error_reason": "lost_card",
+              "error_description": "Card reported lost by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0501",
                 "customer_email": "risk_501@example.com"
@@ -3051,7 +3131,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "network_error",
+      "error_reason": "temporary_issuer_restriction",
+      "error_description": "Temporary issuer restriction - retry recommended after delay",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3069,8 +3150,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "temporary_issuer_restriction",
+              "error_description": "Temporary issuer restriction - retry recommended after delay",
               "notes": {
                 "subscription_id": "sub_syn_0332",
                 "customer_email": "user_332@example.com"
@@ -3089,7 +3170,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "fraud_suspected",
+      "error_reason": "high_risk",
+      "error_description": "Transaction flagged as high risk by processor rules",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3107,8 +3189,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "fraud_suspected",
-              "error_description": "Security risk block: fraud_suspected",
+              "error_reason": "high_risk",
+              "error_description": "Transaction flagged as high risk by processor rules",
               "notes": {
                 "subscription_id": "sub_syn_0614",
                 "customer_email": "risk_614@example.com"
@@ -3128,6 +3210,7 @@
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
       "error_reason": "insufficient_funds",
+      "error_description": "Payment failed: insufficient funds in account",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3146,7 +3229,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_description": "Payment failed: insufficient funds in account",
               "notes": {
                 "subscription_id": "sub_syn_0001",
                 "customer_email": "user_1@example.com"
@@ -3165,7 +3248,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "fraud_suspected",
+      "error_reason": "bank_safety_controls_blocked",
+      "error_description": "Transaction stopped by beneficiary bank safety controls",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3183,8 +3267,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "fraud_suspected",
-              "error_description": "Security risk block: fraud_suspected",
+              "error_reason": "bank_safety_controls_blocked",
+              "error_description": "Transaction stopped by beneficiary bank safety controls",
               "notes": {
                 "subscription_id": "sub_syn_0544",
                 "customer_email": "risk_544@example.com"
@@ -3203,7 +3287,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "high_risk",
+      "error_reason": "lost_card",
+      "error_description": "Card reported lost by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3221,8 +3306,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "high_risk",
-              "error_description": "Security risk block: high_risk",
+              "error_reason": "lost_card",
+              "error_description": "Card reported lost by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0553",
                 "customer_email": "risk_553@example.com"
@@ -3241,7 +3326,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3259,8 +3345,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0166",
                 "customer_email": "user_166@example.com"
@@ -3282,7 +3368,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "mandate_cancelled",
+      "error_reason": "expired_card",
+      "error_description": "Payment card has expired",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3297,8 +3384,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "mandate_cancelled",
-              "error_description": "Permanent decline: mandate_cancelled",
+              "error_reason": "expired_card",
+              "error_description": "Payment card has expired",
               "notes": {
                 "subscription_id": "sub_syn_0799",
                 "customer_email": "hard_799@example.com"
@@ -3318,6 +3405,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "bank_technical_error",
+      "error_description": "Bank core banking server technical error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3336,7 +3424,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "bank_technical_error",
-              "error_description": "Payment debit declined: bank_technical_error",
+              "error_description": "Bank core banking server technical error",
               "notes": {
                 "subscription_id": "sub_syn_0383",
                 "customer_email": "user_383@example.com"
@@ -3358,7 +3446,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "mandate_cancelled",
+      "error_reason": "account_closed",
+      "error_description": "Cardholder bank account closed permanently",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3373,8 +3462,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "mandate_cancelled",
-              "error_description": "Permanent decline: mandate_cancelled",
+              "error_reason": "account_closed",
+              "error_description": "Cardholder bank account closed permanently",
               "notes": {
                 "subscription_id": "sub_syn_0835",
                 "customer_email": "hard_835@example.com"
@@ -3396,7 +3485,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "invalid_card",
+      "error_reason": "customer_mandate_revoked",
+      "error_description": "Customer revoked e-mandate standing instruction",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3411,8 +3501,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "customer_mandate_revoked",
+              "error_description": "Customer revoked e-mandate standing instruction",
               "notes": {
                 "subscription_id": "sub_syn_0974",
                 "customer_email": "hard_974@example.com"
@@ -3434,7 +3524,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_not_eligible",
+      "error_reason": "token_revoked_by_issuer",
+      "error_description": "Card authentication token revoked by issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3449,8 +3540,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_not_eligible",
-              "error_description": "Permanent decline: token_not_eligible",
+              "error_reason": "token_revoked_by_issuer",
+              "error_description": "Card authentication token revoked by issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0895",
                 "customer_email": "hard_895@example.com"
@@ -3472,7 +3563,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_deleted",
+      "error_reason": "token_revoked_by_issuer",
+      "error_description": "Card authentication token revoked by issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3487,8 +3579,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_deleted",
-              "error_description": "Permanent decline: token_deleted",
+              "error_reason": "token_revoked_by_issuer",
+              "error_description": "Card authentication token revoked by issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0797",
                 "customer_email": "hard_797@example.com"
@@ -3510,7 +3602,8 @@
       "is_opted_out": true,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "expired_card",
+      "error_reason": "token_inactive",
+      "error_description": "Saved token is inactive or expired",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3525,8 +3618,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "expired_card",
-              "error_description": "Permanent decline: expired_card",
+              "error_reason": "token_inactive",
+              "error_description": "Saved token is inactive or expired",
               "notes": {
                 "subscription_id": "sub_syn_1000",
                 "customer_email": "hard_1000@example.com"
@@ -3545,7 +3638,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "bank_timeout",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3563,8 +3657,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_timeout",
-              "error_description": "Payment debit declined: bank_timeout",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0306",
                 "customer_email": "user_306@example.com"
@@ -3583,7 +3677,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_risk_check_failed",
+      "error_reason": "fraud_suspected",
+      "error_description": "Suspected fraudulent activity reported on card",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3601,8 +3696,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_risk_check_failed",
-              "error_description": "Security risk block: payment_risk_check_failed",
+              "error_reason": "fraud_suspected",
+              "error_description": "Suspected fraudulent activity reported on card",
               "notes": {
                 "subscription_id": "sub_syn_0641",
                 "customer_email": "risk_641@example.com"
@@ -3621,7 +3716,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "insufficient_funds",
+      "error_reason": "bank_response_delayed",
+      "error_description": "Bank response delayed - debit authorization status unconfirmed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3639,8 +3735,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "bank_response_delayed",
+              "error_description": "Bank response delayed - debit authorization status unconfirmed",
               "notes": {
                 "subscription_id": "sub_syn_0109",
                 "customer_email": "user_109@example.com"
@@ -3659,7 +3755,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "velocity_exceeded_risk",
+      "error_reason": "velocity_risk_alert",
+      "error_description": "High risk velocity alert triggered by payment processor",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3677,8 +3774,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "velocity_exceeded_risk",
-              "error_description": "Security risk block: velocity_exceeded_risk",
+              "error_reason": "velocity_risk_alert",
+              "error_description": "High risk velocity alert triggered by payment processor",
               "notes": {
                 "subscription_id": "sub_syn_0520",
                 "customer_email": "risk_520@example.com"
@@ -3697,7 +3794,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_error",
+      "error_reason": "insufficient_funds",
+      "error_description": "Payment failed: insufficient funds in account",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3715,8 +3813,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment failed: insufficient funds in account",
               "notes": {
                 "subscription_id": "sub_syn_0183",
                 "customer_email": "user_183@example.com"
@@ -3738,7 +3836,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "mandate_cancelled",
+      "error_reason": "issuer_declined_verification",
+      "error_description": "Issuer declined after additional verification failed",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3753,8 +3852,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "mandate_cancelled",
-              "error_description": "Permanent decline: mandate_cancelled",
+              "error_reason": "issuer_declined_verification",
+              "error_description": "Issuer declined after additional verification failed",
               "notes": {
                 "subscription_id": "sub_syn_0781",
                 "customer_email": "hard_781@example.com"
@@ -3773,7 +3872,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "high_risk",
+      "error_reason": "stolen_card",
+      "error_description": "Card reported stolen by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3791,8 +3891,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "high_risk",
-              "error_description": "Security risk block: high_risk",
+              "error_reason": "stolen_card",
+              "error_description": "Card reported stolen by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0513",
                 "customer_email": "risk_513@example.com"
@@ -3814,7 +3914,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": true,
-      "error_reason": "token_not_eligible",
+      "error_reason": "mandate_cancelled",
+      "error_description": "Recurring debit mandate was cancelled by customer",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3829,8 +3930,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_not_eligible",
-              "error_description": "Permanent decline: token_not_eligible",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Recurring debit mandate was cancelled by customer",
               "notes": {
                 "subscription_id": "sub_syn_0931",
                 "customer_email": "hard_931@example.com"
@@ -3849,7 +3950,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "lost_card",
+      "error_reason": "security_violation",
+      "error_description": "Security compliance violation detected during processing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3867,8 +3969,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_reason": "security_violation",
+              "error_description": "Security compliance violation detected during processing",
               "notes": {
                 "subscription_id": "sub_syn_0737",
                 "customer_email": "risk_737@example.com"
@@ -3887,7 +3989,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "velocity_exceeded_risk",
+      "error_reason": "device_fingerprint_anomaly",
+      "error_description": "Security violation detected on anomalous device fingerprint",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3905,8 +4008,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "velocity_exceeded_risk",
-              "error_description": "Security risk block: velocity_exceeded_risk",
+              "error_reason": "device_fingerprint_anomaly",
+              "error_description": "Security violation detected on anomalous device fingerprint",
               "notes": {
                 "subscription_id": "sub_syn_0740",
                 "customer_email": "risk_740@example.com"
@@ -3926,6 +4029,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "gateway_technical_error",
+      "error_description": "Gateway technical error during transaction routing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3944,7 +4048,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_description": "Gateway technical error during transaction routing",
               "notes": {
                 "subscription_id": "sub_syn_0004",
                 "customer_email": "user_4@example.com"
@@ -3966,7 +4070,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "token_revoked_by_issuer",
+      "error_description": "Card authentication token revoked by issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -3981,8 +4086,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "token_revoked_by_issuer",
+              "error_description": "Card authentication token revoked by issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0909",
                 "customer_email": "hard_909@example.com"
@@ -4001,7 +4106,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "bank_timeout",
+      "error_reason": "network_error",
+      "error_description": "Network communication failure with acquiring bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4019,8 +4125,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_timeout",
-              "error_description": "Payment debit declined: bank_timeout",
+              "error_reason": "network_error",
+              "error_description": "Network communication failure with acquiring bank",
               "notes": {
                 "subscription_id": "sub_syn_0162",
                 "customer_email": "user_162@example.com"
@@ -4039,7 +4145,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "bank_technical_error",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4057,8 +4164,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_technical_error",
-              "error_description": "Payment debit declined: bank_technical_error",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0446",
                 "customer_email": "user_446@example.com"
@@ -4080,7 +4187,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_deleted",
+      "error_reason": "customer_mandate_revoked",
+      "error_description": "Customer revoked e-mandate standing instruction",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4095,8 +4203,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_deleted",
-              "error_description": "Permanent decline: token_deleted",
+              "error_reason": "customer_mandate_revoked",
+              "error_description": "Customer revoked e-mandate standing instruction",
               "notes": {
                 "subscription_id": "sub_syn_0932",
                 "customer_email": "hard_932@example.com"
@@ -4118,7 +4226,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "token_deleted",
+      "error_description": "Recurring payment token was deleted by user or bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4133,8 +4242,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "token_deleted",
+              "error_description": "Recurring payment token was deleted by user or bank",
               "notes": {
                 "subscription_id": "sub_syn_0999",
                 "customer_email": "hard_999@example.com"
@@ -4156,7 +4265,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "invalid_card",
+      "error_reason": "token_not_eligible",
+      "error_description": "Card tokenization token is not eligible for recurring debit",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4171,8 +4281,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "token_not_eligible",
+              "error_description": "Card tokenization token is not eligible for recurring debit",
               "notes": {
                 "subscription_id": "sub_syn_0956",
                 "customer_email": "hard_956@example.com"
@@ -4192,6 +4302,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "lost_card",
+      "error_description": "Card reported lost by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4210,7 +4321,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_description": "Card reported lost by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0657",
                 "customer_email": "risk_657@example.com"
@@ -4232,7 +4343,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_deleted",
+      "error_reason": "token_not_eligible",
+      "error_description": "Card tokenization token is not eligible for recurring debit",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4247,8 +4359,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_deleted",
-              "error_description": "Permanent decline: token_deleted",
+              "error_reason": "token_not_eligible",
+              "error_description": "Card tokenization token is not eligible for recurring debit",
               "notes": {
                 "subscription_id": "sub_syn_0788",
                 "customer_email": "hard_788@example.com"
@@ -4270,7 +4382,8 @@
       "is_opted_out": true,
       "has_lifetime_cap": true,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "token_not_eligible",
+      "error_description": "Card tokenization token is not eligible for recurring debit",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4285,8 +4398,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "token_not_eligible",
+              "error_description": "Card tokenization token is not eligible for recurring debit",
               "notes": {
                 "subscription_id": "sub_syn_0900",
                 "customer_email": "hard_900@example.com"
@@ -4308,7 +4421,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "token_not_eligible",
+      "error_reason": "token_revoked_by_issuer",
+      "error_description": "Card authentication token revoked by issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4323,8 +4437,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_not_eligible",
-              "error_description": "Permanent decline: token_not_eligible",
+              "error_reason": "token_revoked_by_issuer",
+              "error_description": "Card authentication token revoked by issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0769",
                 "customer_email": "hard_769@example.com"
@@ -4346,7 +4460,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "expired_card",
+      "error_reason": "token_revoked_by_issuer",
+      "error_description": "Card authentication token revoked by issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4361,8 +4476,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "expired_card",
-              "error_description": "Permanent decline: expired_card",
+              "error_reason": "token_revoked_by_issuer",
+              "error_description": "Card authentication token revoked by issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0937",
                 "customer_email": "hard_937@example.com"
@@ -4381,7 +4496,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "security_violation",
+      "error_reason": "velocity_exceeded_risk",
+      "error_description": "Card velocity anomaly exceeded risk boundary",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4399,8 +4515,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "security_violation",
-              "error_description": "Security risk block: security_violation",
+              "error_reason": "velocity_exceeded_risk",
+              "error_description": "Card velocity anomaly exceeded risk boundary",
               "notes": {
                 "subscription_id": "sub_syn_0699",
                 "customer_email": "risk_699@example.com"
@@ -4419,7 +4535,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "insufficient_funds",
+      "error_reason": "payment_timed_out",
+      "error_description": "Transaction timed out waiting for bank confirmation",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4437,8 +4554,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "insufficient_funds",
-              "error_description": "Payment debit declined: insufficient_funds",
+              "error_reason": "payment_timed_out",
+              "error_description": "Transaction timed out waiting for bank confirmation",
               "notes": {
                 "subscription_id": "sub_syn_0118",
                 "customer_email": "user_118@example.com"
@@ -4457,7 +4574,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "security_violation",
+      "error_reason": "bank_safety_controls_blocked",
+      "error_description": "Transaction stopped by beneficiary bank safety controls",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4475,8 +4593,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "security_violation",
-              "error_description": "Security risk block: security_violation",
+              "error_reason": "bank_safety_controls_blocked",
+              "error_description": "Transaction stopped by beneficiary bank safety controls",
               "notes": {
                 "subscription_id": "sub_syn_0739",
                 "customer_email": "risk_739@example.com"
@@ -4498,7 +4616,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "card_inactive",
+      "error_reason": "token_deleted",
+      "error_description": "Recurring payment token was deleted by user or bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4513,8 +4632,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_inactive",
-              "error_description": "Permanent decline: card_inactive",
+              "error_reason": "token_deleted",
+              "error_description": "Recurring payment token was deleted by user or bank",
               "notes": {
                 "subscription_id": "sub_syn_0831",
                 "customer_email": "hard_831@example.com"
@@ -4533,7 +4652,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "gateway_error",
+      "error_reason": "gateway_timeout_post_auth",
+      "error_description": "Gateway timed out after authorization step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4551,8 +4671,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "gateway_timeout_post_auth",
+              "error_description": "Gateway timed out after authorization step",
               "notes": {
                 "subscription_id": "sub_syn_0012",
                 "customer_email": "user_12@example.com"
@@ -4571,7 +4691,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "lost_card",
+      "error_reason": "restricted_card",
+      "error_description": "Restricted card instrument: debit prohibited",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4589,8 +4710,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_reason": "restricted_card",
+              "error_description": "Restricted card instrument: debit prohibited",
               "notes": {
                 "subscription_id": "sub_syn_0567",
                 "customer_email": "risk_567@example.com"
@@ -4610,6 +4731,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "payment_timed_out",
+      "error_description": "Transaction timed out waiting for bank confirmation",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4628,7 +4750,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "payment_timed_out",
-              "error_description": "Payment debit declined: payment_timed_out",
+              "error_description": "Transaction timed out waiting for bank confirmation",
               "notes": {
                 "subscription_id": "sub_syn_0258",
                 "customer_email": "user_258@example.com"
@@ -4647,7 +4769,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "risk_check_failed",
+      "error_reason": "security_violation",
+      "error_description": "Security compliance violation detected during processing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4665,8 +4788,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "risk_check_failed",
-              "error_description": "Security risk block: risk_check_failed",
+              "error_reason": "security_violation",
+              "error_description": "Security compliance violation detected during processing",
               "notes": {
                 "subscription_id": "sub_syn_0542",
                 "customer_email": "risk_542@example.com"
@@ -4685,7 +4808,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "gateway_error",
+      "error_reason": "gateway_technical_error",
+      "error_description": "Gateway technical error during transaction routing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4703,8 +4827,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Gateway technical error during transaction routing",
               "notes": {
                 "subscription_id": "sub_syn_0480",
                 "customer_email": "user_480@example.com"
@@ -4726,7 +4850,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "expired_card",
+      "error_reason": "mandate_2fa_failed",
+      "error_description": "Customer mandate authentication failed during 2FA step",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4741,8 +4866,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "expired_card",
-              "error_description": "Permanent decline: expired_card",
+              "error_reason": "mandate_2fa_failed",
+              "error_description": "Customer mandate authentication failed during 2FA step",
               "notes": {
                 "subscription_id": "sub_syn_0964",
                 "customer_email": "hard_964@example.com"
@@ -4761,7 +4886,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "issuer_temporarily_unavailable",
+      "error_description": "Issuer temporarily unavailable due to network traffic congestion",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4779,8 +4905,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "issuer_temporarily_unavailable",
+              "error_description": "Issuer temporarily unavailable due to network traffic congestion",
               "notes": {
                 "subscription_id": "sub_syn_0391",
                 "customer_email": "user_391@example.com"
@@ -4799,7 +4925,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 3,
-      "error_reason": "network_error",
+      "error_reason": "gateway_error",
+      "error_description": "Payment gateway processing error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4817,8 +4944,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "network_error",
-              "error_description": "Payment debit declined: network_error",
+              "error_reason": "gateway_error",
+              "error_description": "Payment gateway processing error",
               "notes": {
                 "subscription_id": "sub_syn_0395",
                 "customer_email": "user_395@example.com"
@@ -4837,7 +4964,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "gateway_error",
+      "error_reason": "temporary_issuer_restriction",
+      "error_description": "Temporary issuer restriction - retry recommended after delay",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4855,8 +4983,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_error",
-              "error_description": "Payment debit declined: gateway_error",
+              "error_reason": "temporary_issuer_restriction",
+              "error_description": "Temporary issuer restriction - retry recommended after delay",
               "notes": {
                 "subscription_id": "sub_syn_0066",
                 "customer_email": "user_66@example.com"
@@ -4875,7 +5003,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "payment_risk_check_failed",
+      "error_reason": "velocity_risk_alert",
+      "error_description": "High risk velocity alert triggered by payment processor",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4893,8 +5022,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "payment_risk_check_failed",
-              "error_description": "Security risk block: payment_risk_check_failed",
+              "error_reason": "velocity_risk_alert",
+              "error_description": "High risk velocity alert triggered by payment processor",
               "notes": {
                 "subscription_id": "sub_syn_0611",
                 "customer_email": "risk_611@example.com"
@@ -4916,7 +5045,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "card_inactive",
+      "error_reason": "token_deleted",
+      "error_description": "Recurring payment token was deleted by user or bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4931,8 +5061,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "card_inactive",
-              "error_description": "Permanent decline: card_inactive",
+              "error_reason": "token_deleted",
+              "error_description": "Recurring payment token was deleted by user or bank",
               "notes": {
                 "subscription_id": "sub_syn_0957",
                 "customer_email": "hard_957@example.com"
@@ -4951,7 +5081,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "lost_card",
+      "error_reason": "restricted_card",
+      "error_description": "Restricted card instrument: debit prohibited",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -4969,8 +5100,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "lost_card",
-              "error_description": "Security risk block: lost_card",
+              "error_reason": "restricted_card",
+              "error_description": "Restricted card instrument: debit prohibited",
               "notes": {
                 "subscription_id": "sub_syn_0697",
                 "customer_email": "risk_697@example.com"
@@ -4992,7 +5123,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": true,
-      "error_reason": "invalid_card",
+      "error_reason": "account_restricted_permanent",
+      "error_description": "Cardholder account permanently restricted by bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5007,8 +5139,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "invalid_card",
-              "error_description": "Permanent decline: invalid_card",
+              "error_reason": "account_restricted_permanent",
+              "error_description": "Cardholder account permanently restricted by bank",
               "notes": {
                 "subscription_id": "sub_syn_0812",
                 "customer_email": "hard_812@example.com"
@@ -5030,7 +5162,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": true,
-      "error_reason": "token_deleted",
+      "error_reason": "mandate_cancelled",
+      "error_description": "Recurring debit mandate was cancelled by customer",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5045,8 +5178,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "token_deleted",
-              "error_description": "Permanent decline: token_deleted",
+              "error_reason": "mandate_cancelled",
+              "error_description": "Recurring debit mandate was cancelled by customer",
               "notes": {
                 "subscription_id": "sub_syn_0959",
                 "customer_email": "hard_959@example.com"
@@ -5065,7 +5198,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "high_risk",
+      "error_reason": "stolen_card",
+      "error_description": "Card reported stolen by cardholder",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5083,8 +5217,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "high_risk",
-              "error_description": "Security risk block: high_risk",
+              "error_reason": "stolen_card",
+              "error_description": "Card reported stolen by cardholder",
               "notes": {
                 "subscription_id": "sub_syn_0643",
                 "customer_email": "risk_643@example.com"
@@ -5103,7 +5237,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "gateway_error",
+      "error_description": "Payment gateway processing error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5121,8 +5256,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "gateway_error",
+              "error_description": "Payment gateway processing error",
               "notes": {
                 "subscription_id": "sub_syn_0157",
                 "customer_email": "user_157@example.com"
@@ -5141,7 +5276,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "bank_technical_error",
+      "error_reason": "insufficient_funds",
+      "error_description": "Payment failed: insufficient funds in account",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5159,8 +5295,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_technical_error",
-              "error_description": "Payment debit declined: bank_technical_error",
+              "error_reason": "insufficient_funds",
+              "error_description": "Payment failed: insufficient funds in account",
               "notes": {
                 "subscription_id": "sub_syn_0113",
                 "customer_email": "user_113@example.com"
@@ -5179,7 +5315,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "temporary_issuer_down",
+      "error_description": "Issuing bank switch temporarily offline",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5197,8 +5334,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "temporary_issuer_down",
+              "error_description": "Issuing bank switch temporarily offline",
               "notes": {
                 "subscription_id": "sub_syn_0049",
                 "customer_email": "user_49@example.com"
@@ -5220,7 +5357,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "account_closed",
+      "error_reason": "token_not_eligible",
+      "error_description": "Card tokenization token is not eligible for recurring debit",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5235,8 +5373,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "token_not_eligible",
+              "error_description": "Card tokenization token is not eligible for recurring debit",
               "notes": {
                 "subscription_id": "sub_syn_0774",
                 "customer_email": "hard_774@example.com"
@@ -5255,7 +5393,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "temporary_issuer_restriction",
+      "error_description": "Temporary issuer restriction - retry recommended after delay",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5273,8 +5412,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "temporary_issuer_restriction",
+              "error_description": "Temporary issuer restriction - retry recommended after delay",
               "notes": {
                 "subscription_id": "sub_syn_0094",
                 "customer_email": "user_94@example.com"
@@ -5293,7 +5432,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "stolen_card",
+      "error_reason": "device_fingerprint_anomaly",
+      "error_description": "Security violation detected on anomalous device fingerprint",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5311,8 +5451,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "stolen_card",
-              "error_description": "Security risk block: stolen_card",
+              "error_reason": "device_fingerprint_anomaly",
+              "error_description": "Security violation detected on anomalous device fingerprint",
               "notes": {
                 "subscription_id": "sub_syn_0506",
                 "customer_email": "risk_506@example.com"
@@ -5332,6 +5472,7 @@
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
       "error_reason": "risk_check_failed",
+      "error_description": "Risk check failed: transaction quarantined",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5350,7 +5491,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "risk_check_failed",
-              "error_description": "Security risk block: risk_check_failed",
+              "error_description": "Risk check failed: transaction quarantined",
               "notes": {
                 "subscription_id": "sub_syn_0522",
                 "customer_email": "risk_522@example.com"
@@ -5369,7 +5510,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 2,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "payment_failed",
+      "error_description": "Payment processing failed at issuing bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5387,8 +5529,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "payment_failed",
+              "error_description": "Payment processing failed at issuing bank",
               "notes": {
                 "subscription_id": "sub_syn_0142",
                 "customer_email": "user_142@example.com"
@@ -5410,7 +5552,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": true,
-      "error_reason": "account_closed",
+      "error_reason": "account_restricted_permanent",
+      "error_description": "Cardholder account permanently restricted by bank",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5425,8 +5568,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_reason": "account_restricted_permanent",
+              "error_description": "Cardholder account permanently restricted by bank",
               "notes": {
                 "subscription_id": "sub_syn_0882",
                 "customer_email": "hard_882@example.com"
@@ -5448,7 +5591,8 @@
       "is_opted_out": false,
       "has_lifetime_cap": false,
       "is_night_dnd": false,
-      "error_reason": "customer_mandate_revoked",
+      "error_reason": "invalid_card",
+      "error_description": "Invalid card number or credentials",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5463,8 +5607,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "customer_mandate_revoked",
-              "error_description": "Permanent decline: customer_mandate_revoked",
+              "error_reason": "invalid_card",
+              "error_description": "Invalid card number or credentials",
               "notes": {
                 "subscription_id": "sub_syn_0926",
                 "customer_email": "hard_926@example.com"
@@ -5483,7 +5627,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "gateway_technical_error",
+      "error_reason": "gateway_error",
+      "error_description": "Payment gateway processing error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5501,8 +5646,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "gateway_technical_error",
-              "error_description": "Payment debit declined: gateway_technical_error",
+              "error_reason": "gateway_error",
+              "error_description": "Payment gateway processing error",
               "notes": {
                 "subscription_id": "sub_syn_0409",
                 "customer_email": "user_409@example.com"
@@ -5521,7 +5666,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "restricted_card",
+      "error_reason": "velocity_risk_alert",
+      "error_description": "High risk velocity alert triggered by payment processor",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5539,8 +5685,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "restricted_card",
-              "error_description": "Security risk block: restricted_card",
+              "error_reason": "velocity_risk_alert",
+              "error_description": "High risk velocity alert triggered by payment processor",
               "notes": {
                 "subscription_id": "sub_syn_0598",
                 "customer_email": "risk_598@example.com"
@@ -5559,7 +5705,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "temporary_issuer_down",
+      "error_reason": "bank_technical_error",
+      "error_description": "Bank core banking server technical error",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5577,8 +5724,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "temporary_issuer_down",
-              "error_description": "Payment debit declined: temporary_issuer_down",
+              "error_reason": "bank_technical_error",
+              "error_description": "Bank core banking server technical error",
               "notes": {
                 "subscription_id": "sub_syn_0439",
                 "customer_email": "user_439@example.com"
@@ -5597,7 +5744,8 @@
       "ground_truth_action": "ESCALATE_TO_HUMAN",
       "is_recoverable_via_retry": false,
       "attempt_recovered_on": null,
-      "error_reason": "security_violation",
+      "error_reason": "payment_risk_check_failed",
+      "error_description": "Payment risk evaluation score exceeded threshold",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5615,8 +5763,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "security_violation",
-              "error_description": "Security risk block: security_violation",
+              "error_reason": "payment_risk_check_failed",
+              "error_description": "Payment risk evaluation score exceeded threshold",
               "notes": {
                 "subscription_id": "sub_syn_0599",
                 "customer_email": "risk_599@example.com"
@@ -5639,6 +5787,7 @@
       "has_lifetime_cap": false,
       "is_night_dnd": false,
       "error_reason": "account_closed",
+      "error_description": "Cardholder bank account closed permanently",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5654,7 +5803,7 @@
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
               "error_reason": "account_closed",
-              "error_description": "Permanent decline: account_closed",
+              "error_description": "Cardholder bank account closed permanently",
               "notes": {
                 "subscription_id": "sub_syn_0765",
                 "customer_email": "hard_765@example.com"
@@ -5673,7 +5822,8 @@
       "ground_truth_action": "SCHEDULE_RETRY",
       "is_recoverable_via_retry": true,
       "attempt_recovered_on": 1,
-      "error_reason": "bank_timeout",
+      "error_reason": "gateway_technical_error",
+      "error_description": "Gateway technical error during transaction routing",
       "webhook_payload": {
         "entity": "event",
         "account_id": "acc_demo_merchant_01",
@@ -5691,8 +5841,8 @@
               "currency": "INR",
               "status": "failed",
               "error_code": "BAD_REQUEST_ERROR",
-              "error_reason": "bank_timeout",
-              "error_description": "Payment debit declined: bank_timeout",
+              "error_reason": "gateway_technical_error",
+              "error_description": "Gateway technical error during transaction routing",
               "notes": {
                 "subscription_id": "sub_syn_0270",
                 "customer_email": "user_270@example.com"

@@ -209,9 +209,9 @@ Generated via `evaluation/dataset_generator.py` with fixed random seed (`seed=42
 1. **Recovery Rate (%):**
    $$\text{Recovery Rate} = \left(\frac{\text{Total Recovered Revenue (INR)}}{\text{Total Revenue at Risk (INR)}}\right) \times 100$$
 2. **Incremental Recovered Revenue vs Baseline (INR):**
-   $$\Delta \text{Revenue}_{\text{Baseline}} = \text{Agent Recovered} - \text{Baseline Recovered} = +\text{INR } 45,985.00 \text{ (+9.40\% absolute gain)}$$
+   $$\Delta \text{Revenue}_{\text{Baseline}} = \text{Agent Recovered (₹183,940.00)} - \text{Baseline Recovered (₹137,955.00)} = +\mathbf{\text{INR } 45,985.00 \text{ (+9.40pp absolute gain)}}$$
 3. **Incremental Recovered Revenue vs Rules-Only (INR):**
-   $$\Delta \text{Revenue}_{\text{Rules}} = \text{Agent Recovered} - \text{Rules-Only Recovered} = +\text{INR } 0.00 \text{ (0.00\% on clean synthetic taxonomy)}$$
+   $$\Delta \text{Revenue}_{\text{Rules}} = \text{Agent Recovered (₹183,940.00)} - \text{Rules-Only Recovered (₹165,447.00)} = +\mathbf{\text{INR } 18,493.00 \text{ (+3.78pp absolute gain)}}$$
 4. **Unnecessary Retries Avoided:**
    $$\text{Retries Avoided} = \text{Baseline Retries (403)} - \text{Agent Retries (178)} = \mathbf{225 \text{ retries}}$$
 5. **Risk Violations Prevented:**

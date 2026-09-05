@@ -19,41 +19,60 @@ from typing import Dict, Any, List
 # Plan amount tiers in INR
 AMOUNT_TIERS_INR = [499.0, 999.0, 1499.0, 2499.0, 4999.0, 9999.0]
 
-SOFT_ERROR_REASONS = [
-    "insufficient_funds",
-    "payment_failed",
-    "gateway_error",
-    "gateway_technical_error",
-    "bank_technical_error",
-    "payment_timed_out",
-    "temporary_issuer_down",
-    "network_error",
-    "bank_timeout"
+# Canonical and realistic natural language soft decline reasons
+SOFT_ERROR_SCENARIOS = [
+    {"reason": "insufficient_funds", "desc": "Payment failed: insufficient funds in account"},
+    {"reason": "payment_failed", "desc": "Payment processing failed at issuing bank"},
+    {"reason": "gateway_error", "desc": "Payment gateway processing error"},
+    {"reason": "gateway_technical_error", "desc": "Gateway technical error during transaction routing"},
+    {"reason": "bank_technical_error", "desc": "Bank core banking server technical error"},
+    {"reason": "payment_timed_out", "desc": "Transaction timed out waiting for bank confirmation"},
+    {"reason": "temporary_issuer_down", "desc": "Issuing bank switch temporarily offline"},
+    {"reason": "network_error", "desc": "Network communication failure with acquiring bank"},
+    {"reason": "bank_timeout", "desc": "Bank authorization timeout during debit attempt"},
+    # Realistic ambiguous / natural language gateway variations
+    {"reason": "temporary_issuer_restriction", "desc": "Temporary issuer restriction - retry recommended after delay"},
+    {"reason": "bank_response_delayed", "desc": "Bank response delayed - debit authorization status unconfirmed"},
+    {"reason": "gateway_timeout_post_auth", "desc": "Gateway timed out after authorization step"},
+    {"reason": "issuer_temporarily_unavailable", "desc": "Issuer temporarily unavailable due to network traffic congestion"},
+    {"reason": "capture_failed_post_auth", "desc": "Authorization succeeded but capture failed during settlement"}
 ]
 
-RISK_ERROR_REASONS = [
-    "payment_risk_check_failed",
-    "risk_check_failed",
-    "high_risk",
-    "fraud_suspected",
-    "card_blacklisted",
-    "stolen_card",
-    "lost_card",
-    "restricted_card",
-    "security_violation",
-    "velocity_exceeded_risk"
+# Canonical and realistic natural language risk / fraud decline reasons
+RISK_ERROR_SCENARIOS = [
+    {"reason": "payment_risk_check_failed", "desc": "Payment risk evaluation score exceeded threshold"},
+    {"reason": "risk_check_failed", "desc": "Risk check failed: transaction quarantined"},
+    {"reason": "high_risk", "desc": "Transaction flagged as high risk by processor rules"},
+    {"reason": "fraud_suspected", "desc": "Suspected fraudulent activity reported on card"},
+    {"reason": "card_blacklisted", "desc": "Card blacklisted by card scheme security filters"},
+    {"reason": "stolen_card", "desc": "Card reported stolen by cardholder"},
+    {"reason": "lost_card", "desc": "Card reported lost by cardholder"},
+    {"reason": "restricted_card", "desc": "Restricted card instrument: debit prohibited"},
+    {"reason": "security_violation", "desc": "Security compliance violation detected during processing"},
+    {"reason": "velocity_exceeded_risk", "desc": "Card velocity anomaly exceeded risk boundary"},
+    # Realistic natural language risk variations
+    {"reason": "bank_safety_controls_blocked", "desc": "Transaction stopped by beneficiary bank safety controls"},
+    {"reason": "device_fingerprint_anomaly", "desc": "Security violation detected on anomalous device fingerprint"},
+    {"reason": "velocity_risk_alert", "desc": "High risk velocity alert triggered by payment processor"}
 ]
 
-HARD_ERROR_REASONS = [
-    "expired_card",
-    "invalid_card",
-    "card_inactive",
-    "token_not_eligible",
-    "token_deleted",
-    "token_inactive",
-    "mandate_cancelled",
-    "customer_mandate_revoked",
-    "account_closed"
+# Canonical and realistic natural language hard / credential invalidation decline reasons
+HARD_ERROR_SCENARIOS = [
+    {"reason": "expired_card", "desc": "Payment card has expired"},
+    {"reason": "invalid_card", "desc": "Invalid card number or credentials"},
+    {"reason": "card_inactive", "desc": "Card account inactive or cancelled"},
+    {"reason": "token_not_eligible", "desc": "Card tokenization token is not eligible for recurring debit"},
+    {"reason": "token_deleted", "desc": "Recurring payment token was deleted by user or bank"},
+    {"reason": "token_inactive", "desc": "Saved token is inactive or expired"},
+    {"reason": "mandate_cancelled", "desc": "Recurring debit mandate was cancelled by customer"},
+    {"reason": "customer_mandate_revoked", "desc": "Customer revoked e-mandate standing instruction"},
+    {"reason": "account_closed", "desc": "Cardholder bank account closed permanently"},
+    # Realistic ambiguous credential / re-authentication variations
+    {"reason": "reauthentication_required", "desc": "Payment method requires customer re-authentication"},
+    {"reason": "issuer_declined_verification", "desc": "Issuer declined after additional verification failed"},
+    {"reason": "mandate_2fa_failed", "desc": "Customer mandate authentication failed during 2FA step"},
+    {"reason": "token_revoked_by_issuer", "desc": "Card authentication token revoked by issuing bank"},
+    {"reason": "account_restricted_permanent", "desc": "Cardholder account permanently restricted by bank"}
 ]
 
 
@@ -66,7 +85,9 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
     amt_paise = int(amt_inr * 100)
 
     if category == "SOFT":
-        reason = SOFT_ERROR_REASONS[(index - 1) % len(SOFT_ERROR_REASONS)]
+        scen_meta = SOFT_ERROR_SCENARIOS[(index - 1) % len(SOFT_ERROR_SCENARIOS)]
+        reason = scen_meta["reason"]
+        desc = scen_meta["desc"]
         # Empirical soft decline recovery: ~60% recover within 3 attempts, 40% exhaust
         recovers = (index % 5) in [0, 1, 2]
         attempt_recovered = ((index % 3) + 1) if recovers else None
@@ -87,7 +108,7 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
                         "status": "failed",
                         "error_code": "BAD_REQUEST_ERROR",
                         "error_reason": reason,
-                        "error_description": f"Payment debit declined: {reason}",
+                        "error_description": desc,
                         "notes": {"subscription_id": sub_id, "customer_email": f"user_{index}@example.com"}
                     }
                 }
@@ -103,11 +124,15 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
             "is_recoverable_via_retry": recovers,
             "attempt_recovered_on": attempt_recovered,
             "error_reason": reason,
+            "error_description": desc,
             "webhook_payload": payload
         }
 
     elif category == "RISK":
-        reason = RISK_ERROR_REASONS[(index - 1) % len(RISK_ERROR_REASONS)]
+        scen_meta = RISK_ERROR_SCENARIOS[(index - 1) % len(RISK_ERROR_SCENARIOS)]
+        reason = scen_meta["reason"]
+        desc = scen_meta["desc"]
+
         payload = {
             "entity": "event",
             "account_id": "acc_demo_merchant_01",
@@ -124,7 +149,7 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
                         "status": "failed",
                         "error_code": "BAD_REQUEST_ERROR",
                         "error_reason": reason,
-                        "error_description": f"Security risk block: {reason}",
+                        "error_description": desc,
                         "notes": {"subscription_id": sub_id, "customer_email": f"risk_{index}@example.com"}
                     }
                 }
@@ -140,11 +165,14 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
             "is_recoverable_via_retry": False,
             "attempt_recovered_on": None,
             "error_reason": reason,
+            "error_description": desc,
             "webhook_payload": payload
         }
 
     else:  # HARD
-        reason = HARD_ERROR_REASONS[(index - 1) % len(HARD_ERROR_REASONS)]
+        scen_meta = HARD_ERROR_SCENARIOS[(index - 1) % len(HARD_ERROR_SCENARIOS)]
+        reason = scen_meta["reason"]
+        desc = scen_meta["desc"]
         # Special compliance flags for edge testing
         is_opted_out = (index % 10 == 0)
         has_lifetime_cap = (index % 12 == 0)
@@ -165,7 +193,7 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
                         "status": "failed",
                         "error_code": "BAD_REQUEST_ERROR",
                         "error_reason": reason,
-                        "error_description": f"Permanent decline: {reason}",
+                        "error_description": desc,
                         "notes": {"subscription_id": sub_id, "customer_email": f"hard_{index}@example.com"}
                     }
                 }
@@ -184,6 +212,7 @@ def generate_scenario(index: int, category: str) -> Dict[str, Any]:
             "has_lifetime_cap": has_lifetime_cap,
             "is_night_dnd": is_night_dnd,
             "error_reason": reason,
+            "error_description": desc,
             "webhook_payload": payload
         }
 

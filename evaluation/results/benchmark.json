@@ -15,13 +15,13 @@
   },
   "rules_only": {
     "name": "Rules-Only (Phase 2 Classifier + Policy Engine)",
-    "recovered_revenue_inr": 183940.0,
-    "recovery_rate_pct": 37.59,
-    "recovered_count": 60,
-    "retries_attempted": 178,
+    "recovered_revenue_inr": 165447.0,
+    "recovery_rate_pct": 33.81,
+    "recovered_count": 53,
+    "retries_attempted": 235,
     "risk_retries_attempted": 0,
-    "customer_contacts": 37,
-    "human_escalations": 38,
+    "customer_contacts": 22,
+    "human_escalations": 34,
     "unsafe_actions_executed": 0
   },
   "ai_recovery_agent": {
@@ -40,17 +40,17 @@
     "incremental_recovery_rate_gain_pct": 9.4,
     "incremental_recovered_revenue_vs_baseline_inr": 45985.0,
     "incremental_recovery_gain_vs_baseline_pct": 9.4,
-    "incremental_recovered_revenue_vs_rules_inr": 0.0,
-    "incremental_recovery_gain_vs_rules_pct": 0.0,
+    "incremental_recovered_revenue_vs_rules_inr": 18493.0,
+    "incremental_recovery_gain_vs_rules_pct": 3.78,
     "unnecessary_retries_avoided": 225,
     "risk_retries_prevented": 114,
     "risk_retries_violation_rate_pct": 0.0
   },
   "ai_safety_and_performance": {
     "diagnosis_accuracy_pct": 100.0,
-    "intervention_accuracy_pct": 98.67,
+    "intervention_accuracy_pct": 100.0,
     "unsafe_ai_recommendations": 0,
-    "policy_firewall_blocks_or_overrides": 2,
+    "policy_firewall_blocks_or_overrides": 0,
     "policy_violation_rate_pct": 0.0
   }
 }

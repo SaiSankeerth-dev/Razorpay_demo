@@ -33,6 +33,8 @@ from agent.executors.promise_to_pay_executor import (
     evaluate_and_check_in_promise
 )
 
+from contextlib import asynccontextmanager
+
 # Configure structured logging
 logging.basicConfig(
     level=settings.LOG_LEVEL,
@@ -40,14 +42,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger("webhook-server")
 
-app = FastAPI(
-    title="Razorpay Subscription Payment Recovery Agent & Dashboard",
-    version="4.0.0",
-    description="Captures failure events, classifies decline reasons, enforces policy guardrails, executes actions, and visualizes live recovery performance."
-)
 
-@app.on_event("startup")
-async def on_startup():
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     """Auto-populates the 60-subscription batch recovery dataset if local store is clean."""
     try:
         existing = get_recovery_audit_logs(limit=1)
@@ -58,6 +55,15 @@ async def on_startup():
             logger.info("Synthetic batch dataset initialized successfully.")
     except Exception as e:
         logger.warning(f"Could not auto-generate batch dataset on startup: {e}")
+    yield
+
+
+app = FastAPI(
+    title="Razorpay Subscription Payment Recovery Agent & Dashboard",
+    version="4.0.0",
+    description="Captures failure events, classifies decline reasons, enforces policy guardrails, executes actions, and visualizes live recovery performance.",
+    lifespan=lifespan
+)
 
 
 # Supported failure events that trigger classification & policy reasoning
@@ -505,7 +511,7 @@ async def serve_dashboard():
 
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4 pt-2">
         <div class="bg-slate-950/80 rounded-xl p-4 border border-slate-800">
-          <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Incremental ARR Recovered</div>
+          <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Incremental Revenue Recovered</div>
           <div class="text-xl font-bold text-emerald-400 mono" id="bench-inc-arr">+₹45,985.00</div>
           <p class="text-[11px] text-slate-400 mt-1">Net additional revenue over fixed 24h retry</p>
         </div>
@@ -524,7 +530,7 @@ async def serve_dashboard():
 
         <div class="bg-slate-950/80 rounded-xl p-4 border border-slate-800">
           <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">AI Diagnostic Accuracy</div>
-          <div class="text-xl font-bold text-white mono" id="bench-ai-accuracy">100.0% / 98.7%</div>
+          <div class="text-xl font-bold text-white mono" id="bench-ai-accuracy">100.0% / 100.0%</div>
           <p class="text-[11px] text-slate-400 mt-1">Cause diagnosis & intervention selection accuracy</p>
         </div>
       </div>

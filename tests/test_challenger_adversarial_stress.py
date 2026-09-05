@@ -81,21 +81,42 @@ def test_schema_level_adversarial_rejection_and_fallback():
             reasoning="test"
         )
 
-    # 3. Fault injection in AIProvider triggers safe fallback in AIDiagnostician
-    class CrashingProvider:
-        def diagnose(self, failure_data, context=None):
-            raise RuntimeError("Corrupted AI Provider execution")
+    # 3. Pydantic ValidationError on unknown/illegal action string
+    with pytest.raises(ValidationError):
+        AIDiagnosisResult(
+            failure_diagnosis="test",
+            recovery_probability=0.8,
+            recommended_action="ILLEGAL_DIRECT_DEBIT",  # Invalid action token
+            recommended_delay_hours=1,
+            confidence=0.9,
+            reasoning="test"
+        )
 
-    diag = AIDiagnostician(provider=CrashingProvider())
+    # 4. Fault injection: Timeout and HTTP 500 in AIProvider triggers safe fallback in AIDiagnostician
+    class TimeoutProvider:
+        def diagnose(self, failure_data, context=None):
+            raise TimeoutError("HTTP 504 Gateway Timeout connecting to OpenAI API")
+
+    diag_timeout = AIDiagnostician(provider=TimeoutProvider())
     extracted = ExtractedFailureData(
         event_type="payment.failed",
-        subscription_id="sub_crash_test",
+        subscription_id="sub_timeout_test",
         error_reason="insufficient_funds"
     )
-    fallback_result = diag.diagnose_failure(extracted)
-    assert fallback_result.failure_diagnosis == "unclassified_error_failsafe"
-    assert fallback_result.provider_used == "failsafe_local"
-    assert fallback_result.recommended_action == DecidedAction.SCHEDULE_RETRY
+    timeout_fallback = diag_timeout.diagnose_failure(extracted)
+    assert timeout_fallback.failure_diagnosis == "unclassified_error_failsafe"
+    assert timeout_fallback.provider_used == "failsafe_local"
+    assert timeout_fallback.recommended_action == DecidedAction.SCHEDULE_RETRY
+
+    class ServerErrorProvider:
+        def diagnose(self, failure_data, context=None):
+            raise RuntimeError("HTTP 500 Internal Server Error from upstream AI service")
+
+    diag_500 = AIDiagnostician(provider=ServerErrorProvider())
+    error_fallback = diag_500.diagnose_failure(extracted)
+    assert error_fallback.failure_diagnosis == "unclassified_error_failsafe"
+    assert error_fallback.provider_used == "failsafe_local"
+    assert error_fallback.recommended_action == DecidedAction.SCHEDULE_RETRY
 
 
 def test_policy_firewall_backoff_clamping():

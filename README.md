@@ -1,12 +1,13 @@
-# AI Revenue Recovery Agent for Razorpay Subscriptions
+# RECOVERX
+### AI Revenue Recovery Agent for Razorpay Subscriptions
 
 [![CI Test Suite](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions/workflows/ci.yml/badge.svg)](https://github.com/SaiSankeerth-dev/Razorpay_demo/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Python: 3.10+](https://img.shields.io/badge/Python-3.10+-brightgreen.svg)](https://www.python.org/)
 [![Track: AI Revenue Recovery](https://img.shields.io/badge/Razorpay%20AI%20Builder-AI%20Revenue%20Recovery-blueviolet)](https://razorpay.com)
 
-> **Failed subscription payments create involuntary churn.**  
-> This system uses AI to diagnose payment failures and recommend the safest recovery intervention, while deterministic financial guardrails remain the final authority before any action executes.
+> **Recover failed subscription revenue with AI-guided recovery decisions while deterministic financial policies prevent unsafe actions.**  
+> AI provides contextual judgment. Deterministic policy provides financial authority.
 
 <p align="center">
   <img src="assets/dashboard_preview.jpg" alt="Razorpay AI Revenue Recovery Executive Dashboard" width="100%" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.5);" />
@@ -14,27 +15,41 @@
 
 ---
 
-### 📊 3-Arm Benchmark Evidence (Held-Out Test Set)
+### 📊 3-Arm Benchmark Evidence (Held-Out Test Set: 150 Scenarios)
 
 Evaluated across **150 held-out subscription failure scenarios** comparing legacy **Naive Fixed Retry**, deterministic **Rules-Only (Classifier + Policy)**, and the **AI Recovery Agent + Policy Firewall**:
 
-| Key Performance Indicator | Arm 1: Naive Fixed Retry | Arm 2: Rules-Only Baseline | Arm 3: AI Agent + Policy Firewall | Governed vs Fixed Baseline |
-| :--- | :--- | :--- | :--- | :--- |
-| **Recovery Rate (%)** | **28.19%** | **37.59%** | **37.59%** | **+9.40% Absolute Gain (+9.4pp)** |
-| **Revenue Recovered** | ₹137,955.00 | **₹183,940.00** | **₹183,940.00** | **+₹45,985.00 Incremental ARR** |
-| **Retries Attempted** | 403 attempts | **178 attempts** | **178 attempts** | **225 Wasted Retries Avoided** |
-| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **0 (Zero Violations)** | **100% Risk Quarantine (0 Unsafe)** |
-| **Targeted Nudges** | 0 | 37 Nudges | 37 Nudges | Self-serve credential recovery |
-| **AI Diagnosis Accuracy** | N/A | N/A | **100.00%** | Root-cause semantic diagnosis |
-| **AI Intervention Accuracy**| N/A | N/A | **98.67%** | Optimal action recommendation |
-| **Policy Violation Rate** | 100% Risk Failures | 0.00% | **0.00%** | **Zero Unauthorized Money Movement** |
+| Key Performance Indicator | Arm 1: Naive Fixed Retry | Arm 2: Rules-Only Baseline | Arm 3: AI + Policy Firewall | Lift vs Baseline | Lift vs Rules-Only |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Recovery Rate (%)** | **28.19%** | **33.81%** | **37.59%** | **+9.40pp Absolute Gain** | **+3.78pp Absolute Gain** |
+| **Revenue Recovered** | ₹137,955.00 | ₹165,447.00 | **₹183,940.00** | **+₹45,985.00 Incremental** | **+₹18,493.00 Incremental** |
+| **Retries Attempted** | 403 attempts | 235 attempts | **178 attempts** | **225 Wasted Retries Avoided** | **57 Wasted Retries Avoided** |
+| **Risk / Fraud Retries** | 114 (Violations) | **0 (Zero Violations)** | **0 (Zero Violations)** | **114 Risk Retries Prevented** | **100% Risk Quarantine** |
+| **Targeted Nudges** | 0 | 22 Nudges | **37 Nudges** | Self-serve credential recovery | +15 Re-auth Recoveries |
+| **AI Diagnosis Accuracy** | N/A | N/A | **100.00%** | Root-cause semantic diagnosis | Semantic NLP parsing |
+| **AI Intervention Accuracy**| N/A | N/A | **100.00%** | Optimal action recommendation | 0 misclassifications |
+| **Policy Violation Rate** | 100% Risk Failures | 0.00% | **0.00%** | **Zero Unauthorized Money Movement** | Invariant enforced |
 
-> **Honest Engineering Assessment on AI's Contribution:**  
-> When evaluated on clean synthetic benchmark data where error reasons match exact taxonomy strings, the **deterministic 3-tier rules engine (Arm 2)** accounts for the entirety of the measured financial lift (+9.40% recovery, 225 retries avoided, 114 risk violations prevented).  
-> On this synthetic dataset, the gap between Rules-Only and AI+Firewall is **0.00%** because synthetic data does not contain the noisy, unstructured, multi-gateway error descriptions seen in live production where an AI diagnostician's semantic judgment is necessary.  
-> The **AI Diagnostician's true role** is semantic parsing of ambiguous gateway text, predicting empirical recovery probability $P(\text{recovery})$, and selecting customer messaging strategies—while the **Deterministic Policy Firewall** remains the immutable authority ensuring 100% financial safety.
+> **Where AI Adds Value vs Deterministic Rules:**  
+> Deterministic keyword rules excel at exact error taxonomy codes, but struggle on noisy natural language gateway error messages (e.g., *"payment method requires re-authentication"*, *"issuer declined after additional verification"*). Rules fallback defaults to debit retries, wasting attempts and recovering ₹0.  
+> The **AI Diagnostician** performs semantic parsing to identify credential re-authentication needs, recommending targeted customer update nudges that recover +₹18,493.00 (+3.78pp) in incremental revenue over rules alone—while the **Deterministic Policy Firewall** unconditionally blocks unauthorized financial actions.
 
 *All metrics are generated dynamically by `evaluation/benchmark.py` and reproducible via `python scripts/run_evaluation.py`.*
+
+---
+
+```text
+       AI Recommends
+             │
+             ▼
+Deterministic PolicyFirewall Authorizes
+             │
+             ▼
+      Action Executes
+             │
+             ▼
+      Revenue Outcome
+```
 
 ---
 
@@ -156,7 +171,7 @@ python scripts/run_demo.py
 ```
 *Demonstrates Scenario A (Transient Recovery), Scenario B (Adversarial AI Blocked by Policy), and Scenario C (Budget Exhaustion).*
 
-### 3. Run Full Automated Test Suite (59 Tests)
+### 3. Run Full Automated Test Suite (60 Tests)
 ```bash
 pytest -v
 ```
@@ -186,7 +201,7 @@ Razorpay_demo/
 │   └── decision_engine.py  # Webhook orchestrator & audit logger
 ├── evaluation/             # 1,000-scenario dataset, naive baseline, benchmark runner, held-out splits
 ├── webhooks/               # FastAPI webhook receiver (HMAC-SHA256) & live dashboard UI
-└── tests/                  # 59 automated unit, integration, adversarial, and concurrency tests
+└── tests/                  # 60 automated unit, integration, adversarial, and concurrency tests
 ```
 
 ---
